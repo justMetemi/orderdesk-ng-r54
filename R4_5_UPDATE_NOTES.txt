@@ -1,0 +1,20 @@
+R4.5 UPDATE NOTES
+=================
+Built on R4.4 Owner Insights + Green Glass support fields.
+
+Added:
+- orderdesk_monitoring_events isolated monitoring table (migration supplied separately).
+- owner-only overview/list/resolve RPCs.
+- Netlify monitoring-ingest endpoint using server-side Supabase service-role access.
+- Shared server error logger for notification and email-test functions.
+- monitoring.js client collector on index.html, shop.html, support.html and admin.html.
+- Admin Monitoring Centre with error summaries, frequent issue groups, affected anonymous sessions, performance metrics, event details and resolve/reopen actions.
+- Basic hashed-IP event-ingestion rate limiting.
+
+Preserved:
+- Existing owner authentication and payment approval flow.
+- Existing business, subscription, payment, support and store functionality.
+- Brevo and WhatsApp notification flows.
+- R4.4 merchant-store support field styling and four operational insights.
+
+No live deployment, SQL execution, production database access or email/payment test was performed.

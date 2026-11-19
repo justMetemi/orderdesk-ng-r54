@@ -1,0 +1,44 @@
+ORDERDESK NG R4.5 — MONITORING CENTRE
+====================================
+
+WHAT IS INCLUDED
+- Private Admin monitoring centre with 24-hour and 7-day error counts.
+- Unresolved and critical issue counts.
+- Grouped frequent issues, affected anonymous browser sessions, timestamps and source pages.
+- Error detail/stack inspection and Resolve/Reopen controls.
+- Browser JavaScript errors, unhandled promise rejections and failed resource loads.
+- Browser performance samples: LCP, CLS, INP (where supported) and TTFB.
+- Server-side error logging for the existing store-notification and email-test Netlify functions.
+- Privacy-conscious collection: no session replay, keystroke capture, form values, passwords, OTPs, or user email addresses.
+- Basic per-IP hashed rate limiting on the public event-ingest endpoint.
+- Existing R4.4 owner insights and merchant-store green-glass support form retained.
+
+DATABASE SETUP — REQUIRED BEFORE MONITORING DATA APPEARS
+1. Open the OrderDesk NG Supabase project.
+2. Open SQL Editor and create a new query.
+3. Open and copy the full file: orderdesk_monitoring_centre_migration.sql
+4. Run it once and confirm Supabase reports success.
+This migration only adds an isolated monitoring table, indexes and owner-only RPCs. It does not change existing orders, businesses, subscriptions, payments or support records.
+Do not run it against the TEMI Digital Solutions Supabase project.
+
+NETLIFY ENVIRONMENT
+- The function uses SUPABASE_URL (falls back to the OrderDesk project URL) and SUPABASE_SERVICE_ROLE_KEY.
+- SUPABASE_SERVICE_ROLE_KEY must be stored only in Netlify environment variables; never put it in HTML, JavaScript or share it in chat. The existing WhatsApp server helper already expects this variable.
+- Optional: set MONITORING_IP_SALT to a long random secret to salt the one-way IP hash used for basic rate limiting. Do not reuse a public value.
+- No Sentry, PostHog, paid monitoring key or new browser analytics key is required.
+
+DEPLOYMENT ORDER
+1. Keep a backup of the current live site.
+2. Run the SQL migration in the correct OrderDesk Supabase project.
+3. Confirm Netlify has SUPABASE_SERVICE_ROLE_KEY configured (do not reveal its value).
+4. Upload the R4.5 ZIP to the intended Netlify site.
+5. Visit the site and Admin, then generate a harmless test error only when we guide you; refresh Monitoring Centre to verify collection.
+
+IMPORTANT LIMITATIONS
+- Monitoring begins after deployment and migration; it cannot recover historical errors.
+- Browser error capture depends on browser reporting and can miss errors blocked by browser extensions, cross-origin restrictions or unsupported environments.
+- Web performance values are real-user samples, not synthetic uptime checks or a guarantee that every route is reachable.
+- The anonymous session count is a random per-tab identifier, not a verified count of unique people.
+- This does not include full Sentry session replay, distributed tracing, source-map deminification or alert delivery. Those are separate advanced capabilities.
+- Monitoring must never block checkout or notifications. Ingestion is best-effort.
+- No production deployment or database migration has been performed as part of preparing this package.

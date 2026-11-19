@@ -1,0 +1,34 @@
+OrderDesk NG — Online Store update notes
+
+Existing v3 features remain in place. This package adds the Online Store instead of replacing the application.
+
+New files:
+- shop.html — public storefront, cart, checkout, receipt upload and order tracking.
+- online_store_upgrade.sql — additive database migration.
+- schema.sql / schema2.sql — copies of the supplied baseline schemas for a separate test project.
+
+Modified:
+- index.html — adds Online Store owner navigation, store setup, product publishing and Online Orders management.
+- sw.js — version bumped and shop.html added to the PWA shell.
+- netlify.toml — adds /shop/<slug> rewrite to shop.html.
+
+Preserved unchanged:
+- admin.html
+- netlify/functions/ai-followup.js
+- manifest.webmanifest
+- existing subscription UI/logic
+
+No production Supabase or Netlify deployment was performed.
+
+ONLINE STORE FIX - SHOP SLUG RESOLUTION
+- Updated shop.html to resolve the shop slug robustly from /shop/<slug>, ?shop=<slug>, ?slug=<slug>, and the full URL.
+- Bumped the service-worker cache version so deployed clients receive the corrected shop page instead of an older cached copy.
+- No database schema or production data was changed.
+
+
+2026-11-05 BRAND + PWA + STOREFRONT POLISH
+- Uses the supplied brand-mark.svg and matching 192px/512px phone app icons.
+- Store header displays the uploaded business logo without a duplicate business-name wordmark; when no business logo exists, the business name and OrderDesk mark are shown.
+- Bank transfer details are presented in a clear labelled card at checkout.
+- PWA manifest and service worker cache version updated to od-v6-20261105; old caches are cleared on activation.
+- Added an Install App button when the browser exposes the install prompt. Some iPhones require Add to Home Screen from the Share menu.

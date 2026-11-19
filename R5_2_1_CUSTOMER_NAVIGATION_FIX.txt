@@ -1,0 +1,15 @@
+ORDERDESK NG R5.2.1 — CUSTOMER ACCOUNT NAVIGATION FIX
+Date: 18 November 2026
+
+- Customer storefront Account links carry both the merchant shop slug and canonical /shop/<slug> return path.
+- Wishlist sign-in redirects preserve the same originating shop context.
+- Customer account displays “Back to store” and returns to the originating shop URL.
+- Return URLs are restricted to same-origin /shop/<slug> paths; arbitrary external redirects are rejected.
+- Customer Supabase Auth now uses a dedicated storage key (orderdesk-customer-auth-v1), separate from the merchant app session.
+- The merchant app entry point and merchant authentication code in index.html are unchanged.
+- The return link is responsive and remains available in the customer account header on desktop and mobile.
+
+TESTS
+- Static source assertions and JavaScript syntax checks are run during packaging.
+- Browser-based live sign-in callback, real Supabase role separation, and physical-device testing still require staging verification.
+- No database migration is required for this frontend-only navigation correction.

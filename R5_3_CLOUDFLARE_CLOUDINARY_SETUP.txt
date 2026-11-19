@@ -1,0 +1,41 @@
+ORDERDESK R5.3 CLOUDFLARE WORKERS AI + CLOUDINARY SETUP
+===================================================
+
+AI provider arrangement
+- Groq remains responsible for text AI.
+- Cloudflare Workers AI provides Product Studio image generation and reference-image editing.
+- Cloudinary stores, optimises and delivers uploaded/generated product images.
+- Gemini image generation has been removed from this package. No Gemini key is needed.
+
+Cloudflare Workers AI (Free plan)
+1. Create/sign in to a Cloudflare account: https://dash.cloudflare.com/
+2. Open Workers & Pages / AI / Workers AI and enable Workers AI on the Free plan.
+3. Copy your Cloudflare Account ID from the account overview.
+4. Create an API token with Workers AI Read permission (use the narrowest permission Cloudflare offers for running models).
+5. Add these Netlify environment variables:
+   CLOUDFLARE_ACCOUNT_ID = your Cloudflare Account ID
+   CLOUDFLARE_API_TOKEN = your Cloudflare API token
+6. The package pins the image model to @cf/black-forest-labs/flux-2-klein-4b. Do not replace it with a paid-only model.
+
+Cloudflare currently provides 10,000 Neurons per day on Workers Free. The free-plan limit resets daily at 00:00 UTC; requests beyond the free allocation fail on Free rather than being billed. Keep the Cloudflare account on Workers Free and monitor AI usage in the Cloudflare dashboard. Model availability and limits can change.
+
+Reference-image editing is supported by FLUX.2 Klein 4B. For reliable model input, the browser should send reference images smaller than 512x512. The model can still alter fine product details; merchants should inspect generated images before publishing.
+
+Cloudinary image storage
+Required Netlify variables:
+   CLOUDINARY_CLOUD_NAME
+   CLOUDINARY_API_KEY
+   CLOUDINARY_API_SECRET
+The API secret remains server-side in the cloudinary-sign Netlify Function. Never place it in browser HTML/JavaScript. Cloudinary's Free plan has monthly usage limits; monitor credits in its console.
+
+AI allowance tracking
+For database compatibility, OrderDesk continues using its existing internal image-allowance provider key gemini_image. This is only a legacy quota label; no Gemini API is called and no Gemini key is needed. The Cloudflare 10,000-Neuron daily allowance is account-wide and separate from each merchant's OrderDesk plan allowance.
+
+Important deployment note
+This is a source-package update only. It has not been deployed or tested against the user's Cloudflare, Netlify, Cloudinary or Supabase accounts. Netlify Functions must be deployed through a workflow that processes netlify/functions and netlify.toml; a static drag-and-drop upload may not bundle Functions. Do not deploy until the package and deployment method have been reviewed.
+
+Official references:
+https://developers.cloudflare.com/workers-ai/platform/pricing/
+https://developers.cloudflare.com/workers-ai/models/flux-2-klein-4b/
+https://developers.cloudflare.com/api/resources/ai/methods/run/
+https://cloudinary.com/documentation/billing_and_plans

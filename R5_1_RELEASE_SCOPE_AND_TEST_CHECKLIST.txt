@@ -1,0 +1,32 @@
+R5.1 REVIEW CHECKLIST
+
+Database / security
+[ ] Run the migration on a disposable TEST Supabase project first.
+[ ] Confirm all new tables exist and RLS is enabled.
+[ ] Confirm authenticated merchant can access only rows for my_business().
+[ ] Confirm cross-business product/group references are rejected.
+[ ] Confirm owner_universal_catalog_overview() rejects non-admin accounts.
+[ ] Confirm owner console sees counts only; no customer PII is returned.
+
+Regression checks (must pass before production approval)
+[ ] Merchant sign-in / sign-out and dashboard load.
+[ ] Create/edit/delete existing basic products.
+[ ] Manual order create/edit/status/payment.
+[ ] Public shop loads and basic add-to-cart/checkout works.
+[ ] Bank transfer receipt upload and merchant confirmation/rejection.
+[ ] Paystack initialization, callback verification and webhook.
+[ ] Cancel online order restores existing product stock exactly once.
+[ ] Reopen cancelled order reserves stock or rejects safely.
+[ ] Customer account and order tracking.
+[ ] Merchant AI reads existing catalogue/orders and approval flow works.
+[ ] Admin support, subscription approval and monitoring remain functional.
+
+R5.1 foundation-specific checks
+[ ] Insert physical/service/digital/custom products and verify defaults.
+[ ] Insert option groups/values, variants and modifiers.
+[ ] Insert batch, serial, bundle and service booking records.
+[ ] Verify merchant A cannot read or reference merchant B's rows.
+[ ] Verify admin aggregate metrics reflect test records.
+
+Release gate
+R5.1 foundation is not a full universal checkout release. Do not enable storefront sale of variants, modifiers, services, digital items or bundles until the separate checkout/payment/inventory integration is completed and tested end-to-end.

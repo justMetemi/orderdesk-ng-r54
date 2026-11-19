@@ -1,0 +1,37 @@
+R5.0 RELEASE SCOPE
+
+Customer identity
+[ ] One universal OrderDesk customer account across stores
+[ ] Optional account; guest checkout remains
+[ ] Customer profile and default delivery address
+[ ] Saved delivery addresses
+[ ] Cross-store order history for orders placed while signed in
+[ ] Wishlist across stores
+
+Merchant insights and feedback
+[ ] Customers & Insights dashboard
+[ ] Online customer purchase history and spend summaries
+[ ] Returning customer indicator
+[ ] Anonymous store traffic and product analytics
+[ ] Traffic source summary
+[ ] Feedback & Reviews dashboard
+[ ] Review approval/hide and merchant reply
+[ ] Verified Purchase only for signed-in account with delivered order containing product
+[ ] General feedback inbox, status and merchant reply
+
+Store improvements
+[ ] Store/product sharing, copy links, direct product links and SEO from R4.7 retained
+[ ] AI merchant and shopper assistants retained
+[ ] Product variation records can be created/managed
+[ ] Delivery zone records can be created/managed
+[ ] Checkout use of variations and delivery zones is intentionally not activated in this package
+
+Visual requirement
+[ ] All newly added account, insight, feedback, review and form surfaces use dark emerald green-glass styling
+[ ] No white review cards or white input panels
+
+Production gate
+[ ] Test SQL migration on a separate Supabase project
+[ ] Test existing flows and all new customer/merchant flows
+[ ] Complete variant and zone checkout integration before advertising them to customers
+[ ] Obtain explicit user approval before production deployment or live database changes

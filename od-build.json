@@ -1,0 +1,31 @@
+{
+  "product": "OrderDesk NG",
+  "build": "2026.11.19-r5.3-commercial-review",
+  "revision": 13,
+  "features": [
+    "free-essentials-standard-plans",
+    "prepaid-subscription-periods",
+    "owner-reviewed-subscription-payments",
+    "private-subscription-receipt-storage",
+    "admin-configurable-ai-allowances",
+    "groq-monthly-ai-usage-ledger",
+    "gemini-standard-only-product-studio",
+    "ai-75-90-percent-warnings",
+    "central-public-marketplace",
+    "shared-customer-auth-across-stores",
+    "google-customer-sign-in",
+    "unified-customer-orders-wishlist-addresses",
+    "customer-favourite-stores-bookings-digital-purchases",
+    "option-group-price-aware-checkout",
+    "delivery-zone-aware-checkout",
+    "fefo-batch-and-serial-stock-allocation",
+    "bundle-component-stock-allocation",
+    "cancel-and-reopen-stock-restoration",
+    "customer-and-merchant-printable-order-summaries",
+    "inventory-csv-export",
+    "scheduled-subscription-expiry-reminders",
+    "offline-manual-order-retry-on-reconnect",
+    "standard-only-advanced-store-tools-and-insights"
+  ],
+  "notes": "Commercial upgrade review build. Static JavaScript checks passed. SQL, payments, provider APIs, scheduled email and browser/mobile end-to-end tests remain required before production. No production deployment or live database changes were performed."
+}

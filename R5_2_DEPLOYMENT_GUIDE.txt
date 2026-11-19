@@ -1,0 +1,65 @@
+ORDERDESK NG R5.2 — STAGING DEPLOYMENT GUIDE
+============================================
+
+IMPORTANT
+- This is an integration build, not a fully completed production release. Read R5_2_IMPLEMENTATION_CHANGELOG.txt first.
+- Do not deploy over the live production site until you have tested it in staging.
+- The supplied brief says r5_1_universal_business_upgrade.sql has already been run. DO NOT run it again.
+
+1) SUPABASE SQL
+- Back up the database first.
+- Open Supabase SQL Editor for the intended staging project.
+- If not already applied, run: r5_2_universal_catalogue_checkout_migration.sql
+- Then run: r5_2_2_service_digital_fulfilment.sql
+- Do not rerun the earlier R5.1 migration.
+- See R5_2_2_SERVICE_DIGITAL_FULFILMENT_UPDATE.txt for details and R5_2_2_STAGING_TEST_CHECKLIST.txt for validation.
+- If the SQL reports an error, stop and keep the current live deployment unchanged. Save the exact error for review.
+
+2) NETLIFY STAGING
+- Create a separate staging site or deploy preview.
+- Upload the contents of this ZIP with index.html, shop.html, admin.html and netlify/ at the site root.
+- Keep the existing Netlify functions directory structure.
+- Copy the existing environment variable NAMES and values securely from your own Netlify settings; never put secret values in source code.
+- Update the Paystack callback/webhook URLs only for the staging environment when testing with Paystack test credentials.
+
+3) ENVIRONMENT VARIABLE NAMES REFERENCED BY SOURCE
+SUPABASE_URL
+SUPABASE_ANON_KEY
+SUPABASE_SERVICE_ROLE_KEY
+PAYSTACK_SECRET_KEY
+GROQ_API_KEY
+GROQ_CHATBOT_API_KEY
+GROQ_HELP_MODEL
+GROQ_VISION_MODEL
+BREVO_API_KEY
+BREVO_SENDER_EMAIL
+BREVO_SENDER_NAME
+WHATSAPP_ACCESS_TOKEN
+WHATSAPP_GRAPH_VERSION
+WHATSAPP_PHONE_NUMBER_ID
+WHATSAPP_TEMPLATE_LANGUAGE
+WHATSAPP_NEW_ORDER_TEMPLATE
+WHATSAPP_PAYMENT_SUCCESS_TEMPLATE
+WHATSAPP_RECEIPT_SUBMITTED_TEMPLATE
+MONITORING_IP_SALT
+ORDERDESK_EMAIL_TEST_TO
+ORDERDESK_EMAIL_TEST_TOKEN
+TEMI_WEBSITE_ASSISTANT
+
+Not every variable is required for every feature. Preserve the existing values and only configure integrations you actually use. SUPABASE_SERVICE_ROLE_KEY and PAYSTACK_SECRET_KEY must remain server-side Netlify variables and must never be exposed to browser JavaScript.
+
+4) STAGING TESTS
+- Sign in with merchant and platform-owner accounts.
+- Open an active shop and an expired shop: expired shop should remain browseable but checkout must be blocked.
+- Create a test product with a variant and a modifier group; verify customer selection and the displayed cart total.
+- Attempt checkout with valid and invalid variant/modifier IDs using a staging database; confirm server-side validation.
+- Place a Pay on Delivery test order; verify order item snapshots and inventory allocation rows.
+- Cancel the test order and verify stock restoration; reopen it and verify stock is reserved again.
+- Place a test Paystack order using Paystack test credentials; verify amount, currency, reference, metadata and seller subaccount before accepting payment.
+- Confirm duplicate webhook delivery does not create duplicate commission ledger entries.
+- Verify a bundle order deducts component stock and cancellation restores it.
+- Verify bank-transfer receipt upload and merchant confirmation/rejection.
+- Check existing manual orders, dashboard, subscription/trial, owner access, customer records, AI and admin pages.
+
+5) PROMOTION
+Do not promote this build as a complete universal commerce release until the remaining limitations in the changelog are implemented and end-to-end tests pass. No changes have been made to the live Netlify site or live Supabase project by preparing this ZIP.

@@ -1,0 +1,19 @@
+ORDERDESK NG R4.6 UPDATE NOTES
+==============================
+Built from the supplied R4.5 Monitoring Centre package.
+
+Added:
+- Merchant Help Assistant floating panel on the signed-in merchant dashboard.
+- New authenticated Netlify function: merchant-help.js.
+- Uses separate GROQ_CHATBOT_API_KEY; existing GROQ_API_KEY remains unchanged; default model openai/gpt-oss-20b.
+- Generic OrderDesk knowledge guidance; no direct access to merchant records.
+- Short-lived browser-tab conversation history; not persisted.
+- Human support link and safe payment-verification guidance.
+- Service-worker cache version updated for the new client asset.
+
+Preserved:
+- R4.5 Monitoring Centre, SQL migration, monitoring ingestion, admin insights.
+- R4.4 owner insights and green-glass support form styling.
+- Existing WhatsApp and Brevo flows and existing AI follow-up function.
+
+Validation: JavaScript syntax and ZIP integrity checked. No live deploy, Supabase SQL execution, or production tests performed.

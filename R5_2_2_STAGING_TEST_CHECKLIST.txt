@@ -1,0 +1,53 @@
+ORDERDESK NG R5.2.2 — STAGING TEST CHECKLIST
+===========================================
+
+Before testing
+--------------
+[ ] Use a separate staging Supabase project and Netlify deploy preview.
+[ ] Back up the staging database.
+[ ] Confirm R5.1 is already installed; do NOT rerun it.
+[ ] Apply R5.2 migration first if it is not already installed.
+[ ] Apply r5_2_2_service_digital_fulfilment.sql.
+[ ] Confirm the SQL editor reports success.
+[ ] Confirm existing Netlify environment variable names/values are retained securely.
+
+Service booking
+---------------
+[ ] Create a Service product, set duration (e.g. 60 minutes), enable booking required, publish it.
+[ ] Open the shop as a customer; confirm the appointment selector appears.
+[ ] Try to add without a date/time; it should be blocked.
+[ ] Choose a future time and place a staging order.
+[ ] Confirm one service_bookings row exists with status requested and correct order/item IDs.
+[ ] Confirm the merchant sees the booking in Universal Catalogue & Fulfilment.
+[ ] Confirm merchant can add a note and change status to confirmed.
+[ ] Try confirming a second booking that overlaps; database should reject it.
+[ ] Cancel the related order; requested/confirmed booking should become cancelled.
+[ ] Confirm a non-booking service does not force an appointment selector.
+
+Digital product
+---------------
+[ ] Create and publish a Digital product.
+[ ] Save a private delivery URL/code/instruction in Universal Catalogue & Fulfilment.
+[ ] Confirm unauthenticated public catalogue responses do not expose delivery content.
+[ ] Confirm digital-only checkout has no delivery address field and no delivery fee.
+[ ] Confirm Pay on Delivery is not offered for carts containing a digital item.
+[ ] Place a Paystack test order; before payment confirmation, retrieval must fail.
+[ ] Complete Paystack test payment; retrieval with correct order ref + phone must return delivery.
+[ ] Try incorrect phone and incorrect order reference; retrieval must fail.
+[ ] Cancel the order; retrieval must fail.
+[ ] Place a bank-transfer order; retrieval must fail before merchant payment confirmation.
+[ ] Confirm bank transfer as merchant; retrieval should then succeed.
+[ ] Confirm a digital item without saved delivery details cannot be purchased.
+
+Regression
+----------
+[ ] Place physical Pay on Delivery order; verify existing behaviour.
+[ ] Place physical bank-transfer order; verify receipt upload and manual confirmation.
+[ ] Place physical Paystack test order; verify amount, reference, callback and webhook settlement.
+[ ] Confirm stock deductions and cancellation restoration still work.
+[ ] Confirm customer account Back to store returns to originating shop.
+[ ] Confirm Merchant App sign-in entry remains available.
+[ ] Test desktop and mobile layouts.
+[ ] Check browser console, Netlify function logs and Supabase logs for errors.
+
+Do not deploy this build to production until every relevant test passes.

@@ -1,0 +1,54 @@
+ORDERDESK NG — PREMIUM RESPONSIVE REDESIGN + ONLINE STORE FIXES
+
+Visual changes
+- Reworked the application palette to the green-and-white OrderDesk NG showcase direction.
+- Added a custom OrderDesk bag/check brand mark to the public landing header and app navigation.
+- Added standalone orderdesk-logo.svg and refreshed the PWA icon assets.
+- Refined desktop sidebar, dashboard cards, buttons, store panels, shadows and mobile bottom navigation.
+- Updated the public storefront palette to match the app and improved small-screen spacing.
+
+Online Store reliability/security fixes
+- Idempotent checkout retries now return the original receipt token, so receipt upload can continue after a retry.
+- Added a narrowly scoped SECURITY DEFINER receipt-upload predicate. Anonymous receipt uploads no longer depend on anonymous SELECT access to store_orders, while the orders table remains private.
+- Kept checkout price calculation and stock reservation in the database RPC; the browser does not set the trusted price or total.
+
+Preserved in this package
+- Existing index.html dashboard and its manual orders, customers, payments, products, reports, subscription/payment UI and AI assistant integration.
+- admin.html and netlify/functions/ai-followup.js unchanged.
+- Existing Supabase URL and public/publishable key unchanged.
+- Existing service worker and manifest retained, with cache version refreshed and new shop page included.
+
+Validation performed in this environment
+- JavaScript syntax checked with Node for index.html, shop.html and netlify/functions/ai-followup.js.
+- ZIP integrity checked after packaging.
+- SQL migration statically reviewed for additive table/column/function/policy changes and checked for destructive DROP TABLE, DROP SCHEMA or TRUNCATE statements.
+
+Not verified
+- No SQL was executed against any Supabase project.
+- No Netlify deployment was performed.
+- No live authentication, Google OAuth, OPay admin approval, database RLS, file upload or end-to-end checkout test was possible without a separate test Supabase project and OAuth configuration.
+- The separately named OrderDesk_NG_Professional_Updated_REPACKED.zip and preliminary foundation ZIP were not present among the accessible files in this turn. This update is based on the accessible OrderDesk_NG_Online_Store_Completed_Fix1.zip, which contains the app source and baseline SQL files. Compare against your original working source before replacing any production deployment.
+
+Safe test order
+1. Create a separate Supabase TEST project. Do not use production.
+2. Run schema.sql, then schema2.sql, then the existing subscription/payment setup required by your source, then online_store_upgrade.sql.
+3. Use the test project's URL and public anon/publishable key in index.html and shop.html. Never use a service-role key in browser code.
+4. Configure Google OAuth only if testing Google sign-in.
+5. Serve the folder locally using a static HTTP server. Test registration, sign-in, manual orders, product stock, reports, subscription screens, AI function separately, store setup, publish/hide, bank transfer receipt, pay on delivery, order tracking, cancellation/restock, duplicate checkout and cross-business isolation.
+6. Only after all tests pass should you decide whether to deploy. No deployment is included in this package.
+
+
+PREMIUM BRAND IDENTITY UPDATE
+- Replaced the generic shopping-bag/checkmark mark with a custom OD monogram and subtle cart detail.
+- Updated SVG favicon and 192px/512px PWA icons to match the new identity.
+- Updated app navigation/wordmark sizing and storefront default brand mark.
+- Preserved existing responsive dashboard structure, bottom navigation, storefront and business-uploaded shop logos.
+
+
+PHASE 2 — PREMIUM DARK EMERALD TRANSFORMATION (2026-11-10)
+- Applied dark emerald glassmorphism to the existing merchant dashboard, storefront and owner console without replacing their existing HTML/JavaScript architecture.
+- Added responsive first-run onboarding with six guided steps and per-business progress persistence.
+- Added a dedicated additive SQL migration with owner-scoped RLS policies.
+- Refreshed PWA cache version.
+- Preserved existing authentication, order, product, customer, payment, store and admin logic.
+- Validation: inline JavaScript syntax checked; migration statically checked for destructive statements; no live Supabase or deployment tests performed.

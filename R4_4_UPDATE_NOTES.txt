@@ -1,0 +1,33 @@
+OrderDesk NG R4.4 — Owner Insights + Green Glass Support Fields
+
+BASE
+- Built from the R4.3 Brevo Email Review Package.
+- Preserves the R4.3 Brevo email functions, WhatsApp notification functions, payment functions, storefront files, and existing database migrations.
+
+CHANGES
+1. Private Owner Console (admin.html)
+   - Adds a Platform Activity Insights panel.
+   - Calculates new business registrations in the last 30 days from the existing owner_admin_overview response.
+   - Counts approved/successful plan payment requests from that same response.
+   - Shows enabled online shops only when the owner RPC returns the store_enabled field; otherwise displays — rather than guessing.
+   - Counts open owner-support tickets from the existing owner_list_platform_tickets RPC.
+   - No new tracking scripts, analytics vendor, database table, or SQL migration is introduced.
+   - The insights panel is an operational summary, not clickstream/session analytics.
+
+2. Merchant Online Store (shop.html)
+   - Applies the green glass input style to text, email, phone, select, and message fields inside storefront modals, including the customer Help & Support form.
+   - Dark translucent backgrounds, readable text/placeholders, green borders, focus glow, and mobile-friendly field sizing.
+   - Existing checkout-specific styles and form behavior remain in place.
+
+3. Existing Support Centre (support.html)
+   - Preserved; it already uses a transparent glass-style form design.
+
+SAFETY
+- No production deployment performed.
+- No Supabase data or schema changed.
+- No new environment variables required.
+- Brevo secrets remain server-side in Netlify environment variables; no credentials are embedded in frontend files.
+- No Sentry or PostHog SDK added.
+
+DEPLOYMENT NOTE
+- This ZIP has the project files at the ZIP root. Extract it and upload the extracted project folder to a separate test deployment if available. Do not overwrite the live site until the owner has reviewed and approved it.

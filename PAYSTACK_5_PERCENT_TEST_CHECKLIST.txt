@@ -1,0 +1,16 @@
+ORDERDESK NG — PAYSTACK 5% COMMISSION TEST CHECKLIST
+
+[ ] Supabase migration completed successfully.
+[ ] Netlify PAYSTACK_SECRET_KEY exists.
+[ ] Netlify SUPABASE_SERVICE_ROLE_KEY added securely.
+[ ] Full package deployed to the existing OrderDesk NG Netlify site.
+[ ] Paystack webhook URL configured.
+[ ] Seller selected bank, verified account name and saved bank details.
+[ ] Test Paystack checkout initialized for a seller with valid bank details.
+[ ] Test payment completed successfully.
+[ ] Order shows payment_status = Confirmed.
+[ ] Commission ledger shows 5% as Collected for the Paystack order.
+[ ] Paystack fee is borne by the seller subaccount.
+[ ] Bank transfer still works and receipt review creates commission status Due.
+[ ] Pay on delivery still works and Delivered creates commission status Due.
+[ ] Existing sign-in, products, subscriptions, manual orders and dashboard still work.

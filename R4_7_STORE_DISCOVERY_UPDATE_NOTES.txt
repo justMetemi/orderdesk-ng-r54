@@ -1,0 +1,54 @@
+ORDERDESK NG R4.7 — STORE DISCOVERY & SOCIAL SHARING
+===================================================
+
+ADDITIVE UPDATE BASED ON THE R4.6.1 REVIEW PACKAGE
+No live deployment, Supabase migration, database write, or Netlify environment change was performed.
+
+WHAT'S NEW
+1. Store-level sharing button on the public storefront. It uses the phone/browser native share sheet when available and falls back to WhatsApp sharing.
+2. Product-level sharing from the product detail window, including product name, price and a direct product URL.
+3. Product links open the exact product in the public shop using a product query parameter. Customers can land directly on the item rather than searching the catalogue.
+4. Copy product link action for customers.
+5. Dynamic store and product page title/description, canonical URL, Open Graph and Twitter metadata, plus Store/Product JSON-LD structured data in the browser.
+6. Merchant Online Store screen has a clear Copy store link action in addition to its existing public-link card.
+7. Store setup now explains that the shop name, tagline and description are used as the available search/share metadata. No new business-table columns were added.
+8. Service-worker cache version bumped so the browser requests the updated storefront assets.
+
+EXISTING FEATURES VERIFIED IN SOURCE AND RETAINED
+- Store enable/disable and public shop URL.
+- Product publish/hide workflow.
+- Product categories and category filtering.
+- Product search already checks product name, description and category.
+- Existing sales/order Reports page remains unchanged.
+- Existing Monitoring Centre, merchant help assistant, checkout, order tracking, notifications, payment flows and support remain in the package.
+
+IMPORTANT SCOPE LIMITS — NOT CLAIMED AS IMPLEMENTED
+- Store visitor/page-view analytics by traffic source are NOT included. Existing Reports measure orders and sales, not public-store visits. Real visitor analytics needs a dedicated database/event pipeline and owner-scoped reporting; we have not added an untested table or policy to production.
+- Product tags are not included because the current public product payload/schema does not expose a tags field. Existing categories and search are retained.
+- SEO-friendly product path slugs are not included. Product links use the existing shop slug plus a product ID query parameter to avoid changing the current route or database schema.
+- Dynamic metadata and JSON-LD are set after the storefront loads in the browser. Some social crawlers do not execute JavaScript, so rich link previews and Google indexing are not guaranteed. Server-side/prerendered metadata would be a separate infrastructure upgrade.
+- Blog/news publishing is not included; it would require a content model and merchant editor.
+
+DATABASE / ENVIRONMENT
+- No new SQL migration is required for this R4.7 update.
+- No new Netlify environment variable is required.
+- Existing R4.6 monitoring SQL setup and GROQ_CHATBOT_API_KEY requirements remain as previously documented. Do not rerun prior migrations if they have already succeeded.
+
+REVIEW CHECKLIST
+1. Sign in to a merchant account with an enabled Online Store and active trial/subscription.
+2. Open Online Store and test Copy store link.
+3. Open the public shop and test Share store on desktop and mobile.
+4. Open a product, test Share product and Copy product link.
+5. Open the copied product link in a private/incognito window and confirm it opens the exact product modal.
+6. Confirm product categories, search, cart, checkout and order tracking still work.
+7. Test with a disabled/expired store to confirm existing access rules remain in force.
+8. Test the merchant Help Assistant and Monitoring Centre as previously configured.
+
+VALIDATION PERFORMED FOR THIS PACKAGE
+- Inline JavaScript syntax checks for index.html, shop.html, admin.html and support.html.
+- JavaScript syntax checks for all Netlify functions.
+- ZIP integrity check after packaging.
+- No live Supabase, Netlify, payment provider or social platform integration test was performed.
+
+DEPLOYMENT
+This is a review package only. Keep a backup of the current live site. Do not upload until you have reviewed and approved it.

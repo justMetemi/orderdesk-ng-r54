@@ -1,0 +1,20 @@
+ORDERDESK NG — VISUAL UPGRADE NOTES
+
+Applied:
+- Removed the text-based product brand wordmark from the main app brand helper.
+- The signed-in dashboard now shows a business-uploaded logo only; when none is uploaded, the brand area remains empty.
+- The online shop header now displays only the merchant-uploaded logo; no generic brand-name or logo placeholder is shown when absent.
+- Replaced dashboard navigation and shortcut glyphs with consistent inline SVG icons.
+- Added refined Plus Jakarta Sans typography (with system fallback), page entrance motion, hover/press feedback and a glowing install button.
+- Added storefront hover and entrance polish while keeping green-and-white branding.
+- Preserved existing app data and business logic in the source files.
+
+Install behavior limitation:
+- Android/Chromium can show its native install prompt only when the browser fires beforeinstallprompt and the PWA meets installability requirements.
+- iOS Safari does not allow websites to force installation from a button. The button must guide users to Share > Add to Home Screen.
+- The button cannot bypass browser/OS confirmation or install when the browser does not offer the prompt.
+
+Validation:
+- ZIP integrity and file presence checked.
+- This is a source-level visual update, not a live browser/Supabase/Netlify test.
+- Before replacing a live deployment, test sign-in, Google OAuth, data operations, checkout, and PWA installation on a separate test deployment.

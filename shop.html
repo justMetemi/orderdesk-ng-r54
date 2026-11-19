@@ -1,0 +1,926 @@
+<!-- ORDERDESK NG PUBLIC SHOP BUILD: 2026.11.11-R3 -->
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#061d16">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="description" content="Shop online and track your order."><meta property="og:type" content="website"><meta property="og:title" content="Online Store"><meta property="og:description" content="Shop online and track your order."><meta property="og:url" content=""><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Online Store"><meta name="twitter:description" content="Shop online and track your order."><link rel="canonical" href=""><title>Online Store</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<style>
+:root{--navy:#063b28;--green:#078846;--green2:#0aa65a;--mint:#e8f7ee;--ink:#10251b;--muted:#64766c;--line:#dce9e0;--bg:#f4f8f5;--card:#fff;--red:#c73535;--sale:#e8590c;--gold:#f5b942;--shadow:0 14px 40px rgba(6,59,40,.08);--font:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--font);padding-bottom:env(safe-area-inset-bottom)}
+body.lock{overflow:hidden}
+a{color:inherit}button{font:inherit;color:inherit}input,select,textarea{font:inherit}
+.wrap{width:min(1240px,94%);margin:auto}.hide{display:none!important}.muted{color:var(--muted)}.small{font-size:13px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+:focus-visible{outline:3px solid #9bdcb6;outline-offset:2px}
+
+/* announcement + header */
+.announce{background:var(--navy);color:#dff5e7;text-align:center;font-size:13px;font-weight:600;padding:8px 14px}
+.announce b{color:#fff}
+.top{position:sticky;top:0;z-index:30;background:#ffffffee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:16px;min-height:70px;padding:8px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0;flex:0 0 auto}
+.shop-brand-mark{display:block}.shop-brand-mark img{display:block;max-width:170px;max-height:50px;width:auto;height:auto;object-fit:contain}
+.brand-text{font-weight:800;font-size:20px;letter-spacing:-.01em;color:var(--navy);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hsearch{flex:1;display:flex;align-items:center;gap:10px;background:#f1f6f3;border:1px solid var(--line);border-radius:14px;padding:0 14px;max-width:620px;margin:0 auto;transition:.2s}
+.hsearch:focus-within{background:#fff;border-color:#8fd3ad;box-shadow:0 0 0 4px #0788461a}
+.hsearch input{flex:1;border:0;background:transparent;padding:12px 0;outline:0;min-width:0}
+.hsearch svg{color:var(--muted)}
+.actions{display:flex;gap:6px;align-items:center;margin-left:auto}
+.hbtn{display:inline-flex;align-items:center;gap:7px;border:0;background:transparent;padding:10px 12px;border-radius:12px;font-weight:700;cursor:pointer;position:relative;transition:.18s;white-space:nowrap}
+.hbtn:hover{background:var(--mint);color:var(--green)}
+.hbtn.cart{background:linear-gradient(135deg,var(--green2),#06753e);color:#fff;box-shadow:0 8px 18px rgba(7,136,70,.25)}
+.hbtn.cart:hover{filter:brightness(1.05);color:#fff}
+.badge{background:#fff;color:var(--green);border-radius:99px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:12px;font-weight:800;padding:0 6px}
+.badge.bump{animation:bump .35s}
+@keyframes bump{50%{transform:scale(1.35)}}
+
+/* hero */
+.hero{margin:22px auto 0;border-radius:28px;color:#fff;background:radial-gradient(1200px 400px at 85% -10%,#12a05a55,transparent),linear-gradient(135deg,#063b28,#078846 120%);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.heroin{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:center;padding:clamp(24px,5vw,54px)}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#b6f36a}
+.hero h1{font-size:clamp(30px,5vw,54px);line-height:1.04;margin:10px 0 12px;letter-spacing:-.02em;overflow-wrap:anywhere}
+.hero p{margin:0;color:#dff3e6;max-width:560px;font-size:16px}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--line);background:#fff;color:var(--ink);padding:11px 16px;border-radius:13px;font-weight:750;cursor:pointer;text-decoration:none;transition:transform .18s,box-shadow .18s,filter .18s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(6,59,40,.12)}.btn:active{transform:scale(.97)}
+.btn.primary{background:linear-gradient(135deg,var(--green2),#06753e);border-color:#078846;color:#fff}
+.btn.light{background:#fff;color:var(--navy);border-color:#fff}
+.btn.ghost{background:#ffffff1a;border-color:#ffffff55;color:#fff}
+.btn.wa{background:#1fa855;border-color:#1fa855;color:#fff}
+.btn.block{width:100%}.btn.lg{padding:14px 18px;font-size:16px;border-radius:15px}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.herochips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.herochips span{display:inline-flex;gap:6px;align-items:center;background:#ffffff1a;border:1px solid #ffffff33;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:650}
+.collage{position:relative;height:270px}
+.collage .c{position:absolute;width:48%;aspect-ratio:1;border-radius:20px;object-fit:cover;background:#ffffff22;border:4px solid #fff;box-shadow:0 18px 40px rgba(0,0,0,.28)}
+.collage .c1{left:2%;top:6%;transform:rotate(-6deg)}.collage .c2{right:4%;top:0;transform:rotate(5deg)}.collage .c3{left:26%;bottom:0;transform:rotate(-1deg);width:52%}
+.collage .deco{position:absolute;inset:0;display:grid;place-items:center}
+.ring{width:230px;height:230px;border:1px solid #ffffff2a;border-radius:50%;box-shadow:0 0 0 34px #ffffff0a,0 0 0 68px #ffffff06}
+
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px auto}
+.tcard{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;transition:.2s}
+.tcard:hover{border-color:#b9e3c9;transform:translateY(-2px)}
+.tic{width:40px;height:40px;border-radius:12px;background:var(--mint);color:var(--green);display:grid;place-items:center;flex:0 0 40px}
+.tcard b{display:block;font-size:14px;line-height:1.25}.tcard span{font-size:12.5px;color:var(--muted);line-height:1.3;display:block}
+
+/* categories */
+.sec-h{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:26px 0 12px}
+.sec-h h2{margin:0;font-size:22px;letter-spacing:-.01em}
+.cats{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;scrollbar-width:thin;scroll-snap-type:x proximity}
+.cat-card{scroll-snap-align:start;flex:0 0 auto;min-width:150px;display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 14px 10px 10px;cursor:pointer;text-align:left;transition:.2s}
+.cat-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(6,59,40,.1)}
+.cat-card.on{border-color:var(--green);background:var(--mint);box-shadow:0 0 0 3px #07884618}
+.cat-th{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#d7f0e0,#f1faf4);display:grid;place-items:center;font-weight:800;color:var(--green);overflow:hidden;flex:0 0 44px}
+.cat-th img{width:100%;height:100%;object-fit:cover}
+.cat-card b{display:block;font-size:14px;line-height:1.2}.cat-card small{color:var(--muted);font-size:12px}
+
+/* layout */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:20px;align-items:start;margin-top:6px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.toolbar .count{font-weight:700;margin-right:auto}
+.select{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:600}
+.toggle{display:inline-flex;gap:8px;align-items:center;font-weight:650;font-size:14px;cursor:pointer;user-select:none}
+.toggle input{width:17px;height:17px;accent-color:var(--green)}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.product{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .24s,box-shadow .24s,border-color .24s;animation:rise .35s both}
+.product:hover{transform:translateY(-4px);box-shadow:0 18px 38px rgba(6,59,40,.13);border-color:#bfe3cd}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pimg{position:relative;aspect-ratio:1/1;background:linear-gradient(135deg,#eaf5ee,#f8fcf9);overflow:hidden}
+.pimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.product:hover .pimg img{transform:scale(1.05)}
+.ph{width:100%;height:100%;display:grid;place-items:center;color:#a8c4b2;font-size:44px;font-weight:800}
+.badges{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.tag{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:99px;background:#fff;color:var(--navy);box-shadow:0 4px 10px rgba(0,0,0,.1)}
+.tag.sale{background:var(--sale);color:#fff}.tag.new{background:var(--navy);color:#fff}.tag.low{background:#fff4d6;color:#8a5a00}
+.soldout{position:absolute;inset:0;background:#ffffffb8;display:grid;place-items:center;font-weight:800;color:var(--red);letter-spacing:.04em;text-transform:uppercase}
+.pbody{padding:14px;display:flex;flex-direction:column;gap:3px;flex:1}
+.cat{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--green);font-weight:800}
+.product h3{margin:0;font-size:16px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.desc{color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:38px}
+.pricebox{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:4px}
+.price{font-size:20px;font-weight:800;color:var(--navy)}.was{color:#8ea195;font-size:13px}
+.avail{font-size:12px;font-weight:700;color:var(--green)}.avail.off{color:var(--red)}.avail.low{color:#a36a00}
+.pact{margin-top:auto;padding-top:10px}
+.stepper{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.stepper button{width:36px;height:38px;border:0;background:#f4f8f5;cursor:pointer;font-size:18px;font-weight:700}
+.stepper button:hover{background:var(--mint);color:var(--green)}
+.stepper span{min-width:38px;text-align:center;font-weight:800}
+.pact .stepper{width:100%;justify-content:space-between}.pact .stepper span{flex:1}
+
+/* cart */
+.cartpanel{position:sticky;top:86px;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.cart-h{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line)}
+.cart-h h2{margin:0;font-size:18px}.cart-h .cart-close{display:none}
+.cart-items{max-height:min(46vh,420px);overflow:auto;padding:4px 18px}
+.crow{display:grid;grid-template-columns:56px 1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:center}
+.crow:last-child{border:0}
+.cthumb{width:56px;height:56px;border-radius:12px;background:#eaf5ee;overflow:hidden;display:grid;place-items:center;font-weight:800;color:#8fb59d}
+.cthumb img{width:100%;height:100%;object-fit:cover}
+.crow b.n{display:block;font-size:14px;line-height:1.25}.crow .u{font-size:12px;color:var(--muted)}
+.crow .stepper button{width:28px;height:28px;font-size:15px}.crow .stepper span{min-width:28px;font-size:13px}
+.rm{background:none;border:0;color:var(--red);font-size:12px;font-weight:700;cursor:pointer;padding:4px 0 0}
+.csum{padding:14px 18px;border-top:1px solid var(--line);background:#fbfdfb}
+.sumrow{display:flex;justify-content:space-between;margin:6px 0;gap:10px}.sumrow.save{color:var(--green);font-weight:700}
+.total{font-size:20px;font-weight:800;color:var(--navy);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+.cfoot{padding:0 18px 18px;background:#fbfdfb}
+.secure{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--muted);margin-top:10px}.secure svg{color:var(--green);margin-top:2px}
+.empty{text-align:center;padding:34px 18px;color:var(--muted)}
+.empty .big{font-size:34px}
+.backdrop{position:fixed;inset:0;background:#06241780;z-index:44;opacity:0;pointer-events:none;transition:.25s}.backdrop.on{opacity:1;pointer-events:auto}
+
+/* mobile cart bar */
+.mbar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:35;background:linear-gradient(135deg,var(--green2),#06753e);color:#fff;border-radius:18px;padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 14px 30px rgba(6,59,40,.35);border:0;cursor:pointer;font-weight:800;text-align:left;width:calc(100% - 20px)}
+.mbar small{display:block;font-weight:600;opacity:.9}
+
+/* track + help sections */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 10px 30px rgba(6,59,40,.04)}
+.trackrow{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin-top:14px}
+.field,.trackrow input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.field:focus,.trackrow input:focus{outline:0;border-color:#8fd3ad;box-shadow:0 0 0 4px #0788461a}
+.status{display:inline-flex;padding:5px 10px;border-radius:99px;background:var(--mint);color:#087b43;font-size:12px;font-weight:800}
+.status.bad{background:#fff0f0;color:var(--red)}.status.warn{background:#fff4d6;color:#8a5a00}
+.steps{display:flex;margin:18px 0 6px;position:relative}
+.step{flex:1;text-align:center;position:relative;font-size:11.5px;font-weight:700;color:#98aa9f}
+.step:before{content:"";position:absolute;top:13px;left:-50%;width:100%;height:3px;background:#dfeae3;z-index:0}.step:first-child:before{display:none}
+.step i{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:#dfeae3;color:#fff;position:relative;z-index:1;font-style:normal;font-size:13px}
+.step.done{color:var(--green)}.step.done i,.step.done:before{background:var(--green)}
+.step.now i{box-shadow:0 0 0 5px #0788461f}
+.helpgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.hcard{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;cursor:pointer;text-align:left;transition:.2s;display:block;width:100%;text-decoration:none}
+.hcard:hover{border-color:#a9dcbf;transform:translateY(-2px);box-shadow:0 10px 22px rgba(6,59,40,.08)}
+.hcard .tic{margin-bottom:10px}.hcard b{display:block}.hcard span{font-size:13px;color:var(--muted)}
+
+/* footer */
+.footer{margin-top:44px;background:var(--navy);color:#cfe6d8;padding:40px 0 26px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:28px}
+.footer h4{color:#fff;margin:0 0 12px;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.footer a,.footer button.lnk{display:block;color:#cfe6d8;text-decoration:none;background:none;border:0;padding:4px 0;cursor:pointer;text-align:left;font-size:14px}
+.footer a:hover,.footer button.lnk:hover{color:#fff;text-decoration:underline}
+.footer p{margin:6px 0;font-size:14px}
+.fbottom{border-top:1px solid #ffffff22;margin-top:26px;padding-top:16px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px;color:#9fc3af}
+.fbottom button{background:none;border:0;color:#cfe6d8;text-decoration:underline;cursor:pointer;font-size:13px;padding:0}
+
+/* support fab */
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:36;display:flex;align-items:center;gap:8px;background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:99px;padding:11px 16px 11px 12px;font-weight:800;box-shadow:0 12px 30px rgba(6,59,40,.22);cursor:pointer;transition:.2s}
+.fab:hover{transform:translateY(-2px)}
+.fab .dot{width:30px;height:30px;border-radius:50%;background:#1fa855;color:#fff;display:grid;place-items:center}
+body.has-bar .fab{bottom:calc(86px + env(safe-area-inset-bottom))}
+.fabmenu{position:fixed;right:18px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:37;width:min(320px,calc(100vw - 36px));background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 22px 50px rgba(6,59,40,.25);padding:10px;transform-origin:bottom right;animation:pop .2s both}
+body.has-bar .fabmenu{bottom:calc(144px + env(safe-area-inset-bottom))}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(8px)}to{opacity:1;transform:none}}
+.fabmenu .hd{padding:8px 10px 10px}.fabmenu .hd b{display:block}.fabmenu .hd span{font-size:12.5px;color:var(--muted)}
+.fitem{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:none;border:0;padding:10px;border-radius:13px;cursor:pointer;text-decoration:none;color:var(--ink)}
+.fitem:hover{background:var(--mint)}.fitem .tic{width:36px;height:36px;flex-basis:36px}.fitem b{display:block;font-size:14px;line-height:1.2}.fitem span{font-size:12px;color:var(--muted)}
+body.lock .fab,body.lock .fabmenu,body.lock .mbar{display:none!important}
+
+/* modal */
+.modalback{position:fixed;inset:0;background:#05221680;z-index:60;display:grid;place-items:center;padding:16px;overflow:auto;animation:fade .2s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:24px;width:min(620px,100%);max-height:calc(100vh - 32px);overflow:auto;padding:22px;position:relative;box-shadow:0 30px 80px rgba(0,0,0,.35);animation:pop .22s both}
+.modal.wide{width:min(860px,100%)}
+.modal h2{margin:0 0 6px;font-size:22px;letter-spacing:-.01em;padding-right:36px}
+.mclose{position:absolute;right:14px;top:14px;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;display:grid;place-items:center}
+.mclose:hover{background:var(--mint)}
+label.f{display:block;font-size:12.5px;font-weight:800;margin:12px 0 0}
+label.f .field,label.f textarea,label.f select{margin-top:6px;font-weight:450}
+textarea.field{min-height:84px;resize:vertical}
+.paycard{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:14px;padding:12px;margin-top:10px;cursor:pointer;font-weight:650;transition:.15s}
+.paycard:has(input:checked){border-color:var(--green);background:var(--mint)}
+.paycard input{margin-top:3px;accent-color:var(--green)}.paycard small{display:block;font-weight:500;color:var(--muted)}
+.bank{background:#f1faf4;border:1px solid #cfe9d8;border-radius:14px;padding:13px;margin-top:10px}
+.bank-heading{font-weight:800;color:#075b35;margin-bottom:6px}
+.bank-detail{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-top:1px solid #d8eee0}
+.bank-detail span{font-size:12px;color:var(--muted)}.bank-detail b{text-align:right;overflow-wrap:anywhere}.account-number{font-size:18px;letter-spacing:.05em}
+.minilist{border:1px solid var(--line);border-radius:14px;padding:4px 12px;margin-top:12px;max-height:150px;overflow:auto}
+.minilist .sumrow{font-size:14px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:14px 0 4px;padding-bottom:4px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:99px;padding:8px 14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.tab.on{background:var(--green);border-color:var(--green);color:#fff}
+details.faq{border:1px solid var(--line);border-radius:14px;padding:0 14px;margin-top:10px;background:#fff}
+details.faq summary{cursor:pointer;font-weight:750;padding:13px 0;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary:after{content:"+";font-weight:800;color:var(--green);font-size:18px;line-height:1}
+details.faq[open] summary:after{content:"−"}
+details.faq p{margin:0 0 14px;color:var(--muted);white-space:pre-line}
+.chan{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}
+.prose{white-space:pre-line;color:#33463b}
+.pd{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.pd .pimg{border-radius:18px}
+.pd h2{padding-right:0}
+.ok{color:var(--green)}
+.skel{background:linear-gradient(100deg,#eaf1ec 30%,#f6faf7 50%,#eaf1ec 70%);background-size:200% 100%;animation:sh 1.2s infinite;border-radius:20px;height:330px}
+@keyframes sh{to{background-position:-200% 0}}
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:14px;z-index:80;max-width:92%;font-weight:650;box-shadow:0 14px 30px rgba(0,0,0,.25);animation:pop .2s both}
+.toast.bad{background:var(--red)}
+
+/* responsive */
+@media(max-width:1100px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:minmax(0,1fr) 330px}}
+@media(max-width:980px){
+ .layout{grid-template-columns:1fr}
+ .cartpanel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:50;border-radius:24px 24px 0 0;max-height:88vh;transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);overflow:auto;border-bottom:0}
+ .cartpanel.open{transform:none}.cart-h .cart-close{display:grid}
+ .cart-items{max-height:none}
+ .mbar.show{display:flex}
+ .heroin{grid-template-columns:1fr}.collage{display:none}
+ .trust{grid-template-columns:repeat(2,1fr)}.helpgrid{grid-template-columns:repeat(2,1fr)}.fgrid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+ .topin{flex-wrap:wrap;gap:6px 10px;min-height:0;padding:10px 0}.brand{flex:1 1 0;min-width:0}.brand-text{font-size:18px;max-width:100%}.hsearch{order:3;flex:1 0 100%;max-width:none;margin:0}.actions{margin-left:auto}.toast{bottom:auto;top:calc(12px + env(safe-area-inset-top))}
+ .hbtn .lbl{display:none}.hbtn{padding:10px}
+ .hero{border-radius:22px}.products{gap:10px}.pbody{padding:11px}.price{font-size:17px}.product h3{font-size:14.5px}.desc{display:none}
+ .trackrow{grid-template-columns:1fr}.pd{grid-template-columns:1fr}.modal{padding:18px;border-radius:22px}
+ .fgrid{grid-template-columns:1fr}.sec-h h2{font-size:19px}.fab span.t{display:none}.fab{padding:11px}
+ .modalback{align-items:end;padding:0}.modal{border-radius:24px 24px 0 0;max-height:92vh;width:100%}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ORDERDESK NG — PREMIUM MERCHANT STOREFRONT THEME */
+:root{color-scheme:dark;--navy:#061d16;--green:#20c982;--green2:#0e9c61;--mint:#103b2b;--ink:#e7f5ed;--muted:#9bb7a8;--line:#244b3b;--bg:#06140f;--card:#10291f;--shadow:0 18px 48px rgba(0,0,0,.28)}
+body{background:radial-gradient(ellipse at 80% 0%,#11844e24,transparent 38%),#06140f!important;color:#e7f5ed!important}.top{background:rgba(5,25,17,.9)!important;border-color:#244b3b!important}.brand-text{color:#effff5!important}.hsearch{background:#0b2418!important;border-color:#315b45!important}.hsearch input{color:#effff5!important}.hsearch svg,.muted{color:#9bb7a8!important}.hbtn{color:#dff5e8!important}.hbtn:hover{background:#153e2b!important;color:#8ff0b9!important}.trust .tcard,.cat-card,.product,.panel,.hcard,.paycard,.cartpanel,.modal,.faq,.tcard,.bank,.done,.helpgrid,.fitem,.minilist,.pbody,.pricebox{background:linear-gradient(145deg,rgba(18,52,36,.94),rgba(7,27,19,.96))!important;border:1px solid #2b5b42!important;color:#e7f5ed!important;box-shadow:0 18px 42px #0003,inset 0 1px #ffffff08!important}.tcard span,.product .muted,.desc,.prose,.footer,.faq p{color:#a6c3b2!important}.tic,.cat-th{background:#17462f!important;color:#77e8a9!important}.cat-card.on{background:#174b32!important;border-color:#20c982!important}.cat-card b,.product b,.product h3,.sec-h h2{color:#effff5!important}.product:hover,.tcard:hover{border-color:#3b9a67!important}.select,.field input,.field textarea,.field select,.hsearch input,.account-number{background:#0a2117!important;color:#effff5!important;border-color:#315b45!important}.btn{background:#153b29!important;border-color:#315b45!important;color:#eafff1!important}.btn.primary,.btn.cart{background:linear-gradient(135deg,#20c982,#087848)!important;border-color:#20c982!important;color:#031b10!important}.hero{background:radial-gradient(ellipse at 80% 10%,#20c98238,transparent 42%),linear-gradient(135deg,#061b13,#0b4b31 70%,#062318)!important;border:1px solid #286b49!important}.hero p,.herochips span{color:#d6f2e1!important}.announce{background:#041a11!important;color:#d5f4e1!important}.cartpanel,.modal{background:linear-gradient(145deg,#123927,#071d14)!important}.backdrop,.modalback{background:#000b!important;backdrop-filter:blur(12px)}.cart-h,.cart-close,.cart-items,.crow,.csum,.cfoot,.field,.lbl{color:#e7f5ed!important;border-color:#315b45!important}.footer{background:#041b12!important;border-top:1px solid #1d4b35!important}.badge{background:#d9ffea!important;color:#075b36!important}.ok{color:#62e6a2!important}.bad{color:#ff9292!important}.empty{color:#a2bdaa!important}.fab,.fabmenu{background:#0d5d3b!important;color:#eafff1!important;box-shadow:0 12px 30px #0005!important}.bank-detail,.bank-heading{background:#0b2418!important;color:#e7f5ed!important;border-color:#315b45!important}.pricebox{color:#eafff1!important}.product .pimg,.cthumb{background:#153b29!important}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ORDERDESK NG REVISION 3 — checkout, cart, tracking and support contrast fixes */
+/* Ensure product body and controls never fall back to browser-white surfaces */
+.product,.product .pbody,.product .pricebox,.product .pact{background:linear-gradient(145deg,#102d20,#081b13)!important;color:#effff5!important}
+.product .price,.product .pricebox b,.product .pbody b{color:#f0fff6!important}
+.product .desc,.product .avail{color:#a9c8b7!important}
+.product .stepper{background:#0b2418!important;border-color:#3a7651!important}
+.product .stepper button{background:#1b5638!important;color:#f1fff6!important;font-weight:900!important}
+.product .stepper span{background:#0b2418!important;color:#effff5!important}
+.product .stepper button:hover{background:#20c982!important;color:#052014!important}
+
+:root{color-scheme:dark}
+#cartPanel,#cartPanel .cart-h,#cartPanel .cart-items,#cartPanel .crow,#cartPanel .csum,#cartPanel .cfoot{background:linear-gradient(145deg,#102d20,#081b13)!important;color:#ecfff3!important;border-color:#28563d!important}
+#cartPanel .cart-h{border-bottom:1px solid #28563d!important}
+#cartPanel .crow{border-bottom:1px solid #244b37!important}
+#cartPanel .crow b,#cartPanel .crow .n,#cartPanel .crow .u,#cartPanel .sumrow,#cartPanel .sumrow span,#cartPanel .sumrow b{color:#eafff1!important}
+#cartPanel .csum{padding:14px 18px!important;border-top:1px solid #28563d!important;background:linear-gradient(145deg,#123b29,#092017)!important}
+#cartPanel .cfoot{padding:0 18px 18px!important;background:#081b13!important}
+#cartPanel .total{color:#8df0b6!important;border-color:#3a7854!important}
+#cartPanel .stepper{background:#0b2418!important;border-color:#3a7651!important}
+#cartPanel .stepper button,.crow .stepper button{background:#1b5638!important;color:#f1fff6!important;border-right:1px solid #34754f!important;font-weight:900!important}
+#cartPanel .stepper button:hover,.crow .stepper button:hover{background:#20c982!important;color:#052014!important}
+#cartPanel .stepper span{color:#effff5!important;background:#0b2418!important}
+#cartPanel .rm{color:#ff9b9b!important}
+#cartPanel .secure{color:#a9c7b6!important}
+.modal:has(#co){background:linear-gradient(150deg,#102d20,#071a12)!important;border:1px solid #31694a!important;color:#effff5!important;width:min(760px,100%)!important;padding:24px!important}
+.modal:has(#co) h2,.modal:has(#co) label.f{color:#f0fff6!important}
+.modal:has(#co) .muted,.modal:has(#co) .small{color:#afcaba!important}
+#co{display:grid;gap:15px;margin-top:18px}
+.od-checkout-head{padding:2px 0 4px}
+.od-checkout-kicker{display:inline-flex;padding:6px 10px;border-radius:99px;background:#174b32;color:#83efb2;font-size:10px;font-weight:900;letter-spacing:.12em}
+.od-checkout-head h2{margin:10px 0 4px!important;font-size:25px!important}
+.od-checkout-head p{margin:0;line-height:1.55}
+.od-form-section,.od-checkout-summary{padding:17px;border:1px solid #2b5d42;border-radius:18px;background:rgba(5,25,17,.55)}
+.od-section-title{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.od-section-number{width:30px;height:30px;flex:0 0 30px;border-radius:10px;display:grid;place-items:center;background:#1a5738;color:#8bf0b5;font-weight:900;font-size:12px}
+.od-section-title b{display:block;font-size:14px;color:#f0fff6}
+.od-section-title small{display:block;margin-top:2px;color:#a8c6b5;font-size:11px;font-weight:500}
+.od-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.od-field-full{grid-column:1/-1}
+#co label.f{display:block;margin:0 0 12px;font-size:12px;font-weight:800;letter-spacing:.01em}
+#co .field,#co input.field,#co textarea.field,#co select.field{display:block;width:100%;margin-top:7px;min-height:46px;padding:12px 13px;border:1px solid #3a6d50!important;border-radius:12px!important;background:#091f15!important;color:#f3fff7!important;box-shadow:inset 0 1px 0 #ffffff08!important;font-family:inherit!important;font-size:14px!important;font-weight:500!important;line-height:1.4!important;outline:none}
+#co textarea.field{min-height:82px;resize:vertical}
+#co .field::placeholder{color:#819f8e!important;opacity:1}
+#co .field:focus{border-color:#28c982!important;box-shadow:0 0 0 3px #20c98225!important}
+#co .od-optional{color:#8ca998;font-weight:500}
+#co .paycard{display:flex;align-items:flex-start;gap:11px;margin:9px 0 0;padding:13px;border:1px solid #315d43!important;border-radius:14px;background:#0b2418!important;color:#effff5!important}
+#co .paycard:has(input:checked){border-color:#20c982!important;background:#103b27!important;box-shadow:0 0 0 2px #20c98218}
+#co .paycard input{margin:3px 0 0;accent-color:#20c982}
+#co .paycard span:nth-of-type(1){flex:1;min-width:0}
+#co .paycard b{display:block;color:#f1fff6;font-size:13px}
+#co .paycard small{display:block;margin-top:3px;color:#a9c8b6!important;font-size:11px;line-height:1.45}
+#co .od-pay-tag{padding:4px 7px;border-radius:99px;background:#174b32;color:#86eeb1;font-size:9px;font-weight:800;white-space:nowrap}
+#co .od-bank-card{margin-top:12px;background:#0b2418!important;border:1px solid #367b53!important;color:#effff5!important;border-radius:15px;padding:14px}
+#co .bank-heading{color:#8af0b4!important;background:transparent!important}
+#co .bank-detail{border-color:#315b45!important}
+#co .bank-detail span{color:#a9c8b6!important}
+#co .bank-detail b{color:#f0fff6!important}
+#co .account-number{color:#8df0b6!important;background:transparent!important}
+#co .minilist{max-height:160px;margin:0 0 12px;padding:6px 12px;background:#091f15!important;border:1px solid #2d5c42!important;border-radius:13px}
+#co .minilist .sumrow{padding:7px 0;margin:0;border-bottom:1px solid #ffffff12;color:#e8f8ee!important;font-size:12px}
+#co .minilist .sumrow:last-child{border:0}
+#co .minilist .sumrow span{color:#c5ddce!important}
+#co .minilist .sumrow b{color:#f1fff6!important;white-space:nowrap}
+.od-checkout-totals .sumrow{display:flex;justify-content:space-between;gap:12px;margin:8px 0;color:#c6dece;font-size:13px}
+.od-checkout-totals .sumrow b{color:#f0fff6;white-space:nowrap}
+.od-checkout-totals .sumrow.total{align-items:center;padding-top:13px;margin-top:12px;border-top:1px solid #3a7854;color:#effff5;font-size:14px}
+.od-checkout-totals .sumrow.total strong{color:#78f0ad;font-size:clamp(21px,4vw,27px);font-weight:950;white-space:nowrap}
+#co #place{min-height:50px;border-radius:14px;font-weight:900;box-shadow:0 10px 26px #20c98228}
+#co .secure{display:flex;gap:9px;align-items:flex-start;margin-top:11px;color:#a9c8b7;font-size:11px;line-height:1.5}
+.od-track-panel{background:linear-gradient(145deg,#102d20,#081b13)!important;border:1px solid #2b5d42!important;color:#effff5!important;box-shadow:0 18px 42px #0003!important}
+.od-track-panel h2,.od-track-panel .eyebrow{color:#eafff1!important}
+.od-track-panel p{color:#a9c8b7!important}
+.od-track-panel .trackrow input{background:#091f15!important;color:#f1fff6!important;border:1px solid #3a6d50!important;border-radius:12px!important;min-height:46px}
+.od-track-panel .trackrow input::placeholder{color:#819f8e!important;opacity:1}
+.od-track-panel .trackrow input:focus{border-color:#20c982!important;box-shadow:0 0 0 3px #20c98225!important}
+.od-track-panel #trackResult{color:#effff5!important}
+.od-track-panel #trackResult .bank{background:#0b2418!important;border:1px solid #367b53!important;color:#effff5!important}
+.od-track-panel #trackResult .sumrow span{color:#c8e0d1!important}
+.od-help-shell{padding:18px 20px 20px;border:1px solid #2b5d42;border-radius:22px;background:linear-gradient(145deg,rgba(15,48,32,.94),rgba(6,24,16,.97));box-shadow:0 18px 42px #0003}
+.od-help-shell .sec-h{margin-top:0}
+.od-help-shell .sec-h h2{color:#f0fff6!important}
+.od-help-shell .helpgrid{margin-top:12px}
+.od-help-shell .hcard{background:rgba(13,42,28,.88)!important;border:1px solid #315f45!important;color:#effff5!important}
+.od-help-shell .hcard span{color:#aac9b7!important}
+.od-help-shell .hcard:hover{border-color:#20c982!important;transform:translateY(-3px)}
+.od-marquee{display:flex;align-items:center;gap:12px;max-width:1240px;margin:auto;min-height:38px;padding:6px 3%;overflow:hidden}
+.od-marquee-pill{flex:0 0 auto;border:1px solid #4d9a6d;border-radius:99px;padding:4px 8px;color:#9af2bb;font-size:9px;font-weight:900;letter-spacing:.12em}
+.od-marquee-window{min-width:0;overflow:hidden;flex:1}
+.od-marquee-track{display:flex;width:max-content;align-items:center;gap:70px;animation:odMarquee 24s linear infinite}
+.od-marquee-track span{display:block;white-space:nowrap;color:#e4f8eb;font-size:12px;font-weight:700}
+.od-marquee:hover .od-marquee-track{animation-play-state:paused}
+.od-marquee-dot{color:#70eaa7}
+@keyframes odMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:760px){.modal:has(#co){width:100%!important;max-height:94dvh!important;padding:20px 16px calc(18px + env(safe-area-inset-bottom))!important;border-radius:22px 22px 0 0!important}.od-form-grid{grid-template-columns:1fr}.od-field-full{grid-column:1}.od-form-section,.od-checkout-summary{padding:14px}.od-help-shell{padding:15px;border-radius:18px}.od-help-shell .helpgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.od-marquee{gap:8px}.od-marquee-track{animation-duration:19s}}
+@media(max-width:420px){.od-help-shell .helpgrid{grid-template-columns:1fr}.od-marquee-pill{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.od-marquee-track{animation:none!important}}
+
+
+/* OrderDesk NG refinement: Help & Support cards use the same green glass language
+   on desktop and mobile, with strong contrast and visible focus states. */
+.od-help-shell .hcard{
+  background:linear-gradient(145deg,rgba(9,54,34,.94),rgba(5,31,21,.97))!important;
+  border:1px solid rgba(72,190,128,.42)!important;
+  color:#effff5!important;
+  box-shadow:0 12px 30px rgba(4,35,22,.16),inset 0 1px rgba(255,255,255,.07)!important;
+}
+.od-help-shell .hcard b{color:#f3fff7!important}
+.od-help-shell .hcard span{color:#b8d8c5!important}
+.od-help-shell .hcard:hover{border-color:#38d68b!important;box-shadow:0 16px 34px rgba(4,35,22,.22),inset 0 1px rgba(255,255,255,.1)!important}
+.od-help-shell .hcard:focus-visible{outline:3px solid #58e39d!important;outline-offset:3px}
+
+
+/* R4.4 — customer Help & Support form: readable green-glass fields */
+#modalRoot .modal input.field:not([type="radio"]):not([type="checkbox"]),
+#modalRoot .modal select.field,
+#modalRoot .modal textarea.field{
+  display:block!important;width:100%!important;min-height:46px!important;margin-top:7px!important;
+  padding:12px 13px!important;border:1px solid rgba(74,190,128,.48)!important;border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(7,31,21,.96),rgba(10,43,29,.92))!important;
+  color:#f1fff6!important;-webkit-text-fill-color:#f1fff6!important;opacity:1!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045)!important;font-family:inherit!important;font-size:14px!important;font-weight:500!important;line-height:1.45!important;
+  outline:none!important;transition:border-color .18s ease,box-shadow .18s ease,background .18s ease!important;
+}
+#modalRoot .modal textarea.field{min-height:112px!important;resize:vertical!important}
+#modalRoot .modal input.field::placeholder,
+#modalRoot .modal textarea.field::placeholder{color:#91b3a0!important;-webkit-text-fill-color:#91b3a0!important;opacity:1!important}
+#modalRoot .modal input.field:focus,
+#modalRoot .modal select.field:focus,
+#modalRoot .modal textarea.field:focus{border-color:#35dc91!important;box-shadow:0 0 0 3px rgba(32,201,130,.2),0 0 18px rgba(32,201,130,.09)!important}
+#modalRoot .modal select.field option{background:#0a2117!important;color:#effff5!important}
+#modalRoot .modal label.f{color:#eafff1!important}
+@media(max-width:760px){#modalRoot .modal input.field:not([type="radio"]):not([type="checkbox"]),#modalRoot .modal select.field{min-height:48px!important}#modalRoot .modal textarea.field{min-height:104px!important}}
+
+
+/* R4.9.1 — Product reviews follow OrderDesk green-glass design; no white review cards or fields. */
+.review-panel{margin-top:22px;padding:18px;border:1px solid rgba(72,190,128,.42);border-radius:18px;background:linear-gradient(145deg,rgba(9,54,34,.96),rgba(5,31,21,.98));color:#effff5;box-shadow:0 14px 32px rgba(4,35,22,.2),inset 0 1px rgba(255,255,255,.07)}
+.review-panel h3{margin:0 0 8px;color:#f3fff7;font-size:17px}
+.review-summary{display:flex;align-items:center;gap:7px;color:#d5f5e2;font-size:13px;font-weight:750;margin:7px 0}.review-stars{letter-spacing:1px;color:#f4c95d}.review-count{color:#b8d8c5;font-weight:550}
+.review-form{display:grid;gap:12px;margin:14px 0 18px;padding:14px;border:1px solid rgba(72,190,128,.28);border-radius:14px;background:rgba(2,23,15,.42)}
+.review-form .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.review-form label{display:grid;gap:6px;font-size:13px;font-weight:650;color:#eafff1}
+.review-form input,.review-form textarea,.review-form select{width:100%;min-height:45px;padding:11px 12px;border:1px solid rgba(74,190,128,.5);border-radius:11px;background:linear-gradient(145deg,rgba(7,31,21,.98),rgba(10,43,29,.94))!important;color:#f1fff6!important;-webkit-text-fill-color:#f1fff6;font:inherit;outline:none;box-shadow:inset 0 1px rgba(255,255,255,.04);transition:border-color .18s ease,box-shadow .18s ease}
+.review-form input::placeholder,.review-form textarea::placeholder{color:#91b3a0!important;-webkit-text-fill-color:#91b3a0;opacity:1}.review-form input:focus,.review-form textarea:focus,.review-form select:focus{border-color:#35dc91;box-shadow:0 0 0 3px rgba(32,201,130,.2),0 0 18px rgba(32,201,130,.09)}.review-form select option{background:#0a2117;color:#effff5}.review-form textarea{min-height:96px;resize:vertical}
+.review-item{padding:12px 13px;margin-top:10px;border:1px solid rgba(72,190,128,.25);border-radius:12px;background:rgba(3,27,18,.55);color:#eafff1}.review-item p{margin:5px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#c8e5d3}.review-empty{color:#b8d8c5;font-size:13px;padding:12px 0}.review-form small{color:#b8d8c5}
+@media(max-width:600px){.review-panel{padding:14px;border-radius:16px}.review-form{padding:11px}.review-form .g2{grid-template-columns:1fr}.review-form input,.review-form textarea,.review-form select{min-height:48px}}
+</style>
+<link rel="icon" type="image/svg+xml" href="/brand-mark.svg?v=20261105"><link rel="apple-touch-icon" href="/icon-192.png">
+<style id="od-r50-shop-customer-experience">
+.top .hbtn{color:#dff7e8!important}.top .hbtn:hover{background:#174b32!important;color:#9af2bb!important}.review-form label{color:#eafff1!important}.review-reply{margin-top:9px;padding:9px 11px;border-left:3px solid #20c982;background:rgba(32,201,130,.08);border-radius:8px;color:#c8e5d3!important}.review-form input,.review-form select,.review-form textarea{background:linear-gradient(145deg,rgba(7,31,21,.98),rgba(10,43,29,.94))!important;color:#f1fff6!important;border:1px solid rgba(74,190,128,.5)!important}.review-form input::placeholder,.review-form textarea::placeholder{color:#91b3a0!important}.review-form select option{background:#0a2117;color:#effff5}
+</style>
+
+<!-- OrderDesk NG premium glassmorphism system -->
+<style id="orderdesk-premium-glassmorphism">
+/* OrderDesk NG premium glassmorphism system — shared across all pages */
+:root{color-scheme:dark;--od-bg:#06110d;--od-bg-2:#091a13;--od-glass:rgba(13,34,25,.72);--od-glass-strong:rgba(9,27,19,.90);--od-line:rgba(91,225,153,.22);--od-line-strong:rgba(91,225,153,.42);--od-green:#24c878;--od-green-bright:#58e69b;--od-text:#edf8f1;--od-muted:#a8c0b2;--od-shadow:0 18px 55px rgba(0,0,0,.28)}
+html{background:var(--od-bg);scroll-behavior:smooth}
+body{background:radial-gradient(ellipse at 12% 0%,rgba(24,130,77,.18),transparent 38%),radial-gradient(ellipse at 90% 12%,rgba(20,105,68,.14),transparent 34%),linear-gradient(145deg,#050d0a 0%,#081810 48%,#06120d 100%)!important;color:var(--od-text)}
+/* Replace common legacy light cards and panels with dark translucent glass. */
+:is(.card,.panel,.box,.modal,.dialog,.login,.section,.support-card,.chan,.item,.od-panel,.od-action,.store-card,.product-card,.stat-card,.help-card,.feature-card,.settings-card,.form-card,.auth-card,.checkout-card,.account-card,.dashboard-card){background:var(--od-glass)!important;background-color:var(--od-glass)!important;color:var(--od-text);border:1px solid var(--od-line)!important;box-shadow:var(--od-shadow),inset 0 1px 0 rgba(255,255,255,.035);backdrop-filter:blur(18px) saturate(135%);-webkit-backdrop-filter:blur(18px) saturate(135%)}
+/* Inline legacy white/near-white surfaces, including nested boxes. */
+[style*="background:#fff" i],[style*="background: #fff" i],[style*="background-color:#fff" i],[style*="background-color: #fff" i],[style*="background:white" i],[style*="background: white" i],[style*="background:#ffffff" i],[style*="background: #ffffff" i],[style*="background-color:#ffffff" i],[style*="background-color: #ffffff" i],[style*="background:#f8fafc" i],[style*="background: #f8fafc" i],[style*="background:#f4f7fc" i],[style*="background: #f4f7fc" i],[style*="background:#f5faf6" i],[style*="background: #f5faf6" i],[style*="background:#f4f8f5" i],[style*="background: #f4f8f5" i]{background:rgba(12,34,24,.82)!important;background-color:rgba(12,34,24,.82)!important;color:var(--od-text)!important;border-color:var(--od-line)!important}
+input,select,textarea{background:rgba(3,16,10,.68)!important;color:#f0fff5!important;border:1px solid rgba(91,225,153,.28)!important;border-radius:12px;box-shadow:inset 0 1px 2px rgba(0,0,0,.2);transition:border-color .22s ease,box-shadow .22s ease,background .22s ease,transform .22s ease}
+input::placeholder,textarea::placeholder{color:#91aa9b!important;opacity:1}
+input:focus,select:focus,textarea:focus{outline:none!important;border-color:var(--od-green-bright)!important;box-shadow:0 0 0 3px rgba(36,200,120,.13),0 0 22px rgba(36,200,120,.10)!important;background:rgba(4,22,14,.9)!important}
+select option{background:#0b2117;color:#effff5}
+table{color:var(--od-text)}th{color:#c7e8d4;border-color:var(--od-line)!important}td{border-color:rgba(91,225,153,.12)!important}hr{border-color:var(--od-line)!important}
+:is(h1,h2,h3,h4,h5,strong,b,label,legend){color:inherit}
+:is(p,small,.muted,.subtle,.muted-text,.sub){color:var(--od-muted)}
+a{transition:color .2s ease,text-shadow .2s ease}a:hover{color:var(--od-green-bright)}
+button,.btn,[role="button"]{transition:transform .22s ease,box-shadow .22s ease,background .22s ease,border-color .22s ease,filter .22s ease}
+button:hover,.btn:hover,[role="button"]:hover{transform:translateY(-1px);filter:brightness(1.07);box-shadow:0 8px 24px rgba(24,190,107,.13)}
+button:active,.btn:active,[role="button"]:active{transform:translateY(0) scale(.985)}
+:is(.card,.panel,.box,.od-panel,.store-card,.product-card,.stat-card,.help-card,.feature-card){transition:transform .28s ease,border-color .28s ease,box-shadow .28s ease}
+:is(.card,.panel,.box,.od-panel,.store-card,.product-card,.stat-card,.help-card,.feature-card):hover{border-color:var(--od-line-strong)!important}
+:focus-visible{outline:2px solid var(--od-green-bright)!important;outline-offset:3px}
+/* Smooth, restrained entrance motion; no layout-affecting animation. */
+@keyframes odGlassFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes odGreenGlow{0%,100%{box-shadow:0 0 0 rgba(36,200,120,0)}50%{box-shadow:0 0 24px rgba(36,200,120,.08)}}
+main,.wrap,.page{animation:odGlassFade .42s ease both}
+.od-panel,.card{animation:odGlassFade .38s ease both}
+@media(hover:hover){.btn.primary:hover,.btn:not(.secondary):hover{box-shadow:0 8px 26px rgba(36,200,120,.22)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+</style>
+</head>
+<body>
+<div id="announce" class="announce hide"></div>
+<header class="top"><div class="wrap topin">
+  <a class="brand" href="#top" aria-label="Store home"><span id="logo" class="shop-brand-mark hide"></span><span id="brandText" class="brand-text hide"></span></a>
+  <form class="hsearch" id="hsearch" role="search" onsubmit="return false"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr" for="search">Search products</label><input id="search" type="search" placeholder="Search products, categories…" autocomplete="off"></form>
+  <div class="actions">
+    <button class="hbtn" data-act="help" data-tab="faq" aria-label="Help"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.6 2.4c-.7.3-1.1.9-1.1 1.6M12 17h.01"/></svg><span class="lbl">Help</span></button>
+    <a class="hbtn" href="/customer-account.html?store=${encodeURIComponent(slug)}&return=${encodeURIComponent(`/shop/${slug}`)}" aria-label="Customer account"><span class="lbl">Account</span></a><button class="hbtn" data-act="feedback" aria-label="Send feedback"><span class="lbl">Feedback</span></button><button class="hbtn" data-act="track" aria-label="Track order"><svg class="i" viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7M7 19.5a1.5 1.5 0 1 0 0-.01M17 19.5a1.5 1.5 0 1 0 0-.01"/></svg><span class="lbl">Track order</span></button>
+    <button class="hbtn cart" id="cartBtn" data-act="openCart" aria-label="Open cart"><svg class="i" viewBox="0 0 24 24"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 8H6.2M10 20.5a.5.5 0 1 0 0-.01M17 20.5a.5.5 0 1 0 0-.01"/></svg><span class="lbl">Cart</span><span id="cartCount" class="badge">0</span></button>
+  </div>
+</div></header>
+
+<main id="top">
+<section class="wrap"><div id="hero" class="hero"><div class="heroin">
+  <div><div class="eyebrow" id="heroEyebrow">Online store</div><h1 id="shopName">Loading shop…</h1><p id="shopDesc">Please wait while we load the store.</p>
+   <div class="cta" id="heroCta"></div><div class="herochips" id="heroChips"></div></div>
+  <div class="collage" id="collage" aria-hidden="true"><div class="deco"><div class="ring"></div></div></div>
+</div></div></section>
+
+<section class="wrap trust" id="trust"></section>
+
+<section class="wrap" id="catsec"><div class="sec-h"><h2>Shop by category</h2></div><div class="cats" id="cats"></div></section>
+
+<div class="wrap layout" id="shop">
+  <section aria-label="Products">
+    <div class="toolbar"><div class="count" id="count" aria-live="polite">Products</div>
+      <label class="toggle"><input type="checkbox" id="stockOnly"> In stock only</label>
+      <label class="sr" for="sort">Sort products</label>
+      <select id="sort" class="select"><option value="featured">Sort: Featured</option><option value="new">Newest</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option><option value="discount">Biggest discount</option><option value="name">Name A–Z</option></select>
+    </div>
+    <div id="products" class="products"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  </section>
+  <aside id="cartPanel" class="cartpanel" aria-label="Shopping cart">
+    <div class="cart-h"><h2>Your cart</h2><button class="mclose cart-close" data-act="closeCart" aria-label="Close cart" style="position:static"><svg class="i" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div id="cartItems" class="cart-items"></div><div id="cartSummary"></div>
+    <div class="cfoot"><button id="checkoutBtn" class="btn primary lg block" data-act="checkout" style="margin-top:12px">Checkout</button>
+      <div class="secure"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Secure checkout. Prices and stock are re-verified by the server when you place your order.</span></div></div>
+  </aside>
+</div>
+
+<section class="wrap od-track-shell" id="trackSection" style="margin-top:26px"><div class="panel od-track-panel">
+  <div class="eyebrow" style="color:var(--green)">Order tracking</div><h2 style="margin:4px 0 4px">Track your order</h2>
+  <p class="muted" style="margin:0">Enter the order reference and the phone number used at checkout. Only the matching order is shown.</p>
+  <form class="trackrow" id="trackForm"><input id="trackRef" placeholder="Order reference, e.g. OD-A1B2C3D4E5" autocomplete="off" aria-label="Order reference"><input id="trackPhone" placeholder="Phone number" inputmode="tel" autocomplete="tel" aria-label="Phone number"><button class="btn primary" id="trackSubmit" type="submit">Track order</button></form>
+  <div id="trackResult" aria-live="polite"></div>
+</div></section>
+
+<section class="wrap od-help-shell" id="helpSection" style="margin-top:22px"><div class="sec-h"><h2>Need help?</h2></div><div class="helpgrid" id="helpGrid"></div></section>
+</main>
+
+<footer class="footer"><div class="wrap"><div class="fgrid" id="footGrid"></div><div class="fbottom"><span id="copy"></span><span>Powered by <b>OrderDesk NG</b> · <button type="button" id="platformHelp" class="hide" data-act="platform">OrderDesk NG support</button></span></div></div></footer>
+
+<div id="backdrop" class="backdrop" data-act="closeCart"></div>
+<button class="mbar" id="mbar" data-act="openCart"><span><small id="mbarN">0 items</small>View cart</span><span id="mbarT"></span></button>
+<button class="fab hide" id="fab" data-act="fab" aria-haspopup="true" aria-expanded="false" aria-label="Customer support"><span class="dot"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L3 21l1.5-5.4A8.5 8.5 0 1 1 21 12Z"/></svg></span><span class="t">Support</span></button>
+<div id="fabMenu" class="fabmenu hide" role="menu"></div>
+<div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
+
+<script>
+const SUPABASE_URL="https://gmuzqcuovlsacsgjxlts.supabase.co",SUPABASE_ANON_KEY="sb_publishable_8Y4r9YNW2AlMnNfcXZsdsQ_aYTfJeFV";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,flowType:"pkce",storageKey:"orderdesk-customer-auth-v1"}});
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let shop=null,products=[],cart=[],category="All",query="",sort="featured",stockOnly=false,platform={},dq=1,lastFocus=null,productReviews={},deliveryZones=[],selectedDeliveryZoneId=null;
+let odStoreViewTracked=false;
+function odSessionKey(){const k='od_analytics_session';let v=localStorage.getItem(k);if(!v){v=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random());localStorage.setItem(k,v)}return v}
+function trackStoreEvent(type,productId=null){try{const source=(()=>{const u=new URL(location.href),ref=u.searchParams.get('utm_source')||u.searchParams.get('source');if(ref)return ref;const r=document.referrer;if(!r)return 'direct';try{return new URL(r).hostname.replace(/^www\./,'')}catch(_){return 'referral'}})();db.rpc('track_public_store_event',{p_slug:slug,p_event_type:type,p_product_id:productId,p_session_key:odSessionKey(),p_source:source}).then(()=>{}).catch(()=>{})}catch(_){}}
+async function saveWishlist(productId){const {data:{session}}=await db.auth.getSession();if(!session){toast('Sign in to your OrderDesk customer account to save products.',true);location.href='/customer-account.html?store='+encodeURIComponent(slug)+'&return='+encodeURIComponent('/shop/'+slug);return}const p=products.find(x=>String(x.id)===String(productId));if(!p)return;const {error}=await db.rpc('save_public_store_wishlist',{p_slug:slug,p_product_id:p.id});if(error){toast(error.message,true);return}toast('Product saved to your wishlist.')}
+function feedbackModal(){modal(`<h2>Share feedback with ${esc(B().name||'this store')}</h2><p class="muted">Tell the store about your shopping experience. Please do not include payment card or bank details.</p><form id="storeFeedbackForm" class="review-form"><label>Your name<input name="name" required minlength="2" maxlength="120" placeholder="Your name"></label><label>Email (optional)<input name="email" type="email" maxlength="254" placeholder="you@example.com"></label><label>Feedback type<select name="category"><option>General</option><option>Delivery</option><option>Customer service</option><option>Product quality</option><option>Website experience</option><option>Complaint</option></select></label><label>Your feedback<textarea name="message" required minlength="5" maxlength="2000" placeholder="How can this store improve?"></textarea></label><button class="btn primary" id="sendStoreFeedback">Send feedback</button></form>`,true);const f=$('#storeFeedbackForm');f.onsubmit=async e=>{e.preventDefault();const fd=new FormData(f),b=$('#sendStoreFeedback');b.disabled=true;b.textContent='Sending…';const {data,error}=await db.rpc('submit_public_store_feedback',{p_slug:slug,p_name:String(fd.get('name')||''),p_email:String(fd.get('email')||''),p_category:String(fd.get('category')||'General'),p_message:String(fd.get('message')||'')});b.disabled=false;b.textContent='Send feedback';if(error){toast(error.message,true);return}toast(data?.message||'Thank you for your feedback.');closeModal()}}
+
+
+/* ---------- helpers ---------- */
+const ICON={
+ truck:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="18.5" r="1.6"/><circle cx="17" cy="18.5" r="1.6"/>',
+ shield:'<path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4"/>',
+ chat:'<path d="M21 12a8.5 8.5 0 0 1-12.3 7.6L3 21l1.5-5.4A8.5 8.5 0 1 1 21 12Z"/>',
+ phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+ clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ pin:'<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/>',
+ help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.6 2.6 0 1 1 3.6 2.4c-.7.3-1.1.9-1.1 1.6M12 17h.01"/>',
+ box:'<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/>',
+ close:'<path d="M6 6l12 12M18 6 6 18"/>',
+ lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+ undo:'<path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/>',
+ insta:'<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>',
+ tag:'<path d="M3 12V4h8l10 10-8 8L3 12Z"/><path d="M7.5 7.5h.01"/>'
+};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICON[n]||""}</svg>`;
+const clean=v=>String(v??"").trim();
+const digits=v=>String(v||"").replace(/\D/g,"");
+function intl(num){let d=digits(num);if(!d)return"";if(String(num).trim().startsWith("+"))return d;if(d.startsWith("234"))return d;if(d.startsWith("0")&&d.length>=10)return"234"+d.slice(1);return d}
+const waLink=(num,text)=>{const n=intl(num);return n?`https://wa.me/${n}${text?"?text="+encodeURIComponent(text):""}`:""};
+const telLink=n=>{const d=digits(n);return d?"tel:"+(String(n).trim().startsWith("+")?"+":"")+d:""};
+const okEmail=e=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(clean(e));
+const igLink=h=>{const u=clean(h).replace(/^https?:\/\/(www\.)?instagram\.com\//i,"").replace(/^@/,"").replace(/[/?#].*$/,"");return /^[A-Za-z0-9._]{1,30}$/.test(u)?"https://instagram.com/"+u:""};
+function setMeta(selector,attr,value){let el=document.querySelector(selector);if(!el){el=document.createElement(selector.startsWith('meta')?'meta':'link');if(selector.includes('property='))el.setAttribute('property',selector.match(/property="([^"]+)/)[1]);else if(selector.includes('name='))el.setAttribute('name',selector.match(/name="([^"]+)/)[1]);else el.setAttribute('rel','canonical');document.head.appendChild(el)}el.setAttribute(attr,value||"")}
+function storeShareUrl(){return location.origin+"/shop/"+encodeURIComponent(slug)}
+function productShareUrl(p){return storeShareUrl()+"?product="+encodeURIComponent(p.id)}
+async function shareContent(title,text,url){try{if(navigator.share){await navigator.share({title,text,url});return}const msg=text+" "+url;window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank","noopener")}catch(e){if(e?.name!=="AbortError")toast("Sharing could not be opened. Copy the link instead.",true)}}
+async function copyText(value){try{await navigator.clipboard.writeText(value);toast("Link copied. Share it with your customers.")}catch(_){const x=document.createElement('textarea');x.value=value;document.body.appendChild(x);x.select();const ok=document.execCommand('copy');x.remove();toast(ok?"Link copied. Share it with your customers.":"Copy was blocked by your browser.",!ok)}}
+function updateShopSEO(){const b=B(),name=clean(b.name)||"Online Store",desc=(clean(b.tagline)||clean(b.description)||"Browse products and order online.").slice(0,155),url=storeShareUrl();document.title=name+" | Shop Online";setMeta('meta[name="description"]','content',desc);setMeta('meta[property="og:title"]','content',name+" | Shop Online");setMeta('meta[property="og:description"]','content',desc);setMeta('meta[property="og:url"]','content',url);setMeta('meta[name="twitter:title"]','content',name+" | Shop Online");setMeta('meta[name="twitter:description"]','content',desc);setMeta('link[rel="canonical"]','href',url);let ld=document.getElementById('odStoreSchema');if(!ld){ld=document.createElement('script');ld.type='application/ld+json';ld.id='odStoreSchema';document.head.appendChild(ld)}ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Store","name":name,"description":desc,"url":url,"image":b.logo_url||undefined,"telephone":b.support_phone||b.phone||undefined,"address":b.address?{"@type":"PostalAddress","streetAddress":b.address,"addressCountry":"NG"}:undefined})}
+function updateProductSEO(p){const b=B(),storeName=clean(b.name)||"Online Store",name=clean(p.name)||"Product",desc=(clean(p.description)||("Buy "+name+" from "+storeName+".")).slice(0,155),url=productShareUrl(p),currencyCode=({NGN:"NGN",USD:"USD",GBP:"GBP",GHS:"GHS",KES:"KES",ZAR:"ZAR"})[b.currency]||"NGN";document.title=name+" | "+storeName;setMeta('meta[name="description"]','content',desc);setMeta('meta[property="og:title"]','content',name+" | "+storeName);setMeta('meta[property="og:description"]','content',desc);setMeta('meta[property="og:url"]','content',url);setMeta('meta[name="twitter:title"]','content',name+" | "+storeName);setMeta('meta[name="twitter:description"]','content',desc);setMeta('link[rel="canonical"]','href',url);let ld=document.getElementById('odStoreSchema');if(!ld){ld=document.createElement('script');ld.type='application/ld+json';ld.id='odStoreSchema';document.head.appendChild(ld)}ld.textContent=JSON.stringify({"@context":"https://schema.org","@type":"Product","name":name,"description":desc,"image":p.image_url||undefined,"sku":String(p.id),"offers":{"@type":"Offer","url":url,"priceCurrency":currencyCode,"price":Number(p.price||0).toFixed(2),"availability":p.available?"https://schema.org/InStock":"https://schema.org/OutOfStock","seller":{"@type":"Organization","name":storeName}}})}
+
+function resolveShopSlug(){
+  const params=new URLSearchParams(location.search),fromQuery=params.get("shop")||params.get("slug")||"";
+  if(fromQuery)return decodeURIComponent(fromQuery).trim().replace(/^\/+|\/+$/g,"");
+  const m=(location.pathname||"").match(/\/shop\/(.+?)(?:\/)?$/i);
+  if(m?.[1])return decodeURIComponent(m[1]).trim().replace(/^\/+|\/+$/g,"");
+  const full=location.href.match(/\/shop\/([^/?#]+)/i);
+  return full?.[1]?decodeURIComponent(full[1]).trim().replace(/^\/+|\/+$/g,""):"";
+}
+const slug=resolveShopSlug();
+const sym=()=>shop?.business?.currency==="USD"?"$":shop?.business?.currency==="GBP"?"£":shop?.business?.currency==="GHS"?"₵":"₦";
+const currency=n=>sym()+Number(n||0).toLocaleString("en-NG",{minimumFractionDigits:0,maximumFractionDigits:2});
+let toastT;function toast(m,bad=false){const t=$("#toast");t.textContent=m;t.className="toast"+(bad?" bad":"");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.add("hide"),3500)}
+const B=()=>shop?.business||{};
+const support=()=>{const b=B();return{wa:clean(b.whatsapp),phone:clean(b.support_phone)||clean(b.phone),email:okEmail(b.support_email)?clean(b.support_email):"",hours:clean(b.support_hours),ig:igLink(b.instagram)}};
+const pct=p=>p.compare_at_price&&Number(p.compare_at_price)>Number(p.price)?Math.round((1-Number(p.price)/Number(p.compare_at_price))*100):0;
+const isNew=p=>p.created_at&&Date.now()-new Date(p.created_at).getTime()<14*864e5;
+const isLow=p=>p.available&&p.catalog?.item_type!=="service"&&p.catalog?.item_type!=="digital"&&Number(p.stock)<=5;
+const initial=n=>esc((clean(n)[0]||"•").toUpperCase());
+
+/* ---------- cart ---------- */
+function saveCart(){if(slug)localStorage.setItem("od_cart_"+slug,JSON.stringify(cart))}
+function loadCart(){try{cart=JSON.parse(localStorage.getItem("od_cart_"+slug)||"[]")||[]}catch(_){cart=[]}}
+const inCart=id=>cart.find(i=>i.id===id);
+function cartItems(){if(shop)cart=cart.filter(i=>products.some(p=>p.id===i.id));return cart.map(i=>({...i,p:products.find(p=>p.id===i.id)})).filter(i=>i.p)}
+function lineUnit(i){const p=i.p||products.find(x=>x.id===i.id);if(!p)return 0;const v=(p.catalog?.variants||[]).find(x=>x.id===i.variant_id),mods=(p.catalog?.modifier_groups||[]).flatMap(g=>g.modifiers||[]).filter(m=>(i.modifier_ids||[]).includes(m.id)).reduce((n,m)=>n+Number(m.price||0),0),opts=(p.catalog?.option_groups||[]).flatMap(g=>g.values||[]).filter(v=>(i.option_value_ids||[]).includes(v.id)).reduce((n,v)=>n+Number(v.price_delta||0),0);return Number(v?.price??p.price)+mods+opts;}
+function add(id,qty=1,options={}){const p=products.find(x=>x.id===id);if(!p||!p.available)return;trackStoreEvent("add_to_cart",p.id);const x=inCart(id);const cur=x?x.qty:0;if((p.catalog?.item_type==="physical"||!p.catalog?.item_type)&&cur+qty>Number(p.stock)){toast("You cannot add more than the available stock.",true);return false}if(x){const sameVariant=(x.variant_id||null)===(options.variant_id||null),sameMods=JSON.stringify([...(x.modifier_ids||[])].sort())===JSON.stringify([...(options.modifier_ids||[])].sort()),sameOpts=JSON.stringify([...(x.option_value_ids||[])].sort())===JSON.stringify([...(options.option_value_ids||[])].sort()),sameAppointment=(x.selected_options?.appointment_start||null)===(options.selected_options?.appointment_start||null);if(!sameVariant||!sameMods||!sameOpts||!sameAppointment){toast("This product is already in your cart with different options or appointment time. Remove it first to choose another combination.",true);return false;}x.qty+=qty;}else cart.push({id,qty,variant_id:options.variant_id||null,modifier_ids:options.modifier_ids||[],option_value_ids:options.option_value_ids||[],selected_options:options.selected_options||{},fulfilment_method:options.fulfilment_method||"delivery"});renderCart();renderProducts();toast("Added to cart.");bump();return true}
+function change(id,d){const i=inCart(id),p=products.find(x=>x.id===id);if(!i||!p)return;const v=(p.catalog?.variants||[]).find(x=>x.id===i.variant_id),unlimited=["service","digital"].includes(p.catalog?.item_type),limit=unlimited?100:(v?.track_inventory?Number(v.stock):Number(p.stock));i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.id!==id);else if(i.qty>limit){i.qty=limit;toast("You cannot add more than the available stock.",true)}renderCart();renderProducts()}
+function bump(){const c=$("#cartCount");c.classList.remove("bump");void c.offsetWidth;c.classList.add("bump")}
+const totals=()=>{const items=cartItems(),sub=items.reduce((n,i)=>n+lineUnit(i)*i.qty,0),fee=items.length&&items.every(i=>i.p.catalog?.item_type==="digital")?0:Number((deliveryZones.find(z=>String(z.id)===String(selectedDeliveryZoneId))?.delivery_fee??B().delivery_fee)||0),save=0;return{items,sub,fee,total:sub+fee,save,count:items.reduce((n,i)=>n+i.qty,0)}};
+
+/* ---------- rendering ---------- */
+function renderTop(){
+  const b=B();
+  updateShopSEO();
+  $("#shopName").textContent=b.name||"Online Store";
+  $("#shopDesc").textContent=b.tagline||b.description||"Browse our products and place your order online.";
+  $("#heroEyebrow").textContent=b.tagline&&b.description?"Welcome":"Online store";
+  if(b.logo_url){$("#logo").innerHTML=`<img src="${esc(b.logo_url)}" alt="${esc(b.name||"Store logo")}">`;$("#logo").classList.remove("hide");$("#brandText").classList.add("hide")}
+  else{$("#logo").classList.add("hide");$("#brandText").textContent=b.name||"Online Store";$("#brandText").classList.remove("hide")}
+  const a=$("#announce"),msg=b.checkout_enabled===false?"This store is currently available for browsing only. New orders are temporarily paused.":(clean(b.announcement)||`Order online · Delivery ${Number(b.delivery_fee||0)?currency(b.delivery_fee):"fee shown at checkout"} · Track your order any time`);
+  if(shop){const announcement=msg.slice(0,180);a.innerHTML=`<div class="od-marquee" role="status"><span class="od-marquee-pill">STORE UPDATE</span><div class="od-marquee-window"><div class="od-marquee-track"><span>${esc(announcement)}</span><span aria-hidden="true">${esc(announcement)}</span></div></div><span class="od-marquee-dot" aria-hidden="true">✦</span></div>`;a.classList.remove("hide")}
+  const s=support();
+  $("#heroCta").innerHTML=`<a class="btn light lg" href="#shop">Shop now</a><button class="btn ghost lg" data-act="share-store">Share store</button>`+(s.wa?`<a class="btn ghost lg" target="_blank" rel="noopener" href="${esc(waLink(s.wa,"Hello "+(b.name||"")+", I have a question."))}">${ic("chat")} Chat with us</a>`:`<button class="btn ghost lg" data-act="track">Track order</button>`);
+  const withImg=products.filter(p=>p.image_url).slice(0,3);
+  $("#collage").innerHTML=`<div class="deco"><div class="ring"></div></div>`+withImg.map((p,i)=>`<img class="c c${i+1}" src="${esc(p.image_url)}" alt="" loading="lazy">`).join("");
+  $("#heroChips").innerHTML=[`${ic("box")} ${products.length} product${products.length===1?"":"s"}`,`${ic("truck")} ${Number(b.delivery_fee||0)?"Delivery "+currency(b.delivery_fee):"Delivery available"}`,`${ic("shield")} Secure ordering`].map(x=>`<span>${x}</span>`).join("");
+  $("#trust").innerHTML=[
+    ["truck","Delivery to your door",b.delivery_info?clean(b.delivery_info).split("\n")[0].slice(0,70):(Number(b.delivery_fee||0)?"Flat fee "+currency(b.delivery_fee):"Fee shown at checkout")],
+    ["lock","Secure payment","Paystack, bank transfer or pay on delivery"],
+    ["box","Easy order tracking","Track with your reference and phone"],
+    ["chat","Customer support",s.hours?s.hours.slice(0,60):"Help is a tap away"]
+  ].map(([i,t,d])=>`<div class="tcard"><div class="tic">${ic(i)}</div><div><b>${esc(t)}</b><span>${esc(d)}</span></div></div>`).join("");
+  renderSupportUI();
+}
+function renderCats(){
+  const names=[...new Set(products.map(p=>p.category).filter(Boolean))];
+  if(!names.length){$("#catsec").classList.add("hide");return}
+  $("#catsec").classList.remove("hide");
+  const card=(name,count,img)=>`<button class="cat-card ${category===name?"on":""}" data-act="cat" data-cat="${esc(name)}"><span class="cat-th">${img?`<img src="${esc(img)}" alt="" loading="lazy">`:initial(name)}</span><span><b>${esc(name==="All"?"All products":name)}</b><small>${count} item${count===1?"":"s"}</small></span></button>`;
+  $("#cats").innerHTML=card("All",products.length,products.find(p=>p.image_url)?.image_url)+names.map(n=>{const l=products.filter(p=>p.category===n);return card(n,l.length,l.find(p=>p.image_url)?.image_url)}).join("");
+}
+function filtered(){
+  let list=products.filter(p=>(category==="All"||p.category===category)&&(!stockOnly||p.available)&&(!query||[p.name,p.description,p.category].join(" ").toLowerCase().includes(query.toLowerCase())));
+  const by={"price-low":(a,b)=>a.price-b.price,"price-high":(a,b)=>b.price-a.price,name:(a,b)=>a.name.localeCompare(b.name),new:(a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0),discount:(a,b)=>pct(b)-pct(a)};
+  if(by[sort])list.sort(by[sort]);else list.sort((a,b)=>(b.available-a.available)||(pct(b)>0)-(pct(a)>0)||a.name.localeCompare(b.name));
+  return list;
+}
+function reviewSummary(p){const r=productReviews[String(p.id)];return r?`<div class="review-summary"><span class="review-stars">${"★".repeat(Math.round(Number(r.average)||0))}${"☆".repeat(5-Math.round(Number(r.average)||0))}</span><span>${Number(r.average).toFixed(1)}</span><span class="review-count">(${r.count} review${r.count===1?"":"s"})</span></div>`:`<div class="review-summary"><span class="review-stars">☆☆☆☆☆</span><span class="review-count">No reviews yet</span></div>`}
+async function loadProductReviews(){try{const {data,error}=await db.rpc("get_public_shop_reviews",{p_slug:slug});if(error)throw error;productReviews={};(data||[]).forEach(r=>productReviews[String(r.product_id)]=r);renderProducts();const openId=$("#modalRoot").dataset.pid;if(openId)productModal(openId)}catch(e){console.warn("Product reviews unavailable",e)}}
+function reviewSection(p){const r=productReviews[String(p.id)],reviews=r?.reviews||[];return `<section class="review-panel"><h3>Customer ratings &amp; feedback</h3>${reviewSummary(p)}<form id="productReviewForm" class="review-form"><div class="g2"><label>Your name<input name="reviewer_name" required minlength="2" maxlength="60" autocomplete="name" placeholder="Your name"></label><label>Email address<input name="reviewer_email" type="email" required maxlength="254" autocomplete="email" placeholder="Your email"></label></div><div class="g2"><label>Your rating<select name="rating" required><option value="5">★★★★★ — Excellent</option><option value="4">★★★★☆ — Very good</option><option value="3">★★★☆☆ — Good</option><option value="2">★★☆☆☆ — Fair</option><option value="1">★☆☆☆☆ — Poor</option></select></label><label>Your feedback<textarea name="comment" required minlength="5" maxlength="1000" placeholder="What did you think about this product?"></textarea></label></div><button class="btn primary" type="submit" id="reviewSubmit">Submit review</button><small class="review-count">One review per email address per product. Reviews appear publicly after the store approves them.</small></form><div>${reviews.length?reviews.map(v=>`<article class="review-item"><div class="review-summary"><b>${esc(v.name)}</b>${v.verified_purchase?'<span class="review-count">✓ Verified purchase</span>':''}<span class="review-stars">${"★".repeat(Number(v.rating))}${"☆".repeat(5-Number(v.rating))}</span></div><p>${esc(v.comment)}</p>${v.merchant_reply?`<p class="review-reply"><b>Store reply:</b> ${esc(v.merchant_reply)}</p>`:''}</article>`).join(""):`<div class="review-empty">No customer feedback yet. Be the first to review this product.</div>`}</div></section>`}
+function productCard(p,i){
+  const x=inCart(p.id),d=pct(p);
+  const needsChoice=(p.catalog?.variants||[]).length>0||(p.catalog?.modifier_groups||[]).length>0||(p.catalog?.item_type==="service"&&p.catalog?.booking_required);const act=!p.available?`<button class="btn block" disabled>Sold out</button>`:needsChoice?`<button class="btn primary block" data-act="open" data-id="${p.id}">Choose options</button>`:x?`<div class="stepper" data-act="noop"><button data-act="minus" data-id="${p.id}" aria-label="Decrease quantity">−</button><span>${x.qty}</span><button data-act="plus" data-id="${p.id}" aria-label="Increase quantity">+</button></div>`:`<button class="btn primary block" data-act="add" data-id="${p.id}">Add to cart</button>`;
+  return `<article class="product" data-act="open" data-id="${p.id}" style="animation-delay:${Math.min(i,12)*30}ms"><div class="pimg">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:`<div class="ph">${initial(p.name)}</div>`}<div class="badges">${d&&p.available?`<span class="tag sale">−${d}%</span>`:""}${isNew(p)&&p.available?`<span class="tag new">New</span>`:""}${isLow(p)?`<span class="tag low">Only ${p.stock} left</span>`:""}</div>${p.available?"":`<div class="soldout">Sold out</div>`}</div><div class="pbody"><div class="cat">${esc(p.category||"Product")}</div><h3>${esc(p.name)}</h3><div class="desc">${esc(p.description||"")}</div>${reviewSummary(p)}<div class="pricebox"><span class="price">${currency(p.price)}</span>${d?`<s class="was">${currency(p.compare_at_price)}</s>`:""}</div><div class="avail ${p.available?(isLow(p)?"low":""):"off"}">${p.available?(isLow(p)?`Low stock · ${p.stock} ${esc(p.unit||"Pieces")}`:"In stock"):"Out of stock"}</div><div class="pact">${act}</div></div></article>`;
+}
+function renderProducts(){
+  const list=filtered();
+  $("#count").textContent=`${list.length} product${list.length===1?"":"s"}${category!=="All"?" in "+category:""}`;
+  $("#products").innerHTML=list.length?list.map(productCard).join(""):`<div class="panel empty" style="grid-column:1/-1"><div class="big">🔍</div><b>No products found</b><p>Try a different search or category${query||category!=="All"||stockOnly?`.</p><button class="btn" data-act="reset">Clear filters</button>`:`.</p>`}</div>`;
+}
+function renderCart(){
+  const t=totals();
+  $("#cartCount").textContent=t.count;
+  $("#cartItems").innerHTML=t.items.length?t.items.map(i=>`<div class="crow"><div class="cthumb">${i.p.image_url?`<img src="${esc(i.p.image_url)}" alt="" loading="lazy">`:initial(i.p.name)}</div><div><b class="n">${esc(i.p.name)}</b><div class="u">${currency(lineUnit(i))} each</div><div class="stepper" style="margin-top:6px"><button data-act="minus" data-id="${i.id}" aria-label="Decrease quantity">−</button><span>${i.qty}</span><button data-act="plus" data-id="${i.id}" aria-label="Increase quantity">+</button></div></div><div style="text-align:right"><b>${currency(lineUnit(i)*i.qty)}</b><br><button class="rm" data-act="remove" data-id="${i.id}">Remove</button></div></div>`).join(""):`<div class="empty"><div class="big">🛒</div><b>Your cart is empty</b><p style="margin:4px 0 0">Add products to begin.</p></div>`;
+  $("#cartSummary").innerHTML=t.items.length?`<div class="csum"><div class="sumrow"><span>Subtotal</span><b>${currency(t.sub)}</b></div><div class="sumrow"><span>Delivery</span><b>${currency(t.fee)}</b></div>${t.save?`<div class="sumrow save"><span>You save</span><span>${currency(t.save)}</span></div>`:""}<div class="sumrow total"><span>Total</span><span>${currency(t.total)}</span></div></div>`:"";
+  $("#checkoutBtn").disabled=!t.items.length||!shop||B().checkout_enabled===false;
+  $("#mbarN").textContent=`${t.count} item${t.count===1?"":"s"}`;$("#mbarT").textContent=currency(t.total);
+  const show=t.count>0;$("#mbar").classList.toggle("show",show);document.body.classList.toggle("has-bar",show&&matchMedia("(max-width:980px)").matches);
+  if(shop)saveCart();
+}
+function renderSupportUI(){
+  const b=B(),s=support();
+  const trackHost=$("#trackSection");
+  if(trackHost&&!$("#odDigitalLookup"))trackHost.insertAdjacentHTML("beforeend",`<div class="bank" id="odDigitalLookup" style="margin-top:14px"><b>Digital product delivery</b><p class="small muted">If you purchased a digital item, retrieve your download or access details after your payment is confirmed.</p><form id="odDigitalLookupForm" class="g2"><label>Order reference<input name="order_ref" required placeholder="OD-XXXXXXXXXX"></label><label>Checkout phone number<input name="phone" type="tel" required placeholder="Phone used at checkout"></label><button class="btn primary">Retrieve digital item</button></form><div id="odDigitalResult" class="small" aria-live="polite"></div></div>`);
+  const digitalForm=$("#odDigitalLookupForm");
+  if(digitalForm)digitalForm.onsubmit=async ev=>{ev.preventDefault();const d=Object.fromEntries(new FormData(digitalForm)),out=$("#odDigitalResult");out.textContent="Checking payment and delivery…";const {data,error}=await db.rpc("get_public_order_digital_delivery",{p_order_ref:d.order_ref,p_customer_phone:d.phone});if(error){out.textContent=error.message;return}const items=data?.items||[];out.innerHTML=items.map(i=>`<div style="border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:8px"><b>${esc(i.product_name)}</b><pre style="white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;margin:8px 0 0">${esc(i.delivery_content)}</pre></div>`).join("")||"No digital delivery items found."};
+
+  const cards=[
+    ["box","Track my order","Check progress with your reference","track"],
+    ["help","FAQs","Quick answers to common questions","faq"],
+    ["truck","Delivery information","Fees, timing and how it works","delivery"],
+    ["chat","Contact this store","Questions, complaints or missing items","contact"]
+  ];
+  $("#helpGrid").innerHTML=cards.map(([i,t,d,tab])=>`<button class="hcard" data-act="${tab==="track"?"track":"help"}" data-tab="${tab}"><div class="tic">${ic(i)}</div><b>${t}</b><span>${d}</span></button>`).join("");
+  // footer
+  const contact=[s.wa?`<a href="${esc(waLink(s.wa,"Hello "+(b.name||"")))}" target="_blank" rel="noopener">WhatsApp: ${esc(s.wa)}</a>`:"",s.phone&&telLink(s.phone)?`<a href="${esc(telLink(s.phone))}">Call: ${esc(s.phone)}</a>`:"",s.email?`<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>`:"",s.ig?`<a href="${esc(s.ig)}" target="_blank" rel="noopener">Instagram</a>`:"",s.hours?`<p>${esc(s.hours)}</p>`:"",b.address?`<p>${esc(b.address)}</p>`:""].filter(Boolean).join("");
+  $("#footGrid").innerHTML=`<div><h4>${esc(b.name||"Store")}</h4><p>${esc(b.description||b.tagline||"Thank you for shopping with us.")}</p></div>
+   <div><h4>Customer service</h4><button class="lnk" data-act="help" data-tab="contact">Contact us</button><button class="lnk" data-act="help" data-tab="faq">FAQs</button><button class="lnk" data-act="track">Track my order</button></div>
+   <div><h4>Policies</h4><button class="lnk" data-act="help" data-tab="delivery">Delivery policy</button><button class="lnk" data-act="help" data-tab="returns">Returns policy</button><button class="lnk" data-act="policy" data-p="privacy">Privacy policy</button><button class="lnk" data-act="policy" data-p="terms">Terms &amp; conditions</button></div>
+   <div><h4>Get in touch</h4>${contact||`<button class="lnk" data-act="help" data-tab="contact">Send us a message</button>`}</div>`;
+  $("#copy").textContent=`© ${new Date().getFullYear()} ${b.name||"Store"}. All rights reserved.`;
+  $("#platformHelp").classList.toggle("hide",!(platform.support_whatsapp||platform.support_email||platform.support_phone||platform.help_center_url));
+  $("#fab").classList.remove("hide");
+}
+
+/* ---------- modals ---------- */
+function modal(html,wide=false){
+  lastFocus=document.activeElement;closeFab();
+  $("#modalRoot").innerHTML=`<div class="modalback" id="mb"><div class="modal ${wide?"wide":""}" role="dialog" aria-modal="true"><button class="mclose" data-act="close" aria-label="Close">${ic("close")}</button>${html}</div></div>`;
+  document.body.classList.add("lock");
+  $("#mb").onmousedown=e=>{if(e.target.id==="mb")closeModal()};
+  const f=$("#modalRoot .modal input:not([type=radio]):not([type=checkbox]),#modalRoot .modal textarea");if(f&&matchMedia("(min-width:761px)").matches)f.focus();
+}
+function closeModal(){$("#modalRoot").innerHTML="";document.body.classList.remove("lock");if(shop)updateShopSEO();if(lastFocus&&lastFocus.focus)try{lastFocus.focus()}catch(_){}}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if($("#mb"))closeModal();else if(!$("#fabMenu").classList.contains("hide"))closeFab();else closeCart()}});
+
+function productModal(id){
+  const p=products.find(x=>x.id===id);if(!p)return;trackStoreEvent("product_view",p.id);updateProductSEO(p);dq=1;const d=pct(p),s=support();
+  const body=()=>`<div class="pd"><div class="pimg">${p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}">`:`<div class="ph">${initial(p.name)}</div>`}<div class="badges">${d?`<span class="tag sale">−${d}%</span>`:""}${isLow(p)?`<span class="tag low">Only ${p.stock} left</span>`:""}</div></div>
+   <div><div class="cat">${esc(p.category||"Product")}</div><h2>${esc(p.name)}</h2><div class="pricebox" style="margin:8px 0"><span class="price" id="odSelectedPrice" style="font-size:28px">${currency(p.price)}</span>${d?`<s class="was" style="font-size:16px">${currency(p.compare_at_price)}</s><span class="tag sale">Save ${d}%</span>`:""}</div>
+   <div class="avail ${p.available?(isLow(p)?"low":""):"off"}">${p.catalog?.item_type==="service"?"Appointment request available":p.catalog?.item_type==="digital"?"Digital delivery available":p.available?`${p.stock} ${esc(p.unit||"Pieces")} available`:"Out of stock"}</div>
+   <p class="prose" style="margin:12px 0">${esc(p.description||"No description provided.")}</p>
+   ${p.catalog?.item_type==="service"&&p.catalog?.booking_required?`<label class="f" style="margin:10px 0">Choose your preferred appointment date and time<input class="field" id="odAppointmentStart" type="datetime-local" min="${new Date(Date.now()+60000).toISOString().slice(0,16)}" required><small class="muted">This is a booking request. The store will confirm the appointment.</small></label>`:""}
+   ${p.catalog?.item_type==="digital"?`<div class="bank" style="margin:10px 0"><b>Digital delivery</b><p class="small muted">Your download or access details will be available after your payment is confirmed. Pay on delivery is not available for digital products.</p></div>`:""}
+   ${(p.catalog?.variants||[]).length?`<label class="f" style="margin:10px 0">Choose variation<select class="field" id="odVariant"><option value="">Standard</option>${p.catalog.variants.map(v=>`<option value="${esc(v.id)}">${esc(v.label)}${v.price!=null?` · ${currency(v.price)}`:""}${v.track_inventory?` · ${Number(v.stock)} available`:""}</option>`).join("")}</select></label>`:""}
+   ${(p.catalog?.option_groups||[]).map(g=>`<fieldset class="f" style="margin:10px 0;border:1px solid var(--line);border-radius:12px;padding:10px"><legend>${esc(g.name)} ${g.is_required?"(required)":"(optional)"}</legend>${(g.values||[]).map(v=>`<label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="${g.selection_mode==="single"?"radio":"checkbox"}" class="odOption" name="odOption_${esc(g.id)}" data-group="${esc(g.id)}" value="${esc(v.id)}"> <span>${esc(v.label)}${Number(v.price_delta||0)?` · +${currency(v.price_delta)}`:""}</span></label>`).join("")}</fieldset>`).join("")}
+   ${(p.catalog?.modifier_groups||[]).map(g=>`<fieldset class="f" style="margin:10px 0;border:1px solid var(--line);border-radius:12px;padding:10px"><legend>${esc(g.name)} ${g.is_required?"(required)":"(optional)"}</legend>${(g.modifiers||[]).map(m=>`<label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" class="odModifier" data-group="${esc(g.id)}" value="${esc(m.id)}"> <span>${esc(m.name)} · ${currency(m.price)}</span></label>`).join("")}</fieldset>`).join("")}
+   <div style="display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px"><button class="btn" data-act="share-product" data-id="${esc(p.id)}">Share product</button><button class="btn" data-act="copy-product" data-id="${esc(p.id)}">Copy product link</button><button class="btn" data-act="wishlist" data-id="${esc(p.id)}">♡ Save</button></div>
+   ${p.available?`<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px"><div class="stepper"><button data-act="dqm" aria-label="Decrease">−</button><span id="dq">${dq}</span><button data-act="dqp" aria-label="Increase">+</button></div><button class="btn primary lg" style="flex:1" data-act="addq" data-id="${p.id}">Add to cart</button></div>`:`<button class="btn block" disabled>Sold out</button>`}
+   <div class="secure">${ic("truck")}<span>${Number(B().delivery_fee||0)?`Delivery fee ${currency(B().delivery_fee)} is added at checkout.`:"Delivery details are shown at checkout."}</span></div>
+   ${s.wa?`<a class="btn wa block" style="margin-top:12px" target="_blank" rel="noopener" href="${esc(waLink(s.wa,`Hello, I would like to ask about "${p.name}" on your online store.`))}">${ic("chat")} Ask about this product</a>`:""}</div></div>${reviewSection(p)}`;
+  modal(body(),true);
+  const updateSelectedPrice=()=>{const vid=$("#odVariant")?.value||null,v=(p.catalog?.variants||[]).find(x=>x.id===vid),base=Number(v?.price??p.price),extras=[...document.querySelectorAll(".odModifier:checked")].reduce((n,c)=>{const m=(p.catalog?.modifier_groups||[]).flatMap(g=>g.modifiers||[]).find(x=>x.id===c.value);return n+Number(m?.price||0)},0),optionExtras=[...document.querySelectorAll(".odOption:checked")].reduce((n,c)=>{const v=(p.catalog?.option_groups||[]).flatMap(g=>g.values||[]).find(x=>x.id===c.value);return n+Number(v?.price_delta||0)},0);const price=$("#odSelectedPrice");if(price)price.textContent=currency(base+extras+optionExtras)};
+  $("#odVariant")?.addEventListener("change",updateSelectedPrice);document.querySelectorAll(".odModifier,.odOption").forEach(x=>x.addEventListener("change",updateSelectedPrice));
+  const reviewForm=$("#productReviewForm");if(reviewForm)reviewForm.onsubmit=async ev=>{ev.preventDefault();const btn=$("#reviewSubmit"),fd=new FormData(reviewForm);btn.disabled=true;btn.textContent="Submitting…";const {data,error}=await db.rpc("submit_public_product_review",{p_slug:slug,p_product_id:p.id,p_reviewer_name:String(fd.get("reviewer_name")||""),p_reviewer_email:String(fd.get("reviewer_email")||""),p_rating:Number(fd.get("rating")),p_comment:String(fd.get("comment")||"")});if(error){toast(error.message||"Could not submit review.",true);btn.disabled=false;btn.textContent="Submit review";return}toast(data?.message||"Thank you for your review.");await loadProductReviews();productModal(id)};
+  $("#modalRoot").dataset.pid=id;
+}
+
+function openHelp(tab="faq",prefill={}){
+  const b=B(),s=support(),canBank=!!(b.bank_name&&b.account_name&&b.account_number);
+  const defaults=[
+    ["How do I place an order?","Add the products you want to your cart, tap Checkout, enter your name, phone number and delivery address, choose how to pay, then place your order. You will receive an order reference to keep."],
+    ["How can I pay?",canBank?"This store accepts Paystack online payments, bank transfer and pay on delivery where available. Paystack payments are verified automatically; bank transfers require a receipt and store confirmation.":"This store currently accepts pay on delivery."],
+    ["How do I track my order?","Use Track order on this page and enter your order reference and the phone number you used at checkout."],
+    ["I paid by transfer but my order is not confirmed yet.","Make sure you uploaded your receipt. The store confirms transfers manually. If it takes long, send a message from the Contact tab with your order reference."],
+    ["An item I want is out of stock.","Stock updates as customers order. Sold-out items cannot be added to the cart. You can message the store to ask when it will be available again."]
+  ];
+  let merchant=[];try{merchant=(Array.isArray(b.faqs)?b.faqs:[]).filter(f=>f&&clean(f.q)&&clean(f.a))}catch(_){}
+  const faqs=[...merchant.map(f=>[f.q,f.a]),...defaults];
+  const tabs=[["faq","FAQs"],["contact","Contact us"],["delivery","Delivery"],["returns","Returns"]];
+  const panels={
+   faq:faqs.map(([q,a])=>`<details class="faq"><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join(""),
+   delivery:`<p class="prose">${esc(clean(b.delivery_info)||"Delivery is arranged by this store. "+(Number(b.delivery_fee||0)?`A delivery fee of ${currency(b.delivery_fee)} is added at checkout. `:"")+"For delivery timing or special requests, please contact the store.")}</p>`,
+   returns:`<p class="prose">${esc(clean(b.returns_policy)||"Return and refund terms are set by this store. If an item is damaged, incorrect or missing, contact the store as soon as possible with your order reference so they can help.")}</p>`,
+   contact:`<div class="chan">${s.wa?`<a class="fitem" style="border:1px solid var(--line)" target="_blank" rel="noopener" href="${esc(waLink(s.wa,"Hello "+(b.name||"")+", I need help."+(prefill.order?" Order: "+prefill.order:"")))}"><span class="tic" style="background:#1fa855;color:#fff">${ic("chat")}</span><span><b>WhatsApp</b><span>${esc(s.wa)}</span></span></a>`:""}${s.phone&&telLink(s.phone)?`<a class="fitem" style="border:1px solid var(--line)" href="${esc(telLink(s.phone))}"><span class="tic">${ic("phone")}</span><span><b>Call</b><span>${esc(s.phone)}</span></span></a>`:""}${s.email?`<a class="fitem" style="border:1px solid var(--line)" href="mailto:${esc(s.email)}"><span class="tic">${ic("mail")}</span><span><b>Email</b><span>${esc(s.email)}</span></span></a>`:""}</div>${s.hours?`<p class="small muted" style="display:flex;gap:6px;align-items:center">${ic("clock")} ${esc(s.hours)}</p>`:""}
+   <h3 style="margin:16px 0 0">Send a message</h3><p class="small muted" style="margin:2px 0 0">Questions, complaints, missing items or payment problems. The store will get back to you.</p>
+   <form id="helpForm"><label class="f">Your name<input class="field" name="name" required minlength="2" autocomplete="name" value="${esc(prefill.name||"")}"></label><label class="f">Phone number<input class="field" name="phone" required minlength="7" inputmode="tel" autocomplete="tel" value="${esc(prefill.phone||"")}"></label><label class="f">Email (optional)<input class="field" name="email" type="email" autocomplete="email"></label>
+   <label class="f">What is this about?<select class="field" name="topic">${["Order enquiry","Delivery","Payment problem","Missing item","Complaint","Product question","Other"].map(t=>`<option ${prefill.topic===t?"selected":""}>${t}</option>`).join("")}</select></label><label class="f">Order reference (optional)<input class="field" name="order" placeholder="OD-XXXXXXXXXX" value="${esc(prefill.order||"")}"></label>
+   <label class="f">Message<textarea class="field" name="message" required minlength="5" maxlength="2000" placeholder="Tell us how we can help…"></textarea></label><button class="btn primary lg block" id="helpSend" style="margin-top:14px">Send message</button></form><div id="helpMsg" aria-live="polite"></div>`
+  };
+  modal(`<h2>Help &amp; support</h2><p class="muted" style="margin:0">${esc(b.name||"This store")}</p><div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="tab ${k===tab?"on":""}" data-act="helptab" data-tab="${k}" role="tab">${l}</button>`).join("")}</div><div id="helpBody">${panels[tab]}</div>`,true);
+  $("#modalRoot").helpPanels=panels;
+  bindHelpForm();
+}
+function bindHelpForm(){
+  const f=$("#helpForm");if(!f)return;
+  f.onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(f)),btn=$("#helpSend");btn.disabled=true;btn.textContent="Sending…";
+    const {data,error}=await db.rpc("submit_store_support_request",{p_slug:slug,p_name:d.name,p_phone:d.phone,p_email:d.email||null,p_topic:d.topic,p_order_ref:d.order||null,p_message:d.message});
+    if(error){btn.disabled=false;btn.textContent="Send message";const m=/function .* does not exist|schema cache/i.test(error.message)?"Messaging is not available right now. Please use the contact options above.":error.message;return $("#helpMsg").innerHTML=`<p class="status bad" style="margin-top:10px">${esc(m)}</p>`}
+    f.classList.add("hide");$("#helpMsg").innerHTML=`<div class="bank"><b>Message sent ✓</b><p style="margin:6px 0 0">Your reference is <b>${esc(data?.ref||"")}</b>. The store will contact you on the phone number you gave.</p></div>`};
+}
+function showPolicy(p){
+  const b=B(),n=esc(b.name||"this store");
+  const privacy=`<p class="prose">${n} collects your name, phone number, delivery address, optional email and order details so it can process, deliver and support your order. If you pay by bank transfer, the receipt you upload is stored privately and is only visible to the store.\n\nYour details are used to fulfil your order and answer your messages. Orders and messages are handled by the store through OrderDesk NG, which provides the ordering technology. Contact the store if you want your information corrected or removed.</p>`;
+  const terms=`<p class="prose">By placing an order you agree to provide correct details and to pay the total shown at checkout. Prices and stock are verified when you place your order, and an order may be declined if an item is no longer available.\n\nBank transfer orders are processed after the store confirms your payment. Pay on delivery orders are paid when your order arrives. Delivery, returns and refund terms are set by ${n}; see the Delivery and Returns tabs in Help.\n\nOrderDesk NG provides the shopping technology. Each store is responsible for its own products, delivery and customer service.</p>`;
+  modal(`<h2>${p==="privacy"?"Privacy policy":"Terms &amp; conditions"}</h2>${p==="privacy"?privacy:terms}<button class="btn block" style="margin-top:12px" data-act="close">Close</button>`);
+}
+function showPlatform(){
+  const w=clean(platform.support_whatsapp),m=clean(platform.support_email),ph=clean(platform.support_phone),h=clean(platform.support_hours),u=clean(platform.help_center_url);
+  modal(`<h2>OrderDesk NG support</h2><p class="muted" style="margin:0">Help with the ordering platform itself (for store owners and technical problems). For questions about products, delivery or your order, please contact ${esc(B().name||"the store")}.</p>
+   <div class="chan" style="margin-top:14px">${w?`<a class="fitem" style="border:1px solid var(--line)" target="_blank" rel="noopener" href="${esc(waLink(w,"Hello OrderDesk NG support"))}"><span class="tic" style="background:#1fa855;color:#fff">${ic("chat")}</span><span><b>WhatsApp</b><span>${esc(w)}</span></span></a>`:""}${ph&&telLink(ph)?`<a class="fitem" style="border:1px solid var(--line)" href="${esc(telLink(ph))}"><span class="tic">${ic("phone")}</span><span><b>Call</b><span>${esc(ph)}</span></span></a>`:""}${okEmail(m)?`<a class="fitem" style="border:1px solid var(--line)" href="mailto:${esc(m)}"><span class="tic">${ic("mail")}</span><span><b>Email</b><span>${esc(m)}</span></span></a>`:""}${/^https:\/\//i.test(u)?`<a class="fitem" style="border:1px solid var(--line)" target="_blank" rel="noopener" href="${esc(u)}"><span class="tic">${ic("help")}</span><span><b>Help centre</b><span>Guides and tutorials</span></span></a>`:""}</div>${h?`<p class="small muted">${esc(h)}</p>`:""}`);
+}
+
+/* ---------- support button ---------- */
+function openFab(){
+  const b=B(),s=support();
+  $("#fabMenu").innerHTML=`<div class="hd"><b>How can we help?</b><span>${esc(s.hours||"Choose an option below")}</span></div>
+   ${s.wa?`<a class="fitem" target="_blank" rel="noopener" href="${esc(waLink(s.wa,"Hello "+(b.name||"")+", I need help."))}"><span class="tic" style="background:#1fa855;color:#fff">${ic("chat")}</span><span><b>Chat on WhatsApp</b><span>Fastest way to reach the store</span></span></a>`:""}
+   ${s.phone&&telLink(s.phone)?`<a class="fitem" href="${esc(telLink(s.phone))}"><span class="tic">${ic("phone")}</span><span><b>Call the store</b><span>${esc(s.phone)}</span></span></a>`:""}
+   <button class="fitem" data-act="help" data-tab="contact"><span class="tic">${ic("mail")}</span><span><b>Send a message</b><span>Complaints, missing items, payments</span></span></button>
+   <button class="fitem" data-act="help" data-tab="faq"><span class="tic">${ic("help")}</span><span><b>Help centre &amp; FAQs</b><span>Quick answers</span></span></button>
+   <button class="fitem" data-act="track"><span class="tic">${ic("box")}</span><span><b>Track my order</b><span>Use your reference and phone</span></span></button>`;
+  $("#fabMenu").classList.remove("hide");$("#fab").setAttribute("aria-expanded","true");
+}
+function closeFab(){$("#fabMenu").classList.add("hide");$("#fab").setAttribute("aria-expanded","false")}
+
+/* ---------- cart drawer (mobile) ---------- */
+function openCart(){if(matchMedia("(min-width:981px)").matches){$("#cartPanel").scrollIntoView({behavior:"smooth",block:"center"});return}$("#cartPanel").classList.add("open");$("#backdrop").classList.add("on");document.body.classList.add("lock")}
+function closeCart(){$("#cartPanel").classList.remove("open");$("#backdrop").classList.remove("on");if(!$("#mb"))document.body.classList.remove("lock")}
+
+/* ---------- checkout (server logic unchanged) ---------- */
+function checkout(){
+  selectedDeliveryZoneId=null;const t=totals();if(!t.items.length)return;if(B().checkout_enabled===false){toast("This store is currently in browse-only mode. The owner must upgrade before accepting new orders.",true);return;}trackStoreEvent("checkout_start");closeCart();
+  const b=B(),hasDigital=t.items.some(i=>i.p.catalog?.item_type==="digital"),digitalOnly=t.items.every(i=>i.p.catalog?.item_type==="digital"),canBank=!!(b.bank_name&&b.account_name&&b.account_number),canPaystack=!!(b.bank_code&&b.bank_name&&b.account_name&&b.account_number);if(hasDigital&&!canBank&&!canPaystack){toast("This store must configure bank transfer or Paystack before selling digital products.",true);return;}
+  modal(`<div class="od-checkout-head"><span class="od-checkout-kicker">SECURE CHECKOUT</span><h2>Complete your order</h2><p class="muted">Add your delivery details and review the total before placing your order.</p></div>
+  <form id="co" class="od-checkout-form">
+    <section class="od-form-section"><div class="od-section-title"><span class="od-section-number">01</span><div><b>${digitalOnly?"Customer details":"Delivery details"}</b><small>${digitalOnly?"Where should we send your digital purchase instructions?":"Where should we deliver your order?"}</small></div></div>
+      <div class="od-form-grid">
+        <label class="f">Full name<input class="field" name="name" required minlength="2" autocomplete="name" placeholder="Enter your full name"></label>
+        <label class="f">Phone number<input class="field" name="phone" required minlength="7" inputmode="tel" autocomplete="tel" placeholder="e.g. 08012345678"></label>
+        <label class="f od-field-full">Email address <span class="od-optional">(optional)</span><input class="field" name="email" type="email" autocomplete="email" placeholder="you@example.com"></label>
+        ${digitalOnly?"":`${deliveryZones.length?`<label class="f od-field-full">Delivery area<select class="field" name="delivery_zone_id"><option value="">Standard delivery · ${currency(B().delivery_fee||0)}</option>${deliveryZones.map(z=>`<option value="${esc(z.id)}">${esc(z.zone_name)} · ${currency(z.delivery_fee)}${z.estimated_days?` · ${esc(z.estimated_days)}`:""}</option>`).join("")}</select></label>`:""}<label class="f od-field-full">Delivery address<textarea class="field" name="address" required minlength="5" autocomplete="street-address" placeholder="House number, street, area and city"></textarea></label>`}
+        <label class="f od-field-full">Order note <span class="od-optional">(optional)</span><textarea class="field" name="note" placeholder="Any delivery instruction? e.g. landmark or preferred time"></textarea></label>
+      </div>
+    </section>
+    <section class="od-form-section od-payment-section"><div class="od-section-title"><span class="od-section-number">02</span><div><b>Payment method</b><small>Choose how you want to pay</small></div></div>
+      ${canBank?`<label class="paycard"><input type="radio" name="payment" value="Bank transfer" checked><span><b>Bank transfer</b><small>Transfer to the store's bank account and upload your receipt.</small></span><span class="od-pay-tag">Available</span></label>`:""}
+      ${canPaystack?`<label class="paycard"><input type="radio" name="payment" value="Paystack" ${canBank?"":"checked"}><span><b>Pay online with Paystack</b><small>Pay securely by card, bank, USSD or other methods enabled by Paystack.</small></span><span class="od-pay-tag">Secure</span></label>`:""}
+      ${hasDigital?"":`<label class="paycard"><input type="radio" name="payment" value="Pay on delivery" ${canBank||canPaystack?"":"checked"}><span><b>Pay on delivery</b><small>Pay when your order arrives.</small></span><span class="od-pay-tag">Available</span></label>`}
+      ${canBank?`<div id="bankBox" class="bank od-bank-card"><div class="bank-heading">Transfer account details</div><div class="bank-detail"><span>Bank</span><b>${esc(b.bank_name)}</b></div><div class="bank-detail"><span>Account name</span><b>${esc(b.account_name)}</b></div><div class="bank-detail"><span>Account number</span><b class="account-number">${esc(b.account_number)}</b></div>${b.payment_note?`<p class="small muted" style="margin:8px 0 0">${esc(b.payment_note)}</p>`:""}<p class="small muted" style="margin:8px 0 0">You'll be able to upload your transfer receipt after placing the order.</p></div>`:`<p class="small muted od-bank-unavailable">Bank transfer has not been configured by this store yet.</p>`}
+    </section>
+    <section class="od-checkout-summary"><div class="od-section-title"><span class="od-section-number">03</span><div><b>Order summary</b><small>${t.count} item${t.count===1?"":"s"} in your cart</small></div></div>
+      <div class="minilist">${t.items.map(i=>`<div class="sumrow"><span>${esc(i.p.name)} × ${i.qty}</span><b>${currency(lineUnit(i)*i.qty)}</b></div>`).join("")}</div>
+      <div class="od-checkout-totals"><div class="sumrow"><span>Subtotal</span><b>${currency(t.sub)}</b></div><div class="sumrow"><span>Delivery</span><b id="deliveryAmount">${currency(t.fee)}</b></div><div class="sumrow total"><span>Amount to pay</span><strong id="orderAmount">${currency(t.total)}</strong></div></div>
+      <button class="btn primary lg block" id="place" style="margin-top:15px">Place order · ${currency(t.total)}</button>
+      <div class="secure">${ic("lock")}<span>Your details are used only to process and deliver this order. Prices and stock are checked again when you place it.</span></div>
+    </section>
+  </form>`);
+  const f=$("#co"),bank=$("#bankBox"),zone=f.querySelector("[name=delivery_zone_id]");if(zone)zone.onchange=()=>{selectedDeliveryZoneId=zone.value||null;const now=totals();$("#deliveryAmount").textContent=currency(now.fee);$("#orderAmount").textContent=currency(now.total);const pay=f.querySelector('input[name="payment"]:checked')?.value;$("#place").textContent=(pay==="Paystack"?"Continue to Paystack · ":"Place order · ")+currency(now.total)};
+  f.querySelectorAll('input[name="payment"]').forEach(r=>r.onchange=()=>{
+    const method=f.querySelector('input[name="payment"]:checked')?.value;
+    if(bank)bank.classList.toggle("hide",method!=="Bank transfer");
+    const email=f.querySelector('[name="email"]');if(email)email.required=method==="Paystack";
+    const submit=f.querySelector('#place');if(submit)submit.textContent=(method==="Paystack"?"Continue to Paystack · ":"Place order · ")+currency(totals().total);
+  });
+  const initialMethod=f.querySelector('input[name="payment"]:checked')?.value;
+  if(initialMethod==="Paystack"){$("#place").textContent="Continue to Paystack · "+currency(t.total);const email=f.querySelector('[name="email"]');if(email)email.required=true}
+  f.onsubmit=placeOrder;
+}
+async function placeOrder(e){
+  e.preventDefault();const f=e.target,b=$("#place");b.disabled=true;b.textContent="Placing order…";
+  const d=Object.fromEntries(new FormData(f)),hasDigital=cart.some(i=>products.find(p=>p.id===i.id)?.catalog?.item_type==="digital"),digitalOnly=cart.every(i=>products.find(p=>p.id===i.id)?.catalog?.item_type==="digital"),keyName="od_checkout_key_"+slug;let key=sessionStorage.getItem(keyName);
+  if(!key){key=crypto.randomUUID()+"-"+crypto.randomUUID();sessionStorage.setItem(keyName,key)}
+  try{
+    if(hasDigital&&d.payment==="Pay on delivery")throw new Error("Digital products require Paystack or bank transfer.");
+    if(digitalOnly)d.address="Digital delivery";
+    if(d.payment==="Paystack"){
+      if(!d.email||!okEmail(d.email))throw new Error("Enter a valid email address for Paystack checkout.");
+      b.textContent="Connecting to Paystack…";
+      const response=await fetch("/.netlify/functions/initialize-paystack-store-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug,customer_name:d.name,customer_phone:d.phone,customer_email:d.email,delivery_address:d.address,customer_note:d.note||null,items:cart.map(i=>({product_id:i.id,quantity:i.qty,variant_id:i.variant_id||null,modifier_ids:i.modifier_ids||[],option_value_ids:i.option_value_ids||[],selected_options:i.selected_options||{},fulfilment_method:i.fulfilment_method||"delivery"})),delivery_zone_id:selectedDeliveryZoneId,idempotency_key:key})});
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok||!result.authorization_url)throw new Error(result.error||"Unable to start Paystack checkout.");
+      sessionStorage.setItem("od_paystack_pending_"+slug,JSON.stringify({order_ref:result.order_ref,total:result.total}));
+      cart=[];localStorage.removeItem("od_cart_"+slug);sessionStorage.removeItem(keyName);closeModal();window.location.assign(result.authorization_url);return;
+    }
+    const {data,error}=await db.rpc("place_store_order_catalog",{p_slug:slug,p_customer_name:d.name,p_customer_phone:d.phone,p_customer_email:d.email||null,p_delivery_address:d.address,p_customer_note:d.note||null,p_payment_method:d.payment,p_items:cart.map(i=>({product_id:i.id,quantity:i.qty,variant_id:i.variant_id||null,modifier_ids:i.modifier_ids||[],option_value_ids:i.option_value_ids||[],selected_options:i.selected_options||{},fulfilment_method:i.fulfilment_method||"delivery"})),p_idempotency_key:key,p_delivery_zone_id:selectedDeliveryZoneId});
+    if(error)throw new Error(error.message);
+    // Merchant alerts are best-effort: an unavailable WhatsApp API must never block checkout.
+    if(data?.order_id){fetch("/.netlify/functions/notify-store-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({order_id:data.order_id,event_type:"new_order"})}).catch(()=>{});}
+    trackStoreEvent("order_complete");cart=[];localStorage.removeItem("od_cart_"+slug);sessionStorage.removeItem(keyName);closeModal();await loadShop(true);showSuccess({...data,customer_phone:d.phone,customer_name:d.name});
+  }catch(err){toast(err.message||"Checkout failed. Please try again.",true);b.disabled=false;b.textContent=(d.payment==="Paystack"?"Continue to Paystack":"Place order")}
+}
+function showSuccess(o){
+  const s=support(),b=B();
+  modal(`<h2>Order placed successfully 🎉</h2><p style="margin:4px 0">Your order reference is:</p><div style="font-size:28px;font-weight:800;color:var(--navy);letter-spacing:.04em;overflow-wrap:anywhere">${esc(o.order_ref)}</div><p>Total: <b>${currency(o.total)}</b></p>
+  ${o.payment_method==="Bank transfer"?`<div class="bank"><b>Next step: upload your transfer receipt</b><p>Transfer ${currency(o.total)} to the account below, then upload your receipt. Your payment stays unconfirmed until the store verifies it.</p><p><b>${esc(o.bank_name||"")}</b><br>${esc(o.account_name||"")}<br><span class="account-number">${esc(o.account_number||"")}</span></p><form id="receiptForm"><label class="f">Transfer receipt<input class="field" name="receipt" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required></label><button class="btn primary" style="margin-top:10px">Upload receipt</button></form><div id="receiptMsg" class="small muted" style="margin-top:8px" aria-live="polite"></div></div>`:o.payment_method==="Paystack"?`<div class="bank"><b>Payment confirmed by Paystack</b><p style="margin:6px 0 0">${o.status==="Cancelled"?"Your payment arrived after this order was cancelled. Contact the store immediately to arrange a refund or resolution.":"Your online payment has been verified. Keep your order reference for tracking."}</p></div>`:`<div class="bank"><b>Pay on delivery</b><p style="margin:6px 0 0">Your order has been recorded. Keep your order reference for tracking.</p></div>`}
+  ${cart.some(i=>products.find(p=>p.id===i.id)?.catalog?.item_type==="digital")?`<div class="bank" style="margin-top:12px"><b>Digital product access</b><p>After your payment is confirmed, enter your order reference and checkout phone number in the Digital delivery section below to retrieve your item.</p></div>`:""}
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px"><button class="btn" data-act="close">Continue shopping</button><button class="btn primary" id="openTrack">Track order</button>${s.wa?`<a class="btn wa" target="_blank" rel="noopener" href="${esc(waLink(s.wa,`Hello ${b.name||""}, I have placed order ${o.order_ref} (${currency(o.total)}).`))}">${ic("chat")} Message the store</a>`:""}</div>`);
+  const rf=$("#receiptForm");if(rf)rf.onsubmit=ev=>uploadReceipt(ev,o);
+  $("#openTrack").onclick=()=>{closeModal();$("#trackRef").value=o.order_ref;$("#trackPhone").value=o.customer_phone||"";$("#trackSection").scrollIntoView({behavior:"smooth"});track()};
+}
+async function uploadReceipt(e,o){
+  e.preventDefault();const f=e.target,file=f.receipt.files[0],msg=$("#receiptMsg");if(!file)return;
+  const ok=["image/jpeg","image/png","image/webp","application/pdf"].includes(file.type);
+  if(!ok)return msg.textContent="Use JPG, PNG, WEBP or PDF.";
+  if(file.size>5*1024*1024)return msg.textContent="Receipt must be 5MB or smaller.";
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,""),path=o.receipt_token+"/"+crypto.randomUUID()+"."+ext;
+  f.querySelector("button").disabled=true;msg.textContent="Uploading…";
+  const up=await db.storage.from("store-receipts").upload(path,file,{upsert:false,contentType:file.type});
+  if(up.error){f.querySelector("button").disabled=false;return msg.textContent=up.error.message}
+  const r=await db.rpc("submit_store_receipt",{p_order_ref:o.order_ref,p_phone:o.customer_phone,p_receipt_path:path});
+  if(r.error){await db.storage.from("store-receipts").remove([path]);f.querySelector("button").disabled=false;return msg.textContent=r.error.message}
+  msg.textContent="Receipt uploaded. The store will verify your transfer.";
+  // Best-effort merchant alert. Receipt submission remains successful even if WhatsApp is not configured.
+  fetch("/.netlify/functions/notify-store-order",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({order_id:o.id,event_type:"receipt_submitted"})}).catch(()=>{});
+}
+
+/* ---------- tracking ---------- */
+async function track(){
+  const ref=$("#trackRef").value.trim(),phone=$("#trackPhone").value.trim(),el=$("#trackResult");
+  if(!ref||!phone)return toast("Enter both the order reference and phone number.",true);
+  el.innerHTML='<p class="muted">Checking…</p>';
+  const {data,error}=await db.rpc("track_store_order",{p_order_ref:ref,p_phone:phone});
+  if(error)return el.innerHTML=`<p class="status bad">${esc(error.message)}</p>`;
+  if(!data)return el.innerHTML=`<p class="status bad" style="margin-top:12px">No matching order was found. Check the reference and phone number.</p><p><button class="btn" data-act="help" data-tab="contact">Contact the store</button></p>`;
+  const order=["Pending","Confirmed","Processing","Ready for Delivery","Delivered"],idx=order.indexOf(data.status),cancelled=data.status==="Cancelled";
+  const stepper=cancelled?`<p class="status bad" style="margin-top:12px">This order was cancelled.</p>`:`<div class="steps">${order.map((s,i)=>`<div class="step ${i<=idx?"done":""} ${i===idx?"now":""}"><i>${i<idx||data.status==="Delivered"?"✓":i+1}</i>${s==="Ready for Delivery"?"Ready":s}</div>`).join("")}</div>`;
+  const pay=data.payment_status;
+  el.innerHTML=`<div class="bank" style="margin-top:14px"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><b>${esc(data.order_ref)}</b><span class="status ${data.status==="Delivered"?"":cancelled?"bad":"warn"}">${esc(data.status)}</span></div><p class="small muted" style="margin:4px 0 0">${esc(data.business_name)} · ${new Date(data.created_at).toLocaleString("en-NG")}</p>${stepper}
+  <div style="margin-top:10px">${(data.items||[]).map(i=>`<div class="sumrow"><span>${esc(i.name)} × ${i.quantity}</span><b>${currency(i.line_total)}</b></div>`).join("")}</div>
+  <div class="sumrow"><span>Subtotal</span><b>${currency(data.subtotal)}</b></div><div class="sumrow"><span>Delivery</span><b>${currency(data.delivery_fee)}</b></div><div class="sumrow total"><span>Total</span><span>${currency(data.total)}</span></div>
+  <p class="small">Payment: <b>${esc(data.payment_method)}</b> · <span class="status ${pay==="Rejected"?"bad":pay==="Confirmed"?"":"warn"}">${esc(pay)}</span></p>
+  ${pay==="Rejected"?`<p class="small" style="color:var(--red)">Your receipt was not accepted. Please contact the store or upload a clear receipt again.</p>`:""}
+  <button class="btn" data-act="help" data-tab="contact" data-order="${esc(data.order_ref)}">Need help with this order?</button></div>`;
+}
+
+/* ---------- load ---------- */
+async function loadShop(silent=false){
+  if(!slug){$("#shopName").textContent="Shop link not found";$("#shopDesc").textContent="Ask the business owner for their OrderDesk NG shop link.";$("#products").innerHTML='<div class="panel empty" style="grid-column:1/-1">No shop slug was provided.</div>';$("#brandText").textContent="Online Store";$("#brandText").classList.remove("hide");return}
+  const {data,error}=await db.rpc("get_public_shop",{p_slug:slug});
+  if(error||!data){
+    $("#shopName").textContent="This shop is unavailable";$("#shopDesc").textContent=error?.message||"The store may be disabled or its trial/subscription may have expired.";
+    $("#products").innerHTML='<div class="panel empty" style="grid-column:1/-1"><div class="big">🛍️</div>Please contact the business owner for an updated store link.</div>';
+    $("#checkoutBtn").disabled=true;$("#brandText").textContent="Online Store";$("#brandText").classList.remove("hide");["#catsec","#trust","#trackSection","#helpSection"].forEach(s=>$(s).classList.add("hide"));return;
+  }
+  shop=data;
+  try{const {data:catalog}=await db.rpc("get_public_catalog_options",{p_slug:slug});const byId=new Map((catalog||[]).map(c=>[c.product_id,c]));data.products=(data.products||[]).map(p=>({...p,catalog:byId.get(p.id)||null}));}catch(catalogError){console.warn("Optional catalogue details unavailable",catalogError)}
+  try{const {data:opts}=await db.rpc("get_public_shop_options",{p_slug:slug});deliveryZones=opts?.delivery_zones||[];}catch(zoneError){deliveryZones=[];console.warn("Delivery zones unavailable",zoneError)}
+  products=(data.products||[]).map(p=>({...p,available:p.catalog?.item_type==="service"||p.catalog?.item_type==="digital"||p.available,price:Number(p.price),stock:Number(p.stock),compare_at_price:p.compare_at_price==null?null:Number(p.compare_at_price)}));if(!odStoreViewTracked){trackStoreEvent("store_view");odStoreViewTracked=true;}window.dispatchEvent(new Event("od-store-ready"));
+  if(!silent)loadCart();
+  renderTop();renderCats();renderProducts();renderCart();loadProductReviews();
+  const productId=new URLSearchParams(location.search).get("product");if(productId){const match=products.find(p=>String(p.id)===String(productId));if(match)setTimeout(()=>productModal(match.id),180)}
+}
+async function loadPlatform(){try{const {data}=await db.rpc("get_platform_support");if(data&&typeof data==="object"){platform=data;if(shop)renderSupportUI()}}catch(_){}}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-act]");
+  if(!t){if(!e.target.closest("#fabMenu"))closeFab();return}
+  const a=t.dataset.act,id=t.dataset.id;
+  if(a!=="fab"&&!t.closest("#fabMenu"))closeFab();
+  switch(a){
+   case"add":add(id);break;
+   case"minus":change(id,-1);break;
+   case"plus":{const p=products.find(x=>x.id===id),i=inCart(id),unlimited=["service","digital"].includes(p?.catalog?.item_type);if(p&&i&&!unlimited&&i.qty>=p.stock)toast("You cannot add more than the available stock.",true);else change(id,1);break}
+   case"remove":cart=cart.filter(i=>i.id!==id);renderCart();renderProducts();break;
+   case"open":productModal(id);break;
+   case"feedback":feedbackModal();break;
+   case"wishlist":saveWishlist(id);break;
+   case"share-store":shareContent((B().name||"Online Store"),"Visit "+(B().name||"our online store")+" and browse our products.",storeShareUrl());break;
+   case"share-product":{const p=products.find(x=>String(x.id)===String(id));if(p)shareContent(p.name,(B().name||"Our store")+" · "+p.name+" · "+currency(p.price),productShareUrl(p));break}
+   case"copy-product":{const p=products.find(x=>String(x.id)===String(id));if(p)copyText(productShareUrl(p));break}
+   case"addq":{const p=products.find(x=>x.id===id);const variant_id=$("#odVariant")?.value||null;const modifier_ids=[...document.querySelectorAll(".odModifier:checked")].map(x=>x.value);for(const g of (p?.catalog?.modifier_groups||[])){const n=modifier_ids.filter(mid=>(g.modifiers||[]).some(m=>m.id===mid)).length;if(n<Number(g.min_select||0)||(g.is_required&&n===0)||n>Number(g.max_select||1)){toast("Please complete the required options for "+g.name+".",true);return}}const option_value_ids=[...document.querySelectorAll(".odOption:checked")].map(x=>x.value);for(const g of (p?.catalog?.option_groups||[])){const n=option_value_ids.filter(oid=>(g.values||[]).some(v=>v.id===oid)).length;if((g.is_required&&n===0)||(g.selection_mode==="single"&&n>1)){toast("Please choose the required option for "+g.name+".",true);return}}const v=(p?.catalog?.variants||[]).find(v=>v.id===variant_id);if(v?.track_inventory&&Number(v.stock)<dq){toast("Not enough stock for that variation.",true);return}const appointmentInput=$("#odAppointmentStart"),appointmentValue=appointmentInput?.value||null;if(appointmentInput&&(!appointmentValue||new Date(appointmentValue).getTime()<=Date.now())){toast("Choose a future appointment date and time.",true);return}const x=add(id,dq,{variant_id,modifier_ids,option_value_ids,selected_options:appointmentValue?{appointment_start:new Date(appointmentValue).toISOString()}: {}});if(x)closeModal();break}
+   case"dqm":dq=Math.max(1,dq-1);$("#dq").textContent=dq;break;
+   case"dqp":{const p=products.find(x=>x.id===$("#modalRoot").dataset.pid);const have=inCart(p.id)?.qty||0;if(["service","digital"].includes(p.catalog?.item_type)||dq+have<p.stock){dq=Math.min(100,dq+1);$("#dq").textContent=dq}else toast("That is all we have in stock.",true);break}
+   case"cat":category=t.dataset.cat;renderCats();renderProducts();$("#shop").scrollIntoView({behavior:"smooth",block:"start"});break;
+   case"reset":category="All";query="";stockOnly=false;$("#search").value="";$("#stockOnly").checked=false;renderCats();renderProducts();break;
+   case"openCart":openCart();break;
+   case"closeCart":closeCart();break;
+   case"checkout":checkout();break;
+   case"close":closeModal();break;
+   case"track":closeModal();closeFab();$("#trackSection").scrollIntoView({behavior:"smooth"});setTimeout(()=>$("#trackRef").focus({preventScroll:true}),400);break;
+   case"help":openHelp(t.dataset.tab||"faq",{order:t.dataset.order||""});break;
+   case"helptab":{const tab=t.dataset.tab,panels=$("#modalRoot").helpPanels;if(!panels)break;$$(".tab").forEach(x=>x.classList.toggle("on",x===t));$("#helpBody").innerHTML=panels[tab];bindHelpForm();break}
+   case"policy":showPolicy(t.dataset.p);break;
+   case"platform":showPlatform();break;
+   case"fab":$("#fabMenu").classList.contains("hide")?openFab():closeFab();break;
+  }
+});
+$("#search").oninput=e=>{query=e.target.value;renderProducts();if(query&&matchMedia("(max-width:980px)").matches)$("#shop").scrollIntoView({block:"start"})};
+$("#sort").onchange=e=>{sort=e.target.value;renderProducts()};
+$("#stockOnly").onchange=e=>{stockOnly=e.target.checked;renderProducts()};
+$("#trackForm").onsubmit=e=>{e.preventDefault();track()};
+window.addEventListener("resize",()=>{if(matchMedia("(min-width:981px)").matches)closeCart();renderCart()});
+async function handlePaystackReturn(){
+  const params=new URLSearchParams(location.search),reference=params.get("reference");
+  if(!reference||params.get("paystack_return")!=="1")return;
+  try{
+    const response=await fetch("/.netlify/functions/verify-paystack-store-payment",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({reference})});
+    const result=await response.json().catch(()=>({}));
+    if(!response.ok||!result.success)throw new Error(result.error||"Payment is not confirmed yet. You can track your order in a moment.");
+    history.replaceState({},document.title,location.pathname);
+    sessionStorage.removeItem("od_paystack_pending_"+slug);
+    sessionStorage.removeItem("od_checkout_key_"+slug);
+    showSuccess(result.order);
+  }catch(error){
+    const pending=(()=>{try{return JSON.parse(sessionStorage.getItem("od_paystack_pending_"+slug)||"null")}catch(_){return null}})();
+    toast((error.message||"We could not verify the payment yet.")+(pending?.order_ref?" Order reference: "+pending.order_ref:" Please use Track order."),true)
+  }
+}
+loadShop().then(async()=>{await loadPlatform();await handlePaystackReturn()});
+</script><script src="/monitoring.js" defer></script><script src="/store-ai.js?v=r50-customer-experience" defer></script></body></html>

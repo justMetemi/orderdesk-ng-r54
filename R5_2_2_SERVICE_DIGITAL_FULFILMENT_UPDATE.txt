@@ -1,0 +1,77 @@
+ORDERDESK NG R5.2.2 — SERVICE & DIGITAL-PRODUCT FULFILMENT
+==========================================================
+
+Base: user-supplied OrderDesk_NG_R5_2_1_Customer_Navigation_Fix.zip
+Scope: complete the previously listed service appointment and digital fulfilment gaps.
+No production deployment or live database change was performed.
+
+IMPLEMENTED IN THIS BUILD
+-------------------------
+1. Service product setup
+   - Product editor now supports service duration and an optional required-booking flag.
+   - Storefront exposes booking settings through the public catalogue projection.
+   - A service that requires a booking opens an appointment date/time selector.
+   - The requested time is stored with the order-line snapshot.
+
+2. Service booking lifecycle
+   - Checkout creates the service booking in the same database transaction as its order item.
+   - Booking begins in `requested` status; the merchant can confirm, complete, cancel, or mark no-show.
+   - Merchant can add a note to the booking.
+   - Cancelling the related store order automatically cancels its requested/confirmed booking.
+   - The database prevents overlapping confirmed appointment windows for the same business.
+   - The customer-facing text clearly says the selected appointment is a request, not an automatic confirmation.
+
+3. Digital product setup and secure delivery
+   - Merchant can save private delivery details for a digital product: a download URL, licence key, access code, or instructions.
+   - Delivery content is stored in a private merchant-owned table, not the public catalogue.
+   - Checkout snapshots the delivery content against the exact order item.
+   - Digital products cannot use Pay on Delivery.
+   - Digital-only carts do not require a physical delivery address and have zero delivery fee.
+   - Customer retrieves digital delivery with order reference + checkout phone number.
+   - The retrieval RPC releases details only when payment_status is `Confirmed`, payment method is Paystack or Bank transfer, and the order is not cancelled.
+   - A bank-transfer order remains locked until the merchant confirms payment.
+
+4. Preserved
+   - Existing physical product checkout and inventory flow.
+   - Existing Paystack initializer, verification and webhook settlement path.
+   - Existing bank-transfer receipt and merchant confirmation flow.
+   - Existing customer-account navigation fix: Back to store returns to the originating shop.
+   - Existing Merchant App entry point and merchant authentication code.
+   - Existing admin, subscription, trial, and platform-owner code.
+
+DATABASE MIGRATION ORDER
+------------------------
+The R5.1 migration is already reported by the user as applied. Do NOT rerun it.
+This build adds `r5_2_2_service_digital_fulfilment.sql`.
+It depends on the R5.2 catalogue-checkout migration being present because that migration adds
+the order-line snapshot columns used by the fulfilment trigger.
+
+In the intended staging Supabase project:
+- If `r5_2_universal_catalogue_checkout_migration.sql` has not yet been applied, apply it first.
+- Then apply `r5_2_2_service_digital_fulfilment.sql`.
+- Do not apply either migration to production without a backup and explicit approval.
+- Never rerun the R5.1 migration.
+
+MERCHANT SETUP
+--------------
+- For each service: edit product, choose Service, set duration, and enable appointment booking if needed.
+- For each digital product: open Universal Catalogue & Fulfilment → Digital product delivery and save its private delivery content.
+- Digital products require Paystack or bank transfer configured on the shop.
+- The merchant should use a secure, controlled download URL. A URL/code can still be forwarded by a customer after release; this build gates first access by payment and order ownership, not DRM or download expiry.
+
+VALIDATION
+----------
+- JavaScript syntax checks passed for inline scripts in index.html, shop.html, admin.html, customer-account.html.
+- JavaScript syntax checks passed for all Netlify function files.
+- SQL was statically reviewed but not executed against PostgreSQL/Supabase in this environment.
+- No live Supabase, Netlify, Paystack, browser, mobile-device or end-to-end transaction test was performed.
+- Treat this as a staging review build until the supplied test checklist passes.
+
+KNOWN REMAINING WORK OUTSIDE THIS SCOPE
+---------------------------------------
+- Batch/expiry-aware inventory deduction and serial-number allocation.
+- Nested bundles and bundle-component variants.
+- Delivery-zone management/customer selection integration.
+- Automated expiry/release of stock reserved by abandoned unpaid Paystack orders.
+- Staff/resource calendars, working hours, automatic availability slots, deposits, rescheduling and customer appointment reminders.
+- Digital file upload/storage integration, expiring signed URLs, per-customer licence generation and DRM.

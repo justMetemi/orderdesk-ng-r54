@@ -1,0 +1,25 @@
+ONLINE STORE — IMPLEMENTED SCOPE
+
+Owner:
+- Configure store name/description/slug/status/delivery fee/bank details.
+- Publish/hide existing products.
+- Review online orders and line items.
+- Confirm/reject transfer receipts.
+- Update online order status.
+- Open private receipts through signed URLs.
+
+Customer:
+- Browse/search/filter published products.
+- Add multiple products to cart and change quantities.
+- Checkout with name, phone, optional email/note and delivery address.
+- Pay by bank transfer with receipt upload or pay on delivery.
+- Receive unique order reference.
+- Track using order reference + phone.
+
+Security:
+- Public storefront uses narrow RPCs; no anonymous table SELECT.
+- Database recalculates prices/totals from Products.
+- Product rows are locked and stock is reserved atomically at checkout.
+- Duplicate submissions use an idempotency key.
+- Online order stock is restored on cancellation and re-reserved if reopened.
+- Public access is blocked after trial/subscription expiry; existing owner records remain accessible.

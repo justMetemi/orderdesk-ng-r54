@@ -1,0 +1,21 @@
+ORDERDESK NG R4 — TEST CHECKLIST
+
+[ ] Supabase backup completed.
+[ ] Netlify current deployment backup available.
+[ ] Run online_store_reporting_notifications_upgrade.sql successfully.
+[ ] Confirm the merchant can save the separate Merchant order-alert WhatsApp number.
+[ ] Deploy the full R4 package.
+[ ] Sign in and confirm dashboard loads without console errors.
+[ ] Place a manual order; confirm it remains visible in Manual Orders.
+[ ] Place a Bank Transfer online-store order; confirm it appears in Online Store Orders, main Orders page, dashboard recent online purchases and Reports.
+[ ] Place a Pay on Delivery online-store order; confirm it appears in all the same places.
+[ ] Complete a Paystack test transaction; confirm it appears in all the same places and payment status becomes Confirmed.
+[ ] Confirm online items are included in popular-products report totals.
+[ ] Confirm date filters include online orders by created_at date.
+[ ] Cancel a test online order and verify stock restoration still works.
+[ ] Reopen a cancelled test online order only if sufficient stock is available.
+[ ] If Meta WhatsApp Cloud API is configured, test one new-order template and one payment-success template.
+[ ] Verify a repeat webhook does not send duplicate payment-success notifications.
+[ ] Verify existing login, Google auth, subscriptions/trial, products, stock, customers, manual orders and manual payments.
+
+Do not switch Paystack to live mode until all payment and settlement checks pass.

@@ -1,0 +1,20 @@
+OrderDesk NG R4.4 Validation Report
+
+Passed:
+- JavaScript syntax check: admin.html inline script.
+- JavaScript syntax check: shop.html inline script.
+- JavaScript syntax check: support.html inline script.
+- Source package integrity check.
+- Confirmed R4.3 Brevo functions and R4.3 SQL migration are retained.
+- Confirmed no new SQL migration is required for R4.4 changes.
+
+Not performed:
+- No live Supabase RPC execution or production database changes.
+- No Netlify deployment.
+- No live storefront browser test or authenticated owner-console test in this environment.
+- No live email send; existing R4.3 email functions are carried forward unchanged.
+
+Review before production:
+- Verify owner-console insights display expected counts for the current owner_admin_overview and owner_list_platform_tickets RPC responses.
+- Test the customer Help & Support modal on desktop and mobile.
+- Confirm all existing order, payment, login, subscription, Brevo and WhatsApp workflows remain operational.

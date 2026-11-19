@@ -1,0 +1,38 @@
+ORDERDESK NG R5.0.1 — MENU, CUSTOMER ACCOUNT & AI VISION PATCH
+Date: 18 November 2026
+
+1. MERCHANT MENU SCROLL
+- Desktop sidebar menu has its own vertical scrolling area, independent of the dashboard content.
+- Mobile bottom navigation supports touch-friendly horizontal scrolling, with a visible scrollbar where the platform displays it.
+- Sign-out/business identity area remains anchored below the desktop navigation list.
+
+2. CUSTOMER ACCOUNT RETURN NAVIGATION
+- Removed the Merchant app link from the customer account page.
+- The public shop Account link now passes its shop slug into /customer-account.html?store=...
+- Customer account displays Back to store only when it receives a valid shop slug, returning to that same shop.
+- Supabase email magic-link callback preserves the store query parameter.
+- Wishlist sign-in redirects preserve the current shop context.
+
+3. MERCHANT AI WORKSPACE ACCESS
+- Read tools now cover product catalogue, product-photo availability, manual and online orders/order items, customer names and purchase summaries, payments and sales summaries, store analytics, product reviews, general feedback, store support requests, public storefront settings, subscription status, product variations and delivery zones.
+- Reads are scoped to the signed-in merchant through their JWT and Supabase RLS.
+- Customer phone numbers, email addresses and delivery addresses are not sent to the AI. Bank account details, payment references, receipts, secret keys and passwords are not made available.
+- Existing product creation/edit, discount and order-status actions still require the merchant to review and confirm the proposal. The AI cannot confirm payments, issue refunds, delete records or change subscriptions.
+
+4. PRODUCT IMAGE UNDERSTANDING
+- For photo/image/appearance questions, the server selects up to three matching product images from the merchant's own Supabase public product-image storage and sends them to Groq's vision-capable Qwen model.
+- Product image URLs are restricted to HTTPS URLs on this OrderDesk Supabase host.
+- Regular text-only questions continue using GROQ_HELP_MODEL (or the existing GPT-OSS default).
+- Optional GROQ_VISION_MODEL can override qwen/qwen3.8-27b. No new environment variable is required.
+- Vision requests use additional model tokens and may be subject to separate rate limits or charges.
+
+VALIDATION
+- Node syntax checks passed for merchant-help.js, store-ai.js, and extracted inline scripts from index.html, shop.html and customer-account.html.
+- Mocked server test passed for both text-only and vision routes, including product image attachment to the vision model.
+- ZIP integrity check passed.
+- No live Netlify deployment, production Supabase migration, or production database modification was performed.
+- Live Supabase/Netlify integration and real-device navigation still require user-side staging tests before production deployment.
+
+R5.1 REVIEW PACKAGE ADDITION (2026-11-18)
+- Added an additive universal business catalogue database foundation and owner-console aggregate visibility panel.
+- This is not a live deployment and does not activate variant-aware checkout, booking, digital fulfilment, modifier pricing or batch/serial stock deduction. See R5_1_UNIVERSAL_BUSINESS_UPGRADE_README.txt for the exact boundary and test requirements.

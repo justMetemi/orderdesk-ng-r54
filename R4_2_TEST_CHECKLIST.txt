@@ -1,0 +1,41 @@
+ORDERDESK NG R4.2 — STAGING TEST CHECKLIST
+
+ACCESS / SUBSCRIPTIONS
+[ ] Platform owner can add/edit products without trial restriction.
+[ ] Active 14-day trial merchant can add a product.
+[ ] Expired trial merchant sees the friendly upgrade prompt when adding a new product.
+[ ] Existing products remain viewable/editable according to the existing policy.
+[ ] Active paid merchant can add a product.
+[ ] Public shop for an expired merchant still loads published products.
+[ ] Expired merchant cannot create a new online order (existing server-side access check).
+[ ] Active trial/paid merchant can create an online order.
+
+SUPPORT / DESIGN
+[ ] Merchant Store Setup support inputs render as translucent dark glass.
+[ ] Focus state has a visible emerald outline/glow.
+[ ] Typed text and placeholders remain readable.
+[ ] Save store settings works and saved values persist.
+[ ] Layout checked at desktop, tablet and narrow mobile widths.
+[ ] Keyboard focus and reduced-motion behavior remain usable.
+
+ORDERS / EMPTY STATES
+[ ] New product empty state opens Add Product.
+[ ] Empty online-order state links to Online Store settings.
+[ ] Pending, confirmed, processing/ready, delivered and cancelled states are visually distinguishable.
+[ ] Existing order status update behavior remains unchanged.
+[ ] Storefront browsing, cart, checkout and tracking still work.
+
+PAYMENT ALERTS
+[ ] Merchant has entered the separate order-alert WhatsApp number.
+[ ] Meta templates are approved and environment variables are configured in Netlify.
+[ ] New online order sends the new-order alert.
+[ ] Successful Paystack payment sends payment-success alert.
+[ ] Bank-transfer receipt upload succeeds and triggers receipt-submitted alert.
+[ ] If WhatsApp is unavailable, receipt upload still succeeds and the merchant can see the submitted receipt in OrderDesk.
+[ ] Merchant verifies bank credit independently before confirming payment.
+
+RELEASE GATE
+[ ] SQL migrations tested in a separate Supabase project.
+[ ] Browser/device tests completed.
+[ ] No console errors or regression in login, dashboard, reports, manual orders, products, payments or storefront.
+[ ] User reviews package and explicitly approves production deployment.

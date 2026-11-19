@@ -1,0 +1,46 @@
+ORDERDESK NG R4.3 — BREVO EMAIL ALERTS (REVIEW PACKAGE)
+
+WHAT THIS ADDS
+- Best-effort email alerts to the merchant for new online orders.
+- Best-effort email alerts to the merchant when a bank-transfer receipt is submitted.
+- Email alerts to the merchant and customer when payment is confirmed.
+- Customer order-received email after a new order, when the customer supplied an email address.
+- A protected test-email Netlify Function.
+- Existing WhatsApp notifications remain separate and are not removed.
+- Email failures do not undo orders, receipt uploads, or payment updates.
+
+IMPORTANT: BREVO API KEY VS SMTP KEY
+This build calls Brevo's HTTPS transactional-email API from a Netlify Function. It needs a Brevo API key, not the SMTP key generated in the SMTP setup wizard. Keep the SMTP key private; it is not used by this implementation. Create a separate API key in Brevo under Settings > SMTP & API > API Keys. Never put either key in HTML, JavaScript sent to browsers, SQL, or this ZIP.
+
+NETLIFY ENVIRONMENT VARIABLES
+Set these in Netlify site configuration (environment variables), then redeploy the package:
+- BREVO_API_KEY = the Brevo API key (secret)
+- BREVO_SENDER_EMAIL = the verified sender email address in Brevo
+- BREVO_SENDER_NAME = OrderDesk NG (optional)
+- SUPABASE_URL = the existing OrderDesk Supabase project URL
+- SUPABASE_SERVICE_ROLE_KEY = the existing OrderDesk Supabase service-role key (secret; do not expose it)
+- ORDERDESK_EMAIL_TEST_TO = your email address for the test message
+- ORDERDESK_EMAIL_TEST_TOKEN = a long, random secret used only to protect the test endpoint
+
+SUPABASE MIGRATION
+Review and run orderdesk_r4_3_brevo_email_migration.sql in a TEST Supabase project first. It creates a separate private email delivery log; it does not modify existing orders or WhatsApp logs. Do not run against production until the staged package has been reviewed and approved.
+
+TEST EMAIL
+After setting the variables and deploying to a staging Netlify site, send POST to:
+/.netlify/functions/test-order-email
+with header:
+Authorization: Bearer YOUR_ORDERDESK_EMAIL_TEST_TOKEN
+and JSON body {}.
+The test recipient is fixed by ORDERDESK_EMAIL_TEST_TO; the endpoint does not accept arbitrary recipient addresses. A successful API response means Brevo accepted the message, not that it reached the inbox. Check the recipient inbox and spam folder.
+
+EVENT BEHAVIOUR
+- new_order: merchant + customer (customer only if a valid email was entered)
+- receipt_submitted: merchant only; the email explicitly says a receipt upload is not proof of funds received
+- payment_success: merchant + customer (customer only if a valid email exists)
+- Each recipient/event is logged separately to avoid duplicate sends on repeated browser requests.
+
+SENDER / DELIVERABILITY NOTE
+A verified Gmail sender may still have weaker deliverability than a sender on an authenticated custom domain. Test delivery first and check spam. Do not assume a message was delivered just because the API accepted it.
+
+SAFETY / DEPLOYMENT
+This is a review ZIP. No Netlify deploy, Supabase migration, production configuration change, or live email send was performed. Keep all secrets in Netlify environment variables. WhatsApp still requires its own Meta credentials and approved templates; this email addition does not activate WhatsApp.

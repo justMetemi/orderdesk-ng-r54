@@ -1,0 +1,6 @@
+R5.1.1 CHANGELOG
+- Added item-type selector to product create/edit.
+- Added universal catalogue management screens for option groups/values, variants, add-on groups/options, inventory batches, serials and bundles.
+- Expanded merchant AI's authenticated, RLS-scoped read context for R5.1 universal catalogue tables.
+- Preserved existing payment and order processing code without claiming universal checkout support.
+- No production database or live site changes.

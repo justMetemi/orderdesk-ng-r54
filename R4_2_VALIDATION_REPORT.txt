@@ -1,0 +1,19 @@
+ORDERDESK NG R4.2 — VALIDATION REPORT
+
+Static checks performed on the staged source package:
+- Node.js syntax check passed for inline JavaScript in index.html.
+- Node.js syntax check passed for inline JavaScript in shop.html.
+- Node.js syntax check passed for inline JavaScript in admin.html.
+- Node.js syntax check passed for every netlify/functions/*.js file.
+- ZIP archive integrity check passed after packaging.
+- Confirmed that receipt_submitted is accepted by the WhatsApp notification function.
+- Confirmed that receipt upload remains successful independently of the best-effort notification fetch.
+
+Not performed / cannot be claimed:
+- No live Supabase migration execution or RLS test.
+- No Netlify deployment or server environment-variable test.
+- No Meta WhatsApp template approval or real message delivery test.
+- No live Paystack transaction or bank-settlement test.
+- No real-device visual QA on the user's phone.
+
+The SQL migrations must be reviewed and tested in a separate Supabase project before production approval.

@@ -1,0 +1,46 @@
+ORDERDESK NG R5.2 — IMPLEMENTATION CHANGELOG
+============================================
+Base: supplied R5.1.1 Universal Catalogue Management Review Build.
+Reference: supplied R5.1 Universal Business Upgrade.
+
+Implemented in this package
+---------------------------
+1. Added r5_2_universal_catalogue_checkout_migration.sql as an additive migration. It does not rerun the already-applied R5.1 migration.
+2. Added an option-aware checkout RPC that re-reads product, variant and modifier prices from Supabase, validates merchant ownership, locks products/variants, checks stock and creates immutable order-line snapshots in one database transaction.
+3. Added variant and modifier selection controls to the customer product detail modal and sends those selections to the transactional checkout.
+4. Updated the Paystack initializer to use the new checkout RPC so the Paystack amount is based on the database-calculated order total.
+5. Added inventory allocation records for product, variant and bundle-component deductions. Cancellation/reopening restores/re-reserves those exact allocations; legacy orders without allocation records retain the prior product-stock fallback.
+6. Added merchant-owned delivery-zone storage and optional zone parameter to the new checkout RPC.
+7. Changed public shop projection so enabled stores remain browsable after trial/subscription expiry, while the new checkout RPC rejects new orders for expired merchants. Platform owner exemption is retained.
+8. Added a public, read-only catalogue projection for active variants and modifier groups.
+
+Known limitations — do not treat as completed
+---------------------------------------------
+- Option groups/option values (size/colour/custom selections) are not yet priced/validated in the checkout RPC or exposed as selection controls.
+- Delivery-zone management UI and customer zone picker are not yet connected; checkout currently passes no zone from the storefront.
+- Service appointment scheduling/payment, digital-product secure fulfilment, batch/expiry allocation, and serial-number allocation are not yet integrated end-to-end.
+- Bundle components are deducted and tracked for cancellation, but nested bundles and component variants are not supported.
+- Unpaid Paystack orders do not yet have an automated expiry/release scheduler; abandoned payment stock can remain reserved until manually cancelled.
+- Existing manual order-management screens have not been comprehensively regression-tested against the new catalogue order snapshots.
+
+Validation performed
+--------------------
+- Node.js syntax checks passed for all Netlify function JavaScript files.
+- Node.js syntax checks passed for inline JavaScript blocks in index.html, shop.html and admin.html.
+- ZIP integrity check passed at packaging time.
+- SQL was reviewed for consistency with the supplied R5.1.1 schema, but no live or disposable PostgreSQL/Supabase instance was available to execute it.
+- No live Netlify deployment, Supabase migration, Paystack transaction, webhook, WhatsApp, email or Groq call was performed.
+
+
+R5.2.2 ADDENDUM — 18 NOVEMBER 2026
+----------------------------------
+Service appointment requests and payment-gated digital fulfilment have now been implemented
+in the R5.2.2 follow-up build. See:
+- R5_2_2_SERVICE_DIGITAL_FULFILMENT_UPDATE.txt
+- R5_2_2_STAGING_TEST_CHECKLIST.txt
+- r5_2_2_service_digital_fulfilment.sql
+
+These features are implemented in source but are NOT yet live-verified. SQL execution,
+browser checkout, payment confirmation, mobile and merchant workflows must be tested in
+staging before production. The other limitations above remain outstanding unless explicitly
+covered by the R5.2.2 addendum.

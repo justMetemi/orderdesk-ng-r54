@@ -1,0 +1,27 @@
+ORDERDESK NG — R5.2.3 BASELINE VALIDATION NOTE
+============================================
+
+This review package is based on the saved R5.2.2 Service & Digital Fulfilment Review ZIP.
+
+CHANGE MADE IN THIS PACKAGE
+--------------------------
+- Corrected the COALESCE expression in get_public_catalog_options() in
+  r5_2_2_service_digital_fulfilment.sql. The previous expression omitted the empty-array
+  fallback argument and its closing parenthesis, causing the reported syntax error near FROM.
+
+VALIDATION PERFORMED
+-------------------
+- ZIP integrity checked.
+- Node.js syntax check passed for 19 inline HTML script blocks / Netlify JavaScript files.
+- The SQL correction was inspected in context, but it has NOT been executed against PostgreSQL
+  or Supabase in this environment. A staging database test is still required.
+
+IMPORTANT SCOPE LIMIT
+--------------------
+This is a corrected baseline review package, NOT the full new commercial upgrade.
+It does not yet implement the proposed Free / Essentials / Standard subscription tiers,
+subscription durations, paid-period AI allowance ledger, AI quota notifications, complete
+marketplace/customer flows, full offline sync, PDF document exports, or all remaining
+universal checkout and inventory features.
+
+No production Netlify deployment or live Supabase change was made.

@@ -1,0 +1,84 @@
+ORDERDESK NG — R5.3 COMMERCIAL UPGRADE BUILD STATUS
+Build: 2026-11-19-r5.3-commercial-review
+Baseline: Corrected R5.2.4 source ZIP
+
+IMPLEMENTED IN SOURCE
+--------------------
+- Free / Essentials / Standard plan catalogue and agreed pricing/prepaid totals.
+- Merchant plan payment requests with private receipt upload, owner approval and
+  queued plan changes after the current paid period.
+- Owner-configurable platform subscription payment details; no bank account is
+  hardcoded in the application.
+- Editable per-plan AI message/image limits, monthly paid-period ledger,
+  reservation/commit/refund, 75%/90% warnings and dashboard usage display.
+- Groq assistant usage enforcement for all plans; Cloudflare Workers AI Standard-only image
+  generation endpoint and Product Studio page.
+- Standard-only Store Tools, advanced insights and Growth Studio gates, with
+  RLS protection for advanced catalogue tables.
+- Marketplace page with public search, product detail overlay and Visit Store.
+- Customer Google sign-in, separate customer auth storage shared by store pages
+  and customer portal, unified orders, wishlist, addresses, followed stores,
+  bookings and confirmed digital purchases.
+- Customer and merchant print/save-PDF order summaries; inventory CSV export;
+  existing report/order CSV exports.
+- Checkout option-group selections and price deltas, modifiers, variants,
+  delivery-zone selection and server-side fee validation.
+- Online order stock allocation for tracked physical products using FEFO batches
+  or serial numbers; bundle components use the same stock allocator. Cancellation
+  restores stock and reopening re-reserves stock safely.
+- Subscription expiry reminder Netlify scheduled function (Brevo email).
+- Existing PWA/install support and manual-order offline queue retained; automatic
+  retry is also triggered when the browser returns online.
+
+INITIAL CONFIGURABLE AI LIMITS
+------------------------------
+Free: 20 text requests once; no image credits.
+Essentials: 200 text requests per paid month; no image credits.
+Standard: 800 text requests and 30 image credits per paid month.
+These are initial caps and can be adjusted in Admin. They are request/image
+credits, not token quotas. Free allowance does not renew without payment; paid
+allowance renews at each monthly period covered by a prepaid subscription.
+
+REQUIRES USER / ADMIN CONFIGURATION
+-----------------------------------
+- Run r5_3_commercial_upgrade.sql only after prerequisites are confirmed and
+  only after backing up the test database.
+- Configure official OrderDesk subscription bank details in Admin before enabling
+  merchant subscription transfers.
+- Set CLOUDFLARE_API_TOKEN in Netlify for Product Studio.
+- Confirm GROQ_CHATBOT_API_KEY in Netlify for merchant AI.
+- Set SUPABASE_SERVICE_ROLE_KEY, BREVO_API_KEY and BREVO_SENDER_EMAIL for
+  scheduled subscription reminders.
+- Enable Google OAuth and allow-list the deployed customer-account redirect URL.
+
+NOT CLAIMED COMPLETE / STILL REQUIRES END-TO-END WORK
+----------------------------------------------------
+- This environment could not execute the SQL against PostgreSQL/Supabase.
+- No browser/mobile end-to-end tests, Paystack transactions, Cloudflare Workers AI/Groq API
+  calls, Brevo emails, or cross-business RLS tests were performed.
+- The marketplace is a discovery portal; customers complete checkout in each
+  merchant's own store. A single cross-store marketplace cart/checkout is not
+  included.
+- Offline queue covers supported manual merchant orders, not public online
+  checkout or every dashboard operation.
+- PDF output uses the browser print/save-as-PDF dialog; there is no server-side
+  PDF rendering service or native XLSX export.
+- Generated product images download to the merchant's device; they are not
+  automatically uploaded/published to product listings.
+- Subscription payments are manual transfer + owner verification, not automatic
+  Paystack recurring billing.
+- The scheduled reminder function requires Netlify/Brevo secrets and a live test.
+
+VALIDATION PERFORMED LOCALLY
+----------------------------
+- Node syntax checks passed for all standalone JavaScript and inline HTML scripts.
+- R5.3 SQL lexical delimiter checks passed; no DROP TABLE, DROP SCHEMA or
+  TRUNCATE statements were found.
+- ZIP integrity is checked after packaging.
+- No production Netlify deployment or live Supabase mutation was performed.
+
+STATUS
+------
+This is a broad commercial-upgrade review build, not a production-certified
+release. Complete R5_3_RELEASE_TEST_CHECKLIST.txt before deploying or running
+R5.3 SQL on the live database. No production changes have been made.

@@ -1,0 +1,57 @@
+ORDERDESK NG R4.2 — PREMIUM MERCHANT EXPERIENCE REVIEW
+
+This is a staged review package based on OrderDesk_NG_R4_Updated_Review_Package.zip.
+It does not deploy files or execute SQL against production.
+
+INCLUDED IN THIS REVIEW BUILD
+1. Subscription/access foundation retained:
+   - Platform owner unlimited-access check in the dashboard.
+   - 14-day trial and active-subscription checks before new product creation.
+   - Friendly trial-expired upgrade message rather than relying on an RLS error.
+   - Additive access migration that lets an expired merchant's public shop remain browsable while order creation remains gated by the existing place_store_order access check.
+2. Merchant Online Store support form:
+   - Dark translucent glass inputs, green border, focus glow, readable placeholder/text, rounded controls and mobile-friendly touch sizing.
+3. Premium dashboard polish:
+   - Consistent form styling, keyboard focus indicators, softer cards and responsive empty states.
+   - Distinct semantic status chips for successful, pending, in-progress and cancelled/rejected order/payment states.
+   - Helpful first-product and no-online-order states with next-step actions.
+4. Merchant payment alerts:
+   - Existing WhatsApp Cloud API alerts for new online orders and successful Paystack payments retained.
+   - Added a best-effort WhatsApp alert after a bank-transfer receipt is submitted by the customer.
+   - Receipt upload is not rolled back if the WhatsApp notification cannot be sent.
+   - Added an additive SQL migration to allow the receipt_submitted notification log event.
+5. Storefront:
+   - Existing branded shop experience, product discovery, cart, checkout, receipt upload, order tracking, FAQs and support flows retained.
+
+IMPORTANT CONFIGURATION FOR WHATSAPP ALERTS
+The merchant must enter a separate Merchant order-alert WhatsApp number under Online Store settings.
+The platform owner must configure the WhatsApp Cloud API credentials in Netlify:
+- SUPABASE_URL
+- SUPABASE_SERVICE_ROLE_KEY
+- WHATSAPP_ACCESS_TOKEN
+- WHATSAPP_PHONE_NUMBER_ID
+- WHATSAPP_GRAPH_VERSION (optional; defaults to v22.0)
+- WHATSAPP_NEW_ORDER_TEMPLATE (optional; defaults to orderdesk_new_order)
+- WHATSAPP_PAYMENT_SUCCESS_TEMPLATE (optional; defaults to orderdesk_payment_success)
+- WHATSAPP_RECEIPT_SUBMITTED_TEMPLATE (optional; defaults to orderdesk_receipt_submitted)
+- WHATSAPP_TEMPLATE_LANGUAGE (optional; defaults to en_US)
+
+Meta must approve the three corresponding WhatsApp message templates before messages can be delivered. The receipt template should use the same five body parameters as the existing templates: shop name, order reference, customer name, total amount and payment status.
+
+SUPABASE MIGRATIONS — TEST PROJECT FIRST
+Apply only after reviewing and backing up the test database, in this order where not already applied:
+1. Existing online store schema/migration required by the project.
+2. online_store_reporting_notifications_upgrade.sql (if not already applied).
+3. orderdesk_r4_access_storefront_migration.sql (if not already applied; this is the important expired-public-shop/owner-access refinement).
+4. online_store_support_upgrade.sql (if not already applied).
+5. orderdesk_r4_2_receipt_alert_migration.sql (new event-type constraint for receipt alerts).
+Do not blindly rerun older migrations on production. Check whether each migration has already been applied and test in a separate Supabase project first.
+
+IMPORTANT PAYMENT SAFETY
+A customer uploading a transfer receipt is NOT proof that money has reached the merchant. The alert says a receipt was submitted for review. The merchant must independently verify the transfer before confirming payment.
+
+VALIDATION
+Package integrity and source syntax checks are recorded in R4_2_VALIDATION_REPORT.txt. Real WhatsApp delivery, Meta template approval, Supabase migration execution, Netlify deployment, real mobile-device rendering and real payment settlement have NOT been tested here.
+
+DEPLOYMENT SAFETY
+This is a review ZIP only. No Netlify deploy, live Supabase migration, live payment, or production data change was performed. Review the changed files and test in staging before approving deployment.

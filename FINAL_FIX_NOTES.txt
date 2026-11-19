@@ -1,0 +1,12 @@
+ORDERDESK NG - FINAL PAYMENT / BUTTON / ANIMATION CHECK
+
+- Removed the Payment note display from the public online-store checkout account-details area.
+- Store Setup now contains Bank name, Account name and Account number only; the Payment note field is absent.
+- Save store settings remains a real submit button (type=submit) and its form submit handler is connected to saveStoreSetup.
+- Updated the browser favicon reference to the current brand-mark.svg with a cache-busting version.
+- Kept the typewriter dashboard greeting, page entrance, live indicator, cursor, chart-bar, status-bar and install-button animations.
+- Kept the visible Install App button and current PWA manifest/service-worker cache version.
+
+Validation performed: inline JavaScript syntax checks passed for index.html, shop.html and admin.html; payment_note/Payment note strings are absent from the HTML/JS files; ZIP integrity check passed.
+
+Note: Live Netlify deployment, browser-specific install prompt, and Supabase save operation must still be tested on the deployed site.

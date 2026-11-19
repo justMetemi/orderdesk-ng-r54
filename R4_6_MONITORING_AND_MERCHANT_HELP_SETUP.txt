@@ -1,0 +1,48 @@
+ORDERDESK NG R4.6 — MONITORING CENTRE + MERCHANT HELP ASSISTANT
+=============================================================
+
+INCLUDED
+- Everything from R4.5 Monitoring Centre and R4.4 owner insights.
+- Merchant-facing floating Help Assistant in the signed-in merchant app.
+- Groq-powered answers for general OrderDesk usage questions.
+- Server-side authentication: the endpoint validates the signed-in Supabase session.
+- A separate GROQ_CHATBOT_API_KEY is used for the merchant chatbot; the existing GROQ_API_KEY remains dedicated to the existing AI follow-up/translation feature.
+- Default model: openai/gpt-oss-20b. Optional GROQ_HELP_MODEL can override it.
+- Human-support link to support.html.
+- No customer/order/payment records are sent to Groq or read by this assistant.
+
+GROQ PROJECT / KEY
+Suggested Groq project name: OrderDesk NG - Merchant Help Assistant.
+Groq project names are labels for organizing keys, usage and limits. They are not environment-variable names.
+The merchant chatbot reads GROQ_CHATBOT_API_KEY from Netlify. The existing GROQ_API_KEY remains unchanged for the existing AI follow-up/translation feature. Do not paste either key into HTML, JavaScript, SQL, or chat.
+The model is configured server-side as openai/gpt-oss-20b. Groq Free usage has per-model limits and can return 429 when limits are reached; it is not unlimited.
+
+MONITORING DATABASE SETUP — REQUIRED
+1. Open the OrderDesk NG Supabase project (not TEMI's project).
+2. Open SQL Editor, create a new query, and run the full orderdesk_monitoring_centre_migration.sql once.
+3. This creates the isolated monitoring events table and owner-only RPCs. It does not modify orders, businesses, subscriptions, payments or support records.
+
+NETLIFY ENVIRONMENT
+- Existing SUPABASE_URL / project URL and SUPABASE_SERVICE_ROLE_KEY are used by monitoring as documented in R4.5. Keep the service-role key server-side only.
+- GROQ_API_KEY remains for the existing AI follow-up/translation feature. GROQ_CHATBOT_API_KEY is used only by merchant help.
+- Optional MONITORING_IP_SALT is only for a separate random salt in the monitoring IP hash. It may be omitted because the function has a fallback.
+- Optional GROQ_HELP_MODEL can override the default model, but is not required.
+- Required for chatbot: GROQ_CHATBOT_API_KEY. No need to change the existing GROQ_API_KEY.
+
+CHATBOT SCOPE / SAFETY
+- Generic product guidance only. It does not access merchant records or perform actions.
+- It must not ask for passwords, OTPs, bank logins, API keys or card details.
+- Merchants must independently verify funds in their bank account before confirming transfers. A receipt image alone is not proof of payment.
+- Account-specific or sensitive problems are directed to human support.
+- Conversation history is held in the browser tab only and is not saved to a database. The current question and short recent chat history are sent to Groq through the Netlify function.
+- Groq free limits may be reached; the UI will show a friendly retry message.
+
+DEPLOYMENT / REVIEW
+1. Keep a backup of the current live Netlify site.
+2. Run the monitoring SQL migration once in the OrderDesk Supabase project.
+3. Confirm Netlify GROQ_CHATBOT_API_KEY is configured (do not reveal its value). Keep the existing GROQ_API_KEY unchanged.
+4. Confirm monitoring's SUPABASE_SERVICE_ROLE_KEY exists server-side.
+5. Upload this R4.6 ZIP to the intended Netlify site only when ready.
+6. Sign in as a merchant and test Help Assistant questions; test the Monitoring Centre as the platform owner.
+
+NO production deployment, SQL execution, environment-variable edits, or live database changes were performed while preparing this package.

@@ -1,0 +1,9 @@
+OrderDesk NG R4 — Product trial-expiry message fix
+
+The Add Product form now checks the signed-in business's 14-day trial and active subscription before attempting a new product insert.
+If access has expired, it shows a customer-friendly message:
+"Your 14-day free trial has ended. Upgrade your plan to continue adding products and using OrderDesk NG."
+The Upgrade now button opens the existing subscription payment flow.
+If subscription status cannot be checked, the app asks the user to retry rather than misreporting an expired plan.
+Existing Supabase Row Level Security policies remain in place; this change does not bypass database security.
+Existing products can still be edited. The new check is applied to new product creation.

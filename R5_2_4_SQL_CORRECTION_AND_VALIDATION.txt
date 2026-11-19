@@ -1,0 +1,66 @@
+ORDERDESK NG R5.2.4 — SQL CONSISTENCY CORRECTION & STATIC VALIDATION
+=================================================================
+
+BASELINE
+--------
+Built from OrderDesk_NG_R5_2_3_Corrected_Baseline_Review.zip.
+Existing app pages, Netlify functions, assets, and existing migrations are retained.
+
+CORRECTION MADE
+---------------
+The public.get_public_catalog_options(p_slug text) function appeared in both:
+- r5_2_universal_catalogue_checkout_migration.sql
+- r5_2_2_service_digital_fulfilment.sql
+
+The service/digital migration contained the corrected COALESCE fallback:
+  COALESCE(jsonb_agg(...), '[]'::jsonb)
+
+The older universal catalogue migration still contained an incomplete duplicate
+function body. It could overwrite the corrected function if that migration were
+applied after the service/digital migration. The duplicate function and its grants
+have now been aligned byte-for-byte with the corrected definition in the service/
+digital migration. Both copies expose the same fields, including service booking
+metadata, and return an empty JSON array when no published products are found.
+
+VALIDATION PERFORMED ON THIS PACKAGE
+-----------------------------------
+- ZIP archive extracted and rebuilt successfully.
+- JavaScript syntax checks passed for all standalone .js files, including all
+  Netlify function files.
+- JavaScript syntax checks passed for inline scripts in index.html, shop.html,
+  admin.html, customer-account.html, and support.html.
+- Static SQL delimiter review passed for all 18 .sql files (balanced parentheses;
+  comments and quoted strings excluded from the delimiter count).
+- The two get_public_catalog_options definitions were compared and are identical.
+- No DROP TABLE, DROP SCHEMA, or TRUNCATE statements were found in the SQL files.
+- A customer-address deletion function uses a scoped DELETE by address id and
+  auth.uid(); this is an intentional user-requested record deletion, not a schema wipe.
+
+IMPORTANT VALIDATION LIMITS
+---------------------------
+- No PostgreSQL/Supabase SQL engine was available in this environment. Static
+  delimiter checks are not equivalent to PostgreSQL parsing or migration execution.
+- No live or staging Supabase database was connected. Table/column dependencies,
+  RLS behaviour, function permissions, and runtime query behaviour still require
+  execution in a separate test Supabase project.
+- No Netlify deploy, browser/mobile end-to-end test, Paystack transaction, email,
+  WhatsApp, or cross-business security test was performed.
+- Existing source functionality has been preserved; this correction does not add
+  the proposed subscription tiers, paid-period AI allowance ledger, image-generation
+  generation, full marketplace/customer portal, complete offline synchronisation,
+  PDF exports, or every remaining universal checkout/inventory workflow.
+
+SAFE NEXT STEPS
+---------------
+1. Keep the current production Netlify deployment and Supabase database unchanged.
+2. Back up Supabase before any migration test.
+3. In a separate test Supabase project, confirm the R5.1 migration is already
+   represented before proceeding. Do not rerun r5_1_universal_business_upgrade.sql
+   if it has already been applied.
+4. Apply r5_2_universal_catalogue_checkout_migration.sql first, then
+   r5_2_2_service_digital_fulfilment.sql, following the existing R5.2 staging guide.
+5. Stop on the first SQL error and preserve the exact error text for correction.
+6. Complete R5_2_2_STAGING_TEST_CHECKLIST.txt before considering deployment.
+
+This package is a corrected full-source review ZIP, not a production-certified
+release and not the complete commercial upgrade roadmap.

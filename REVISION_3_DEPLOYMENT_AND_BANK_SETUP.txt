@@ -1,0 +1,34 @@
+ORDERDESK NG — REVISION 3
+
+WHAT THIS PACKAGE CHANGES
+- Reworks the public-shop checkout into a structured, responsive details + payment + order-summary layout.
+- Fixes dark-mode contrast for cart summary/footer, quantity +/- controls, product detail surfaces, tracking inputs and customer-help cards.
+- Adds an animated announcement strip.
+- Makes the merchant Public Shop Link card compact and adds a Store Readiness card beneath it.
+- Replaces the bank-name text field with a bank selector populated from Paystack's Nigerian bank directory.
+- Adds secure account-name verification through a Netlify Function. The Paystack secret key is server-side only.
+- Bumps the service-worker cache version and sends no-cache headers for HTML and sw.js.
+
+IMPORTANT: BANK VERIFICATION SETUP
+1. In Netlify, open Site configuration > Environment variables.
+2. Add PAYSTACK_SECRET_KEY using the secret key from the OrderDesk platform's Paystack account. Never put this key in index.html, shop.html, or send it to customers.
+3. Redeploy the site after adding the environment variable.
+4. In Supabase SQL Editor, run bank_account_verification_migration.sql once. It adds businesses.store_bank_code and grants the authenticated owner permission to update that column.
+5. Open OrderDesk NG > Online Store. Select a bank, enter the 10-digit account number, click Verify account name, then save settings.
+
+PAYSTACK CHECKOUT STATUS
+This revision adds Paystack-powered bank directory and account-name verification only. It does NOT activate card/USSD/Paystack customer checkout. That requires a separate payment initialization + server-side verification + webhook flow and a decision on platform settlement/subaccounts and fees. Existing Bank Transfer and Pay on Delivery checkout remains unchanged.
+
+DEPLOYMENT
+- Extract this ZIP. The files are at the ZIP root; do not upload the ZIP file itself.
+- Upload the extracted folder contents to the existing Netlify site using manual deploy.
+- Wait for Published, then test in Chrome Incognito. The service-worker cache version is bumped to force old caches to be removed on the next visit.
+- Keep a backup of the currently deployed site before publishing.
+
+TESTS TO RUN
+1. Merchant app > Online Store: bank dropdown loads; verify a valid account; save settings.
+2. Public shop: product card surfaces and prices readable; add/remove quantity +/- visible; cart subtotal/delivery/total readable.
+3. Checkout: fields, payment options and total all readable on desktop and mobile; submit a test order.
+4. Track order: enter test reference + phone; text is visible and result appears.
+5. Help: support cards stay inside their panel.
+6. Netlify Deploys: confirm this revision is the Published deploy.

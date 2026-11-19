@@ -1,0 +1,24 @@
+ORDERDESK NG R4.3 — BREVO EMAIL REVIEW VALIDATION
+
+Passed locally:
+- JavaScript syntax check for every Netlify Function in netlify/functions.
+- Inline JavaScript syntax checks for index.html, shop.html, admin.html and support.html.
+- Existing checkout and receipt-upload browser calls remain best-effort and unchanged.
+- Email notifications added to the Paystack order-initialization and payment-verification paths.
+- Separate email delivery log migration included; existing WhatsApp log table/constraint is not reused or modified.
+- Test-email function requires a server-side bearer token and sends only to ORDERDESK_EMAIL_TEST_TO.
+
+Not performed:
+- No Brevo API key was used and no email was sent.
+- No Netlify environment variables were changed.
+- No Netlify deployment was made.
+- No Supabase SQL migration was run.
+- No production database, customer data, payment, or WhatsApp configuration was changed.
+- Real inbox delivery, spam placement, and staging end-to-end tests remain for the owner to verify.
+
+Required before staging test:
+1. Create a Brevo API key (the SMTP key is not the API key used by this package).
+2. Set the documented Netlify environment variables.
+3. Apply orderdesk_r4_3_brevo_email_migration.sql to a TEST Supabase project.
+4. Deploy this review ZIP to a staging Netlify site and test the protected test-email endpoint.
+5. Verify actual inbox delivery before testing order and receipt notification events.

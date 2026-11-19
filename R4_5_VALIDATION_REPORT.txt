@@ -1,0 +1,22 @@
+ORDERDESK NG R4.5 VALIDATION REPORT
+==================================
+
+Passed:
+- Node syntax check for inline scripts in admin.html, shop.html, index.html and support.html.
+- Node syntax check for all Netlify function JavaScript files.
+- Node syntax check for monitoring.js.
+- ZIP integrity test passed.
+- Monitoring client script is included on dashboard, online store, support page and private Admin page.
+- Service-role key is not present in browser JavaScript or Admin HTML.
+- Admin monitoring actions use owner-only Supabase RPCs.
+- SQL migration is additive and isolated to orderdesk_monitoring_events and three owner-only RPC functions.
+- R4.4 Admin insights and merchant-store green-glass CSS are retained.
+
+Not tested / requires user setup:
+- SQL migration has not been executed; no live Supabase access was used.
+- Netlify functions have not been deployed or invoked against production.
+- Browser collection, RPC authorization and live Admin rendering have not been tested in a deployed browser.
+- Brevo, WhatsApp and Paystack have not been triggered during this package build.
+- No production deployment or database change has been made.
+
+Package is a review build, not a claim of end-to-end live verification.

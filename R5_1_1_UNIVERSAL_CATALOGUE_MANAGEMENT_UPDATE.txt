@@ -1,0 +1,44 @@
+ORDERDESK NG R5.1.1 — UNIVERSAL CATALOGUE MANAGEMENT UPDATE
+Review package only · Not deployed · No live database changes made
+
+WHAT WAS UPDATED
+1. Product create/edit now includes a business-neutral item type: physical, service, digital or custom.
+2. Merchant Store Tools is upgraded into a Universal Catalogue & Fulfilment workspace.
+3. Merchants can create custom option groups and values (e.g. size, colour, storage, package, material, duration).
+4. Merchants can create variants with their own label, SKU/barcode, optional price, stock and image URL.
+5. Merchants can create add-on groups and priced add-on options.
+6. Merchants can register inventory batches, expiry dates, cost per unit and serial/IMEI numbers.
+7. Merchants can configure bundle composition from existing catalogue items.
+8. Merchant AI's secure read context now includes universal item types, custom attributes, variants, option groups/values, add-ons, batches, serials, bundles and service booking records where the R5.1 tables exist. It continues to use the signed-in merchant JWT and RLS.
+9. Existing admin R5.1 owner overview remains in place and reports aggregate catalogue counts only.
+10. Existing dark green-glass styling and existing payment/order paths were preserved.
+
+DATABASE
+This update uses the existing R5.1 migration: r5_1_universal_business_upgrade.sql.
+No additional SQL migration was added in this revision. If R5.1 SQL has already been applied to the intended TEST database, do not rerun it unnecessarily. If it has not been applied, review and run it in TEST first.
+
+IMPORTANT IMPLEMENTATION BOUNDARY — NOT A FULL UNIVERSAL CHECKOUT RELEASE
+The merchant-side catalogue management and AI read support are now connected, but the following are NOT yet connected to the public customer checkout and must not be advertised as active:
+- Customer-facing option/variant selection and variant-specific pricing/stock reservation.
+- Add-on selection and server-calculated add-on pricing.
+- Service appointment booking and payment flow.
+- Digital fulfilment/delivery.
+- Bundle component stock reservation.
+- Batch/serial-aware stock deduction.
+- Delivery-zone selection and zone-specific checkout fees.
+
+The existing public checkout still uses the established place_store_order flow for basic product_id + quantity lines. That path was deliberately not replaced in this revision because the Paystack initialization, callback verification, webhook, bank-transfer receipt and cancellation/restock paths must all be updated and tested together. Do not publish variant-dependent or non-physical catalogue items as if these flows are live.
+
+TESTING COMPLETED
+- JavaScript syntax check: index.html, shop.html, admin.html and netlify/functions/merchant-help.js passed.
+- ZIP integrity check: performed after packaging.
+- No live Supabase, Paystack, Netlify or end-to-end browser test was performed.
+
+SAFE REVIEW ORDER
+1. Keep production unchanged. Back up and use a TEST Supabase project.
+2. Confirm R5.1 migration is installed in TEST.
+3. Deploy this review package only to a separate Netlify test site, not the production site.
+4. Sign in as a test merchant and test creating item types, option groups/values, variants, add-on groups/options, batches, serials and bundles.
+5. Confirm the merchant AI can summarise the new catalogue data without exposing another business's records.
+6. Regression-test existing basic products, manual orders, public basic checkout, Paystack, bank transfer, cancellation/restock, customer accounts, support and monitoring.
+7. Do not promote to production until the remaining checkout/fulfilment integrations have been completed and tested.

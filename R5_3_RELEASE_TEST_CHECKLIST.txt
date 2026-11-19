@@ -1,0 +1,106 @@
+ORDERDESK NG R5.3 — RELEASE TEST CHECKLIST
+==========================================
+
+A. DATABASE / SECURITY
+[ ] Back up the test Supabase project.
+[ ] Apply r5_3_commercial_upgrade.sql after all prerequisite migrations.
+[ ] Confirm no SQL errors; inspect the function list and policies.
+[ ] Confirm Free, Essentials and Standard entitlements return correctly.
+[ ] Confirm a customer-only account cannot call merchant subscription/payment RPCs.
+[ ] Confirm merchant A cannot read merchant B's orders, products, AI usage or receipts.
+[ ] Confirm only platform owner can approve payments, edit quotas and configure
+    platform subscription bank details.
+[ ] Confirm subscription-receipts bucket is private and merchant uploads are
+    restricted to that merchant's business folder.
+
+B. PLANS / PAYMENTS
+[ ] Configure official platform subscription bank details in Admin.
+[ ] Confirm payment submission is blocked while payment details are disabled.
+[ ] Submit an Essentials 1-month request; verify amount is NGN 10,000.
+[ ] Verify 3/6/12-month Essentials totals: 28,500 / 54,000 / 102,000.
+[ ] Verify 1/3/6/12-month Standard totals: 15,000 / 42,750 / 81,000 / 153,000.
+[ ] Upload a receipt; confirm it is private and visible to the owner through a
+    signed URL.
+[ ] Reject a payment; confirm the merchant can submit a new request.
+[ ] Approve a payment; confirm plan and dates are correct.
+[ ] Approve an upgrade while a current paid period exists; confirm the new plan
+    starts only after the current paid period ends.
+[ ] Confirm failed/pending requests do not activate paid features.
+
+C. AI USAGE
+[ ] Free plan receives the configured one-time starter text allowance.
+[ ] Free and Essentials cannot generate images.
+[ ] Essentials and Standard text allowances match Admin configuration.
+[ ] Standard image allowance matches Admin configuration.
+[ ] Confirm 75% and 90% notices.
+[ ] Exhaust a quota; confirm AI pauses while non-AI app features continue.
+[ ] Confirm a new paid monthly period resets allowance, with no rollover.
+[ ] Confirm a prepaid 3/6/12-month plan renews allowance only at each covered
+    monthly anniversary.
+[ ] Simulate Groq/Cloudflare Workers AI provider failure; confirm the reserved credit is
+    restored and the provider outage is not reported as quota exhaustion.
+[ ] Confirm AI tools read only the signed-in merchant's own records and require
+    explicit approval before mutations.
+
+D. CLOUDFLARE WORKERS AI PRODUCT STUDIO
+[ ] Add CLOUDFLARE_API_TOKEN to Netlify; keep it server-side.
+[ ] Sign in as Standard merchant and open Growth Studio.
+[ ] Generate from prompt only and from a reference photo.
+[ ] Confirm image download works and generated image is not automatically
+    published to a product.
+[ ] Confirm Free/Essentials are denied and no image quota is consumed.
+
+E. MARKETPLACE / CUSTOMER
+[ ] Browse marketplace while signed out.
+[ ] Confirm only published products from eligible active stores appear.
+[ ] Open product details and visit the correct shop.
+[ ] Sign in with Google on customer-account.html.
+[ ] Confirm customer session is shared with shop.html but not merchant dashboard.
+[ ] Place orders at two different stores while signed in; confirm one unified
+    customer order history.
+[ ] Confirm each merchant sees only its own orders/customer data.
+[ ] Test wishlist, addresses, followed stores, bookings and digital purchases.
+[ ] Confirm “Back to store” returns to the originating shop.
+
+F. UNIVERSAL CHECKOUT / INVENTORY
+[ ] Test a physical product without options.
+[ ] Test a required single option and a multi-select option with price deltas.
+[ ] Test required modifiers/add-ons and max/min selections.
+[ ] Test variants with their own price and stock.
+[ ] Test delivery zone selection and server-calculated fee.
+[ ] Test bundle components and insufficient component stock.
+[ ] Test batch allocation with two expiry dates; confirm FEFO.
+[ ] Test expired batch rejection.
+[ ] Test serial allocation; confirm correct serials are marked sold.
+[ ] Cancel an order; confirm product/batch/serial stock is restored.
+[ ] Reopen a cancelled order; confirm stock is re-reserved or reopening fails
+    safely when the original batch/serial stock is no longer available.
+[ ] Test service booking and paid digital fulfilment.
+[ ] Test Paystack initialization, callback verification and failed-payment flow.
+[ ] Test bank-transfer receipt upload and merchant confirmation flow.
+
+G. OFFLINE / DOWNLOADS / PWA
+[ ] Disconnect network and create a manual order.
+[ ] Confirm it is queued locally and does not claim server payment verification.
+[ ] Reconnect; confirm queued manual order synchronises without duplicates.
+[ ] Confirm online checkout remains unavailable offline.
+[ ] Install PWA on Android Chrome and verify launch.
+[ ] Download inventory CSV and report CSV.
+[ ] Print/save manual and online order summaries as PDF.
+[ ] Confirm unpaid orders are clearly labelled as summaries, not paid receipts.
+
+H. ADMIN / REMINDERS
+[ ] Confirm commercial payment requests appear in Admin.
+[ ] Approve/reject requests and confirm audit/status.
+[ ] Change AI quotas in Admin and confirm new usage checks use them.
+[ ] Configure Brevo sender and Netlify reminder environment variables.
+[ ] Manually invoke the scheduled reminder function in a test environment.
+[ ] Confirm 7/3/1/0-day reminder emails and deduplication.
+
+I. FINAL PRODUCTION CHECK
+[ ] Complete mobile browser tests on Android and iPhone.
+[ ] Confirm no JavaScript console errors.
+[ ] Confirm all new pages are cached/updated by the service worker.
+[ ] Confirm Paystack is in test mode until all payment tests pass.
+[ ] Review Supabase logs, Netlify function logs and RLS tests.
+[ ] Obtain explicit approval before production migration or Netlify deployment.

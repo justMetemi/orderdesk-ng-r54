@@ -1,0 +1,63 @@
+ORDERDESK NG R4.9 — FINAL STORE VISIBILITY, PRODUCT REVIEWS & AI ASSISTANTS
+==========================================================================
+
+This review package consolidates R4.7 store discovery/sharing, R4.8 AI assistants,
+and the additional product ratings/customer feedback requested for R4.9.
+No live Netlify deployment or Supabase database changes were performed.
+
+STORE VISIBILITY FEATURES RETAINED FROM R4.7
+1. Public store page has a visible “Share store” button in the storefront hero area.
+2. Merchant dashboard > Online Store has “Copy link” beside the public shop link.
+3. Each product detail modal has “Share product” and “Copy product link” buttons.
+4. Product deep links use the shop URL plus ?product=<product-id> and open that exact product.
+5. Store/product page title, description, canonical URL, Open Graph/Twitter metadata and JSON-LD are updated dynamically.
+6. Store setup includes guidance explaining how the shop name, tagline and description contribute to search/share metadata.
+
+IMPORTANT: The share controls are in the locations above; they are not a global setting called “Enable Share”.
+Metadata is client-rendered after the page loads. Some social crawlers may not execute JavaScript, so
+link preview/indexing behavior is not guaranteed. Server-side/prerendered metadata would be a separate upgrade.
+
+NEW PRODUCT RATINGS & CUSTOMER FEEDBACK
+- Product cards display an average star rating and review count (or “No reviews yet”).
+- Product detail modal includes a customer rating and feedback section.
+- Customers submit name, email, a 1–5 star rating and written feedback.
+- One review per email address per product is enforced by a database unique constraint.
+- Reviews are published immediately and are publicly visible; do not describe them as verified purchases.
+- Customer email is stored for duplicate prevention but is not returned in public review results.
+- Public review reads and submissions use narrowly scoped SECURITY DEFINER RPCs; direct anon/authenticated table access is revoked and RLS is enabled.
+
+REQUIRED DATABASE STEP FOR R4.9 REVIEWS
+1. Open the OrderDesk NG Supabase project (not TEMI's separate project).
+2. Open SQL Editor.
+3. Run orderdesk_product_reviews_migration.sql.
+4. Confirm it completes successfully before testing reviews.
+No existing tables are dropped or altered by this migration; it adds a separate review table and two RPCs.
+Do not run it in the TEMI project. Back up the database first as a general precaution.
+
+AI ASSISTANTS RETAINED FROM R4.8
+- Merchant AI is available in the merchant dashboard and merchant Online Store area.
+- It uses authenticated merchant access and existing RLS for merchant data.
+- It can read products, orders, stock and sales summaries and propose approved actions.
+- Public shopper assistant only receives public shop/product information and cannot access merchant records or mutate data.
+- Existing GROQ_CHATBOT_API_KEY and GROQ_HELP_MODEL settings are reused.
+- Sensitive payment actions, refunds, deleting records and subscription changes remain restricted.
+
+REVIEW CHECKLIST
+A. Store sharing: open Online Store in merchant dashboard and test Copy link.
+B. Public shop: test Share store in hero; open a product and test Share product and Copy product link.
+C. Open a copied product link in a fresh/private browser window and verify it opens the correct product.
+D. Run the R4.9 SQL migration, reload the public shop, confirm empty stars appear, submit a test review, and confirm average/count/comment display on the product card and detail modal.
+E. Try submitting another review for the same product with the same email; it should be rejected.
+F. Confirm checkout, cart, order tracking, support, AI assistants and existing merchant workflows still work.
+G. Test first with a disposable/test merchant and test product. Do not use a real customer's personal information for testing.
+
+VALIDATION PERFORMED
+- JavaScript syntax checks passed for inline scripts in shop.html, index.html, admin.html and support.html.
+- JavaScript syntax checks passed for store-ai.js and Netlify merchant-help.js.
+- ZIP integrity check performed after packaging.
+- No live Supabase RPC/migration execution, browser end-to-end test, Netlify deployment or live payment test was performed.
+
+DEPLOYMENT
+Review this package and keep a backup of the current live site first. This is not deployed.
+After approval, upload the package to the existing OrderDesk NG Netlify site and apply the review migration
+in the correct OrderDesk NG Supabase project. Test with a non-production/test merchant account first.
